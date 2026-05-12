@@ -46,10 +46,10 @@ Coffee varieties suitable for cultivation in Northern Thailand — Arabica, Robu
 
 | Topic | Status |
 |-------|--------|
-| [[Arabica-for-North-Thailand\|Arabica Varieties for N. Thailand]] | 🔲 Pending |
-| [[Robusta-for-North-Thailand\|Robusta Varieties for N. Thailand]] | 🔲 Pending |
-| [[Seed-Source-Thailand\|Seed Sources & Nurseries in Thailand]] | 🔲 Pending |
-| [[Variety-Selection-Guide\|Variety Selection Decision Guide]] | 🔲 Pending |
+| [[Arabica-for-North-Thailand\|Arabica Varieties for N. Thailand]] | ✅ Complete |
+| [[Robusta-for-North-Thailand\|Robusta Varieties for N. Thailand]] | ✅ Complete |
+| [[Seed-Source-Thailand\|Seed Sources & Nurseries in Thailand]] | ✅ Complete |
+| [[Variety-Selection-Guide\|Variety Selection Decision Guide]] | ✅ Complete |
 
 ---
 
@@ -112,4 +112,4 @@ This knowledge base provides the **research foundation** for building that syste
 
 ---
 
-*Last updated: 2026-05-12*
+*Last updated: 2026-05-12 — Phase 3 complete*

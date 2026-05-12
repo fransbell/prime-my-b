@@ -54,15 +54,15 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
-### 🔲 Phase 3: Coffee Seed Variations
+### ✅ Phase 3: Coffee Seed Variations
 **Objective**: Identify best coffee varieties for Northern Thailand conditions.
 
 | Task | Details | Status |
 |------|---------|--------|
-| Arabica Varieties | Catimor, Typica, Caturra, MLDT selections — altitude match | 🔲 |
-| Robusta Varieties | Chumphon selections, hybrid vigor | 🔲 |
-| Seed Sources | Thai nurseries, DOA stations, verified suppliers | 🔲 |
-| Variety Selection Guide | Decision matrix: altitude → variety → expected quality | 🔲 |
+| Arabica Varieties | Catimor/Chiang Mai 80, Typica, Caturra, Geisha, MLDT selections — altitude match | ✅ |
+| Robusta Varieties | Chumphon selections, FRT-series clones, GI-registered Robusta | ✅ |
+| Seed Sources | Thai nurseries, DOA stations, verified suppliers | ✅ |
+| Variety Selection Guide | Decision matrix: altitude → variety → expected quality | ✅ |
 
 ---
 
@@ -149,3 +149,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
+*Phase 3 completed: 2026-05-12*
