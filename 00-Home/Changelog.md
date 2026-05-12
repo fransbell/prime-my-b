@@ -1,5 +1,19 @@
 # 📝 Changelog
 
+## v0.6.0 — 2026-05-12
+
+### Added — Phase 6: Resources (Complete)
+- Research-Papers.md — Comprehensive bibliography of 95+ references cited across all knowledge base documents, organized by topic (climate science, coffee physiology, CLR disease modeling, light/shade/photosynthesis, coffee quality, Thai-specific studies, IoT/smart agriculture, microclimate, climate data sources, Robusta research, agroforestry, market analysis, GI/certification), with annotations for Northern Thailand relevance and a cross-reference index showing which sources appear in multiple documents
+- Suppliers-Thailand.md — Complete supplier directory covering: 10 Thai electronics distributors (KhawTECH, ThaiEasyElec, ArduinoAll, AnalogRead, FromFactory, etc.) with THB pricing for all sensor types; LoRa and communication module suppliers; solar power suppliers (R3 Solar Cell in Chiang Mai highlighted); coffee processing equipment suppliers (Sun Roaster, CoffeeWORKS, BOWA, VMAC); fertilizer suppliers; irrigation equipment (Kanok Group, Netafim); shade tree seedling sources; online marketplaces (Lazada, Shopee, AliExpress); Facebook community groups; smart farm system integrators; delivery logistics for Northern Thailand provinces; and complete budget breakdowns for Budget/Mid/Professional system tiers
+- Government-Programs.md — Comprehensive guide to Thai government support: coffee-specific programs (Royal Project Foundation, Doi Tung/MFLF, DOA variety programs, DOAE Coffee Production Elevation Strategy 2025-2027, HRDI, GI registration, OTOP); smart agriculture/IoT programs (HandySense B-Farm by NECTEC, DEPA OTOD free IoT kits, Agriculture 4.0 national strategy, NBTC IoT spectrum policy); financial support (BAAC loans including 0.01% Community Enterprise loan, Village Fund, crop insurance gap analysis); training programs (government, university, private/NGO); recommended program stack combining DEPA OTOD + BAAC Community Enterprise + HandySense + Royal Project for maximum benefit at minimum cost
+
+### Updated
+- 06-Resources-MOC.md — All 3 topics marked ✅ Complete
+- Home.md — Phase 6 topics marked ✅ Complete; all phases now complete
+- Project-Plan.md — Phase 6 added and marked ✅ Complete; all phases now complete
+
+---
+
 ## v0.5.0 — 2026-05-12
 
 ### Added — Phase 5: Sensor Metrics & Decision System (Complete)
