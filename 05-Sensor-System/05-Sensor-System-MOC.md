@@ -8,12 +8,12 @@
 
 | Topic | File | Status |
 |-------|------|--------|
-| Sensor Metrics & Thresholds | [[Sensor-Metrics-Thresholds]] | 🔲 |
-| Decision Logic Engine | [[Decision-Logic]] | 🔲 |
-| Alerts & Remediation Actions | [[Alerts-Remediation]] | 🔲 |
-| Environment Intervention Guide | [[Environment-Intervention]] | 🔲 |
-| Yield & Quality Prediction | [[Yield-Quality-Prediction]] | 🔲 |
-| Visualization & Dashboard Design | [[Visualization-Dashboard]] | 🔲 |
+| Sensor Metrics & Thresholds | [[Sensor-Metrics-Thresholds]] | ✅ |
+| Decision Logic Engine | [[Decision-Logic]] | ✅ |
+| Alerts & Remediation Actions | [[Alerts-Remediation]] | ✅ |
+| Environment Intervention Guide | [[Environment-Intervention]] | ✅ |
+| Yield & Quality Prediction | [[Yield-Quality-Prediction]] | ✅ |
+| Visualization & Dashboard Design | [[Visualization-Dashboard]] | ✅ |
 
 ---
 
@@ -35,6 +35,17 @@
 ---
 
 **Key Question**: "The weather is not ideal for producing X quality — what can we do to fix that?" This section answers that with sensor-driven, data-backed recommendations.
+
+---
+
+**Key Insights from Phase 5**:
+
+- **Thresholds** are the foundation: every sensor reading maps to optimal/warning/critical zones by coffee type and growth stage
+- **51 IF-THEN decision rules** cover irrigation, disease, temperature, shade, soil, harvest, and flowering decisions
+- **30 specific alerts** with 4 severity levels (INFO → EMERGENCY) and detailed remediation actions in THB
+- **Environment interventions** can shift microclimate by 2–5°C (shade) or 25–50% moisture retention (mulch), equivalent to gaining hundreds of meters of altitude
+- **Yield prediction** accuracy reaches 80–85% pre-harvest; quality prediction links DTR, shade, and harvest conditions to SCA scores and THB pricing
+- **Dashboard design** is mobile-first with LINE bot as the lightweight entry point for Thai farmers
 
 ---
 
