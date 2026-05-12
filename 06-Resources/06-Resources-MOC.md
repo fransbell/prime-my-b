@@ -9,9 +9,9 @@
 | Topic | File | Status |
 |-------|------|--------|
 | Coffee Seed Sources & Nurseries | [[Seed-Sources-Thailand]] | ✅ |
-| Research Papers & References | [[Research-Papers]] | 🔲 |
-| Suppliers in Thailand | [[Suppliers-Thailand]] | 🔲 |
-| Government Programs & Support | [[Government-Programs]] | 🔲 |
+| Research Papers & References | [[Research-Papers]] | ✅ |
+| Suppliers in Thailand | [[Suppliers-Thailand]] | ✅ |
+| Government Programs & Support | [[Government-Programs]] | ✅ |
 
 ---
 

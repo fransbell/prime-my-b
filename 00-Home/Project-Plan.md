@@ -96,6 +96,17 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
+### ✅ Phase 6: Resources
+**Objective**: Compile research references, supplier directories, and government program information.
+
+| Task | Details | Status |
+|------|---------|--------|
+| Research Papers & References | Comprehensive bibliography of all cited sources (95+ references), organized by topic | ✅ |
+| Suppliers in Thailand | IoT sensor suppliers, coffee farming equipment, online marketplaces, delivery logistics | ✅ |
+| Government Programs & Support | Royal Project, DOA/DOAE, HandySense B-Farm, DEPA OTOD, BAAC loans, training programs | ✅ |
+
+---
+
 ## Execution Strategy
 
 We will tackle these **one phase at a time**, completing all tasks within a phase before moving to the next. Each completed phase gets pushed to the repo.
@@ -105,6 +116,7 @@ We will tackle these **one phase at a time**, completing all tasks within a phas
 3. **Phase 3** → Coffee Varieties (defines what we grow)
 4. **Phase 4** → Farmer Knowledge (defines the domain expertise)
 5. **Phase 5** → Sensor System (ties everything together into the system)
+6. **Phase 6** → Resources (references, suppliers, and support programs)
 
 ---
 
@@ -153,4 +165,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
-*Updated: 2026-05-12 — Phases 1–5 complete*
+*Updated: 2026-05-12 — All phases complete*
