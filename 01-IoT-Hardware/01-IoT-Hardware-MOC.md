@@ -8,48 +8,56 @@
 
 | Sensor | File | Status |
 |--------|------|--------|
-| Soil Moisture | [[Soil-Moisture-Sensors]] | 🔲 |
-| Temperature | [[Temperature-Sensors]] | 🔲 |
-| Air Humidity | [[Humidity-Sensors]] | 🔲 |
-| Rainfall | [[Rainfall-Sensors]] | 🔲 |
-| Light / PAR | [[Light-Sensors]] | 🔲 |
-| Soil pH | [[Soil-pH-Sensors]] | 🔲 |
-| Soil NPK | [[NPK-Sensors]] | 🔲 |
-| Wind Speed | [[Wind-Sensors]] | 🔲 |
-| Leaf Wetness | [[Leaf-Wetness-Sensors]] | 🔲 |
+| Soil Moisture | [[Soil-Moisture-Sensors]] | ✅ Complete |
+| Temperature | [[Temperature-Sensors]] | ✅ Complete |
+| Air Humidity | [[Humidity-Sensors]] | ✅ Complete |
+| Rainfall | [[Rainfall-Sensors]] | ✅ Complete |
+| Light / PAR | [[Light-Sensors]] | ✅ Complete |
+| Soil pH | [[Soil-pH-Sensors]] | ✅ Complete |
+| Soil NPK | [[NPK-Sensors]] | ✅ Complete |
+| Wind Speed | [[Wind-Sensors]] | ✅ Complete |
+| Leaf Wetness | [[Leaf-Wetness-Sensors]] | ✅ Complete |
 
 ## Microcontrollers
 
 | Board | File | Status |
 |-------|------|--------|
-| ESP32 / ESP8266 | [[Microcontroller-Comparison]] | 🔲 |
-| LILYGO LoRa32 | [[Microcontroller-Comparison]] | 🔲 |
-| Arduino | [[Microcontroller-Comparison]] | 🔲 |
+| ESP32 / ESP8266 / Heltec / LILYGO / Arduino | [[Microcontroller-Comparison]] | ✅ Complete |
 
 ## Communication
 
 | Type | File | Status |
 |------|------|--------|
-| LoRa (AS923) | [[Communication-Modules]] | 🔲 |
-| WiFi | [[Communication-Modules]] | 🔲 |
-| 4G LTE | [[Communication-Modules]] | 🔲 |
+| LoRa AS923 / WiFi / 4G LTE / NB-IoT | [[Communication-Modules]] | ✅ Complete |
 
 ## Power
 
 | Type | File | Status |
 |------|------|--------|
-| Solar + Battery | [[Power-Solutions]] | 🔲 |
+| Solar + Battery + Charge Controller | [[Power-Solutions]] | ✅ Complete |
 
 ## Cost & Installation
 
 | Topic | File | Status |
 |-------|------|--------|
-| System Cost Estimate | [[System-Cost-Estimate]] | 🔲 |
-| Installation Guide | [[Installation-Guide]] | 🔲 |
+| System Cost Estimate (5-10 rai farm) | [[System-Cost-Estimate]] | ✅ Complete |
+| Installation Guide (field deployment) | [[Installation-Guide]] | ✅ Complete |
 
 ---
 
-**Key Thailand Note**: LoRa must use **AS923 (920-923 MHz)** band. 2G networks are being phased out — always use **4G LTE** modules (A7670/SIM7600), never SIM800L.
+## Key Findings
+
+| Finding | Detail |
+|---------|--------|
+| ⚠️ LoRa frequency | Must use **AS923 (920–923 MHz)** — EU868 and US915 NOT legal in Thailand |
+| ⚠️ 2G phase-out | **Never use SIM800L** — Thailand shutting down 2G. Use A7670 (4G LTE) |
+| ⭐ Best value soil moisture | Capacitive V1.2 at **35 THB** (avoid resistive FC-28) |
+| ⭐ Best value air sensor | SHT31 at **115 THB** (better than DHT22 for stability) |
+| ⭐ Best MCU for LoRa | Heltec WiFi LoRa 32 V3 at **900 THB** (built-in battery charging) |
+| ⭐ Recommended gateway | RAK7268 at **6,300 THB** (8-channel, reliable) |
+| ⚠️ NPK sensors unreliable | Budget 7-in-1 sensors off by 50–200%; use DOA lab tests (200–500 THB) |
+| ⚠️ pH can't be buried | Glass electrodes degrade in days; use periodic spot-checks only |
+| 💰 DIY LoRa system (10 rai) | **~25,600 THB** total; payback in 4–8 months |
 
 ---
 

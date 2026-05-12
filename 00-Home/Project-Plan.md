@@ -13,44 +13,44 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 - [x] Design Obsidian folder structure
 - [x] Create Home index & MOC
 - [x] Create project plan
-- [ ] Push initial structure to GitHub
+- [x] Push initial structure to GitHub
 
 ---
 
-### 🔲 Phase 1: IoT Hardware & Sensors
+### ✅ Phase 1: IoT Hardware & Sensors
 **Objective**: Document all IoT sensors and hardware for coffee farm monitoring, focused on availability and pricing in Thailand.
 
 | Task | Details | Status |
 |------|---------|--------|
-| Soil Moisture Sensors | Capacitive vs resistive, models, THB pricing, Thailand sources | 🔲 |
-| Temperature Sensors | DHT22, DS18B20, BME280 — outdoor suitability | 🔲 |
-| Air Humidity Sensors | DHT22, SHT31, BME280 — accuracy comparison | 🔲 |
-| Rainfall Sensors | Tipping bucket vs rain-drop, durability | 🔲 |
-| Light / PAR Sensors | BH1750, TSL2561 — sunlight measurement | 🔲 |
-| Soil pH Sensors | DFRobot pH module, probe maintenance | 🔲 |
-| Soil NPK Sensors | 7-in-1 RS485 modules, accuracy concerns | 🔲 |
-| Wind Speed Sensors | Cup anemometer, wind direction | 🔲 |
-| Microcontrollers | ESP32, ESP8266, LILYGO LoRa32 — comparison | 🔲 |
-| Communication | LoRa AS923 (Thailand band), WiFi, 4G LTE | 🔲 |
-| Power Solutions | Solar panels, 18650 battery, power management | 🔲 |
-| Full System Cost Estimate | Budget / Mid / Pro tiers for 5-10 rai farm | 🔲 |
-| Installation Guide | Field deployment tips for coffee terrain | 🔲 |
+| Soil Moisture Sensors | Capacitive vs resistive, models, THB pricing, Thailand sources | ✅ |
+| Temperature Sensors | DHT22, DS18B20, BME280 — outdoor suitability | ✅ |
+| Air Humidity Sensors | DHT22, SHT31, BME280 — accuracy comparison | ✅ |
+| Rainfall Sensors | Tipping bucket vs rain-drop, durability | ✅ |
+| Light / PAR Sensors | BH1750, TSL2561 — sunlight measurement | ✅ |
+| Soil pH Sensors | DFRobot pH module, probe maintenance | ✅ |
+| Soil NPK Sensors | 7-in-1 RS485 modules, accuracy concerns | ✅ |
+| Wind Speed Sensors | Cup anemometer, wind direction | ✅ |
+| Microcontrollers | ESP32, ESP8266, LILYGO LoRa32 — comparison | ✅ |
+| Communication | LoRa AS923 (Thailand band), WiFi, 4G LTE | ✅ |
+| Power Solutions | Solar panels, 18650 battery, power management | ✅ |
+| Full System Cost Estimate | Budget / Mid / Pro tiers for 5-10 rai farm | ✅ |
+| Installation Guide | Field deployment tips for coffee terrain | ✅ |
 
 **Key Consideration**: Thailand uses **LoRa AS923 (920-923 MHz)**. 2G is being phased out — avoid SIM800L, use 4G LTE modules.
 
 ---
 
-### 🔲 Phase 2: Weather & Environment
+### ✅ Phase 2: Weather & Environment
 **Objective**: Define ideal weather and sunlight conditions for coffee in Northern Thailand.
 
 | Task | Details | Status |
 |------|---------|--------|
-| N. Thailand Weather Patterns | Monthly temp/rain/sun by province (Chiang Mai, Chiang Rai, Mae Hong Son, Nan) | 🔲 |
-| Coffee Sunlight Requirements | Daily hours, shade %, shade tree species | 🔲 |
-| Arabica Climate Range | Altitude, temp, rainfall, humidity optima | 🔲 |
-| Robusta Climate Range | Same parameters, comparison with Arabica | 🔲 |
-| Microclimate Factors | Slope aspect, wind protection, frost risk, fog | 🔲 |
-| Climate Change Impact | Temperature rise, rainfall irregularity | 🔲 |
+| N. Thailand Weather Patterns | Monthly temp/rain/sun by province (Chiang Mai, Chiang Rai, Mae Hong Son, Nan) | ✅ |
+| Coffee Sunlight Requirements | Daily hours, shade %, shade tree species | ✅ |
+| Arabica Climate Range | Altitude, temp, rainfall, humidity optima | ✅ |
+| Robusta Climate Range | Same parameters, comparison with Arabica | ✅ |
+| Microclimate Factors | Slope aspect, wind protection, frost risk, fog | ✅ |
+| Climate Change Impact | Temperature rise, rainfall irregularity | ✅ |
 
 ---
 
@@ -149,4 +149,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
-*Phase 3 completed: 2026-05-12*
+*Updated: 2026-05-12 — Phases 1–3 complete*
