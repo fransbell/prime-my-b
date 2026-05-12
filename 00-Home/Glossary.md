@@ -77,6 +77,16 @@
 | **Mae Hong Son** | Northern Thailand province, high altitude, ideal for Arabica |
 | **Doi** | Mountain/hill in Thai (e.g., Doi Chang, Doi Tung) |
 | **OTOP** | One Tambon One Product — Thai local product branding program |
+| **GDD** | Growing Degree Days — heat accumulation metric used to predict plant development and cherry ripeness |
+| **Brix** | Measurement of sugar content in coffee cherries; 16-22 Brix indicates specialty-grade ripeness |
+| **Stumping** | Rejuvenation pruning technique cutting coffee tree to 20-30cm stump for renewed productive growth |
+| **Beauveria bassiana** | Entomopathogenic fungus used as biological control agent against Coffee Berry Borer |
+| **Bordeaux Mixture** | Copper-based fungicide (copper sulfate + lime) used for Coffee Leaf Rust prevention |
+| **SCA** | Specialty Coffee Association — sets cupping standards; 80+ points = specialty grade |
+| **GrainPro** | Hermetic storage bag brand for preserving green bean quality; CO2 atmosphere prevents spoilage |
+| **GI** | Geographical Indication — EU/Thai certification protecting regional coffee origin (e.g., Doi Tung, Doi Chang) |
+| **Depulper** | Machine removing coffee cherry skin and pulp; manual 3,000-5,000 THB, motorized 8,000-15,000 THB |
+| **Agroforestry** | Farming system integrating trees with crops; multi-strata systems provide shade, soil health, and biodiversity |
 
 ---
 
