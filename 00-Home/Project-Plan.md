@@ -66,17 +66,17 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
-### 🔲 Phase 4: Farmer Knowledge
+### ✅ Phase 4: Farmer Knowledge
 **Objective**: Document what farmers need to know to maximize quality and quantity.
 
 | Task | Details | Status |
 |------|---------|--------|
-| Cultivation Best Practices | Planting density, pruning, shade management | 🔲 |
-| Soil Management | pH targets, organic matter, NPK requirements | 🔲 |
-| Pest & Disease Management | Coffee leaf rust, berry borer, CBB | 🔲 |
-| Harvesting Techniques | Selective picking, timing, cherry maturity | 🔲 |
-| Post-Harvest Processing | Wet/dry/honey process, fermentation, drying | 🔲 |
-| Economics & Profitability | Cost per rai, yield expectations, market prices | 🔲 |
+| Cultivation Best Practices | Planting density, pruning, shade management | ✅ |
+| Soil Management | pH targets, organic matter, NPK requirements | ✅ |
+| Pest & Disease Management | Coffee leaf rust, berry borer, CBB | ✅ |
+| Harvesting Techniques | Selective picking, timing, cherry maturity | ✅ |
+| Post-Harvest Processing | Wet/dry/honey process, fermentation, drying | ✅ |
+| Economics & Profitability | Cost per rai, yield expectations, market prices | ✅ |
 
 ---
 
@@ -92,7 +92,7 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 | Yield & Quality Prediction | Sensor data → predicted yield & quality grade | ✅ |
 | Visualization & Dashboard | Chart types, KPI panels, mobile-friendly design | ✅ |
 
-**Key Insight**: Phase 5 ties all previous phases together — sensor hardware (Phase 1) provides the data, environmental ranges (Phase 2) define the thresholds, coffee varieties (Phase 3) determine variety-specific rules, and this phase creates the complete decision-to-action pipeline: **Sensors → Thresholds → IF-THEN Rules → Alerts → Interventions → Predictions → Dashboard**.
+**Key Insight**: Phase 5 ties all previous phases together — sensor hardware (Phase 1) provides the data, environmental ranges (Phase 2) define the thresholds, coffee varieties (Phase 3) determine variety-specific rules, farmer knowledge (Phase 4) informs the remediation actions, and this phase creates the complete decision-to-action pipeline: **Sensors → Thresholds → IF-THEN Rules → Alerts → Interventions → Predictions → Dashboard**.
 
 ---
 
@@ -153,4 +153,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
-*Updated: 2026-05-12 — Phases 1–3, 5 complete*
+*Updated: 2026-05-12 — Phases 1–5 complete*

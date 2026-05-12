@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## v0.4.0 — 2026-05-12
+## v0.5.0 — 2026-05-12
 
 ### Added — Phase 5: Sensor Metrics & Decision System (Complete)
 - **Sensor Metrics & Thresholds** — Comprehensive threshold tables for all 10 sensor types (soil moisture, air temperature, soil temperature, humidity, rainfall, light/shade, soil pH, leaf wetness duration, wind speed, soil NPK) organized by coffee type (Arabica vs Robusta) and growth stage (8 stages from seedling to post-harvest). Includes seasonal threshold variation for Northern Thailand's 3 seasons, Arabica vs Robusta side-by-side comparison (16 parameters), and a 3-tier sensor reliability classification system.
@@ -14,6 +14,42 @@
 - 05-Sensor-System-MOC.md — All 6 topics marked ✅ Complete; added key insights summary
 - Home.md — Phase 5 topics marked ✅ Complete
 - Project-Plan.md — Phase 5 marked ✅ Complete; repo structure updated with new subdirectories
+
+---
+
+## v0.4.0 — 2026-05-12
+
+### Added — Phase 4: Farmer Knowledge (Complete)
+- **Cultivation Best Practices** — Planting density (177-444 trees/rai Arabica, 100-250 Robusta), nursery management, field establishment (40x40x40cm holes), pruning systems with 12-month calendar, shade management (9 tree species with Thai names, shade % by growth stage), weed management, intercropping (4 Royal Project agroforestry models), irrigation (drip 8,000-15,000 THB/rai)
+- **Soil Management & Fertilization** — Ideal soil parameters (pH 5.0-6.5, OM 3-5+%), 5 Northern Thailand soil types, pH management with liming costs, 5 composting methods, NPK requirements by growth stage (6 stages), micronutrient management (B, Zn, Fe, Mn, Cu), 6 chemical fertilizer grades with THB pricing, month-by-month fertilization calendars for Arabica and Robusta, soil conservation techniques, IoT sensor integration
+- **Pest & Disease Management** — Coffee Leaf Rust (CLR) comprehensive coverage: biology, 6-stage lifecycle, environmental triggers with sensor thresholds, race diversity, variety impact (7 varieties), management strategies with THB costs, IoT prediction model; Coffee Berry Borer (CBB): 7-stage lifecycle, climate change altitude expansion, monitoring methods (alcohol traps 25-30/rai), biological control (Beauveria bassiana); 7 other diseases, 6 other pests; IPM framework; pesticide regulations (6 banned chemicals); IoT-enabled disease prediction with 5-tier thresholds for CLR and CBB; 12-month seasonal spray calendar
+- **Harvesting Techniques** — Cherry development stages (6-9 months Arabica, 9-11 Robusta), maturity indices (8-indicator matrix), Brix sugar targets (16-22 for specialty), province-by-province harvest calendars, selective vs strip picking cost-quality comparison, hill tribe labor systems (6 communities), post-tree handling guidelines (6-12 hour window), cherry quality grading with THB price differentials, rain impact on harvesting, IoT-enhanced harvesting with GDD-based ripeness prediction
+- **Post-Harvest Processing** — Wet/dry/honey process detailed steps with equipment costs (depulper 3,000-15,000 THB), 7 innovative processing methods from the 2016 Thai revolution (SCM, Yeast Inoculation, Coffivino, Brixter, Anaerobic, Thermal Shock, Lactic), fermentation science (microbial ecology, pH monitoring 4.2-4.5 endpoint), drying methods and moisture targets (10-12%), hulling and grading, storage (GrainPro bags), 11-method quality comparison table, processing infrastructure in N. Thailand
+- **Economics & Profitability** — Detailed cost of production per rai (Arabica establishment 25,000-55,000 THB, annual 17,500-43,500 THB; Robusta 11,000-23,000 THB/year), yield expectations by variety and tree age, market prices (cherry to Geisha green bean 500-10,000 THB/kg), revenue and profitability analysis for 10-rai farm, specialty vs commodity economics (3-10x price premium), value addition strategies, government support (BAAC 3-5% loans, DOAE 50% IoT subsidy), risk factors, IoT ROI analysis (18,180 THB investment, 6.1-month payback, 97% ROI Year 1)
+
+### Updated
+- 04-Farmer-Knowledge-MOC.md — All 6 topics marked ✅ Complete with expanded key insight
+- Home.md — Phase 4 topics marked ✅ Complete, updated last updated line
+- Project-Plan.md — Phase 4 marked ✅ Complete
+
+### Research Sources
+- 120+ references cited across all 6 documents
+- Sources include: FAO, World Coffee Research, Thai DOA, Royal Project Foundation, ICO, SCA, CIRAD, PMC/NIH studies, Thai Agricultural Extension journals, Cup of Excellence 2025, and many more
+
+---
+
+## v0.3.0 — 2026-05-12
+
+### Added — Phase 3: Coffee Seed Variations (Complete)
+- Arabica-for-North-Thailand.md — 7 varieties: Chiang Mai 80, Typica, Caturra, MLDT/HDT, Geisha, SL28/SL34, Jember/S795 with altitude ranges, cup quality, disease resistance, yield data, and Northern Thailand-specific adoption rates
+- Robusta-for-North-Thailand.md — Thai Robusta varieties: Chumphon 1 & 2, FRT-series clones, Conilon potential, GI-registered Robustas, Northern Thailand emerging opportunity at 200-800m elevation
+- Seed-Source-Thailand.md — Government sources (DOA, DOAE, Royal Project, HRDI, NECTEC), private nurseries (CoffeeDeep, Nana Garden, Sensation Coffee), community enterprises, certification standards, import regulations, planting best practices
+- Variety-Selection-Guide.md — 5-zone altitude decision matrix, 10 decision factors, financial comparison table (Arabica specialty vs commodity vs Robusta specialty vs commodity), climate change impact, case studies (Doi Chang, Doi Tung, Mae Hong Son), quick decision flowchart
+
+### Updated
+- 03-Coffee-Varieties-MOC.md — All 4 topics marked ✅ Complete
+- Home.md — Phase 3 topics marked ✅ Complete
+- Project-Plan.md — Phase 3 marked ✅ Complete
 
 ---
 
@@ -48,8 +84,6 @@
 - Glossary of terms (coffee, IoT, Thailand-specific)
 - Initial repo pushed to GitHub
 
-## v0.2.0 — 2026-05-12
-
 ### Added — Phase 1: IoT Hardware & Sensors (Complete)
 - **Soil Moisture Sensors** — Capacitive V1.2 (35 THB), Dragino LSE01, SenseCAP S2105, installation & calibration
 - **Temperature Sensors** — SHT31, DHT22, BME280, DS18B20, radiation shield construction, coffee temp thresholds
@@ -69,21 +103,6 @@
 ### Changed
 - Updated Home MOC with Phase 1 completion status
 - Updated 01-IoT-Hardware MOC with all 14 topics complete
-
----
-
-## v0.2.0 — 2026-05-12
-
-### Added — Phase 3: Coffee Seed Variations (Complete)
-- Arabica-for-North-Thailand.md — 7 varieties: Chiang Mai 80, Typica, Caturra, MLDT/HDT, Geisha, SL28/SL34, Jember/S795 with altitude ranges, cup quality, disease resistance, yield data, and Northern Thailand-specific adoption rates
-- Robusta-for-North-Thailand.md — Thai Robusta varieties: Chumphon 1 & 2, FRT-series clones, Conilon potential, GI-registered Robustas, Northern Thailand emerging opportunity at 200-800m elevation
-- Seed-Source-Thailand.md — Government sources (DOA, DOAE, Royal Project, HRDI, NECTEC), private nurseries (CoffeeDeep, Nana Garden, Sensation Coffee), community enterprises, certification standards, import regulations, planting best practices
-- Variety-Selection-Guide.md — 5-zone altitude decision matrix, 10 decision factors, financial comparison table (Arabica specialty vs commodity vs Robusta specialty vs commodity), climate change impact, case studies (Doi Chang, Doi Tung, Mae Hong Son), quick decision flowchart
-
-### Updated
-- 03-Coffee-Varieties-MOC.md — All 4 topics marked ✅ Complete
-- Home.md — Phase 3 topics marked ✅ Complete
-- Project-Plan.md — Phase 3 marked ✅ Complete
 
 ---
 
