@@ -13,7 +13,7 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 - [x] Design Obsidian folder structure
 - [x] Create Home index & MOC
 - [x] Create project plan
-- [ ] Push initial structure to GitHub
+- [x] Push initial structure to GitHub
 
 ---
 
@@ -40,17 +40,17 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
-### 🔲 Phase 2: Weather & Environment
+### ✅ Phase 2: Weather & Environment
 **Objective**: Define ideal weather and sunlight conditions for coffee in Northern Thailand.
 
 | Task | Details | Status |
 |------|---------|--------|
-| N. Thailand Weather Patterns | Monthly temp/rain/sun by province (Chiang Mai, Chiang Rai, Mae Hong Son, Nan) | 🔲 |
-| Coffee Sunlight Requirements | Daily hours, shade %, shade tree species | 🔲 |
-| Arabica Climate Range | Altitude, temp, rainfall, humidity optima | 🔲 |
-| Robusta Climate Range | Same parameters, comparison with Arabica | 🔲 |
-| Microclimate Factors | Slope aspect, wind protection, frost risk, fog | 🔲 |
-| Climate Change Impact | Temperature rise, rainfall irregularity | 🔲 |
+| N. Thailand Weather Patterns | Monthly temp/rain/sun by province (Chiang Mai, Chiang Rai, Mae Hong Son, Nan) | ✅ |
+| Coffee Sunlight Requirements | Daily hours, shade %, shade tree species | ✅ |
+| Arabica Climate Range | Altitude, temp, rainfall, humidity optima | ✅ |
+| Robusta Climate Range | Same parameters, comparison with Arabica | ✅ |
+| Microclimate Factors | Slope aspect, wind protection, frost risk, fog | ✅ |
+| Climate Change Impact | Temperature rise, rainfall irregularity | ✅ |
 
 ---
 
@@ -149,3 +149,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
+*Updated: 2026-05-12 — Phase 2 complete*
