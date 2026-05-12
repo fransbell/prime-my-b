@@ -6,24 +6,25 @@
 
 ## 📂 Knowledge Map of Content
 
-### [[01-IoT-Hardware|🔌 IoT Hardware & Sensors]]
+### [[01-IoT-Hardware|🔌 IoT Hardware & Sensors]] ✅ Phase 1 Complete
 Hardware tools for monitoring coffee farm conditions — sensors, microcontrollers, communication, power, and full cost estimates for Thailand.
 
 | Topic | Status |
 |-------|--------|
-| [[Soil-Moisture-Sensors\|Soil Moisture Sensors]] | 🔲 Pending |
-| [[Temperature-Sensors\|Temperature Sensors]] | 🔲 Pending |
-| [[Humidity-Sensors\|Air Humidity Sensors]] | 🔲 Pending |
-| [[Rainfall-Sensors\|Rainfall Sensors]] | 🔲 Pending |
-| [[Light-Sensors\|Light / PAR Sensors]] | 🔲 Pending |
-| [[Soil-pH-Sensors\|Soil pH Sensors]] | 🔲 Pending |
-| [[NPK-Sensors\|Soil NPK Sensors]] | 🔲 Pending |
-| [[Wind-Sensors\|Wind Speed Sensors]] | 🔲 Pending |
-| [[Microcontroller-Comparison\|Microcontrollers (ESP32, LoRa)]] | 🔲 Pending |
-| [[Communication-Modules\|Communication (LoRa, WiFi, GSM)]] | 🔲 Pending |
-| [[Power-Solutions\|Solar & Battery Power]] | 🔲 Pending |
-| [[System-Cost-Estimate\|Full System Cost Estimate]] | 🔲 Pending |
-| [[Installation-Guide\|Installation Guide]] | 🔲 Pending |
+| [[Soil-Moisture-Sensors\|Soil Moisture Sensors]] | ✅ Complete |
+| [[Temperature-Sensors\|Temperature Sensors]] | ✅ Complete |
+| [[Humidity-Sensors\|Air Humidity Sensors]] | ✅ Complete |
+| [[Rainfall-Sensors\|Rainfall Sensors]] | ✅ Complete |
+| [[Light-Sensors\|Light / PAR Sensors]] | ✅ Complete |
+| [[Soil-pH-Sensors\|Soil pH Sensors]] | ✅ Complete |
+| [[NPK-Sensors\|Soil NPK Sensors]] | ✅ Complete |
+| [[Wind-Sensors\|Wind Speed Sensors]] | ✅ Complete |
+| [[Leaf-Wetness-Sensors\|Leaf Wetness Sensors]] | ✅ Complete |
+| [[Microcontroller-Comparison\|Microcontrollers (ESP32, LoRa)]] | ✅ Complete |
+| [[Communication-Modules\|Communication (LoRa, WiFi, 4G LTE)]] | ✅ Complete |
+| [[Power-Solutions\|Solar & Battery Power]] | ✅ Complete |
+| [[System-Cost-Estimate\|Full System Cost Estimate]] | ✅ Complete |
+| [[Installation-Guide\|Installation Guide]] | ✅ Complete |
 
 ---
 
@@ -112,4 +113,4 @@ This knowledge base provides the **research foundation** for building that syste
 
 ---
 
-*Last updated: 2026-05-12*
+*Last updated: 2026-05-12 • Phase 1: IoT Hardware — Complete*
