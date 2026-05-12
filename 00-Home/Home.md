@@ -28,7 +28,7 @@ Hardware tools for monitoring coffee farm conditions — sensors, microcontrolle
 
 ---
 
-### [[02-Environment|🌤️ Weather & Environment]]
+### [[02-Environment|🌤️ Weather & Environment]] ✅ Phase 2 Complete
 Preferred weather, sunlight, and climate conditions for coffee production in Northern Thailand.
 
 | Topic | Status |
@@ -42,15 +42,15 @@ Preferred weather, sunlight, and climate conditions for coffee production in Nor
 
 ---
 
-### [[03-Coffee-Varieties|🌱 Coffee Seed Variations]]
+### [[03-Coffee-Varieties|🌱 Coffee Seed Variations]] ✅ Phase 3 Complete
 Coffee varieties suitable for cultivation in Northern Thailand — Arabica, Robusta, and local cultivars.
 
 | Topic | Status |
 |-------|--------|
-| [[Arabica-for-North-Thailand\|Arabica Varieties for N. Thailand]] | 🔲 Pending |
-| [[Robusta-for-North-Thailand\|Robusta Varieties for N. Thailand]] | 🔲 Pending |
-| [[Seed-Source-Thailand\|Seed Sources & Nurseries in Thailand]] | 🔲 Pending |
-| [[Variety-Selection-Guide\|Variety Selection Decision Guide]] | 🔲 Pending |
+| [[Arabica-for-North-Thailand\|Arabica Varieties for N. Thailand]] | ✅ Complete |
+| [[Robusta-for-North-Thailand\|Robusta Varieties for N. Thailand]] | ✅ Complete |
+| [[Seed-Source-Thailand\|Seed Sources & Nurseries in Thailand]] | ✅ Complete |
+| [[Variety-Selection-Guide\|Variety Selection Decision Guide]] | ✅ Complete |
 
 ---
 
@@ -113,4 +113,4 @@ This knowledge base provides the **research foundation** for building that syste
 
 ---
 
-*Last updated: 2026-05-12 • Phase 1: IoT Hardware — Complete*
+*Last updated: 2026-05-12 — Phases 1–3 complete*

@@ -17,24 +17,24 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
-### 🔲 Phase 1: IoT Hardware & Sensors
+### ✅ Phase 1: IoT Hardware & Sensors
 **Objective**: Document all IoT sensors and hardware for coffee farm monitoring, focused on availability and pricing in Thailand.
 
 | Task | Details | Status |
 |------|---------|--------|
-| Soil Moisture Sensors | Capacitive vs resistive, models, THB pricing, Thailand sources | 🔲 |
-| Temperature Sensors | DHT22, DS18B20, BME280 — outdoor suitability | 🔲 |
-| Air Humidity Sensors | DHT22, SHT31, BME280 — accuracy comparison | 🔲 |
-| Rainfall Sensors | Tipping bucket vs rain-drop, durability | 🔲 |
-| Light / PAR Sensors | BH1750, TSL2561 — sunlight measurement | 🔲 |
-| Soil pH Sensors | DFRobot pH module, probe maintenance | 🔲 |
-| Soil NPK Sensors | 7-in-1 RS485 modules, accuracy concerns | 🔲 |
-| Wind Speed Sensors | Cup anemometer, wind direction | 🔲 |
-| Microcontrollers | ESP32, ESP8266, LILYGO LoRa32 — comparison | 🔲 |
-| Communication | LoRa AS923 (Thailand band), WiFi, 4G LTE | 🔲 |
-| Power Solutions | Solar panels, 18650 battery, power management | 🔲 |
-| Full System Cost Estimate | Budget / Mid / Pro tiers for 5-10 rai farm | 🔲 |
-| Installation Guide | Field deployment tips for coffee terrain | 🔲 |
+| Soil Moisture Sensors | Capacitive vs resistive, models, THB pricing, Thailand sources | ✅ |
+| Temperature Sensors | DHT22, DS18B20, BME280 — outdoor suitability | ✅ |
+| Air Humidity Sensors | DHT22, SHT31, BME280 — accuracy comparison | ✅ |
+| Rainfall Sensors | Tipping bucket vs rain-drop, durability | ✅ |
+| Light / PAR Sensors | BH1750, TSL2561 — sunlight measurement | ✅ |
+| Soil pH Sensors | DFRobot pH module, probe maintenance | ✅ |
+| Soil NPK Sensors | 7-in-1 RS485 modules, accuracy concerns | ✅ |
+| Wind Speed Sensors | Cup anemometer, wind direction | ✅ |
+| Microcontrollers | ESP32, ESP8266, LILYGO LoRa32 — comparison | ✅ |
+| Communication | LoRa AS923 (Thailand band), WiFi, 4G LTE | ✅ |
+| Power Solutions | Solar panels, 18650 battery, power management | ✅ |
+| Full System Cost Estimate | Budget / Mid / Pro tiers for 5-10 rai farm | ✅ |
+| Installation Guide | Field deployment tips for coffee terrain | ✅ |
 
 **Key Consideration**: Thailand uses **LoRa AS923 (920-923 MHz)**. 2G is being phased out — avoid SIM800L, use 4G LTE modules.
 
@@ -54,15 +54,15 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
-### 🔲 Phase 3: Coffee Seed Variations
+### ✅ Phase 3: Coffee Seed Variations
 **Objective**: Identify best coffee varieties for Northern Thailand conditions.
 
 | Task | Details | Status |
 |------|---------|--------|
-| Arabica Varieties | Catimor, Typica, Caturra, MLDT selections — altitude match | 🔲 |
-| Robusta Varieties | Chumphon selections, hybrid vigor | 🔲 |
-| Seed Sources | Thai nurseries, DOA stations, verified suppliers | 🔲 |
-| Variety Selection Guide | Decision matrix: altitude → variety → expected quality | 🔲 |
+| Arabica Varieties | Catimor/Chiang Mai 80, Typica, Caturra, Geisha, MLDT selections — altitude match | ✅ |
+| Robusta Varieties | Chumphon selections, FRT-series clones, GI-registered Robusta | ✅ |
+| Seed Sources | Thai nurseries, DOA stations, verified suppliers | ✅ |
+| Variety Selection Guide | Decision matrix: altitude → variety → expected quality | ✅ |
 
 ---
 
@@ -149,4 +149,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
-*Updated: 2026-05-12 — Phase 2 complete*
+*Updated: 2026-05-12 — Phases 1–3 complete*
