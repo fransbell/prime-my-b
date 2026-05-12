@@ -11,20 +11,20 @@ Hardware tools for monitoring coffee farm conditions — sensors, microcontrolle
 
 | Topic | Status |
 |-------|--------|
-| [[Soil-Moisture-Sensors\|Soil Moisture Sensors]] | ✅ Complete |
-| [[Temperature-Sensors\|Temperature Sensors]] | ✅ Complete |
-| [[Humidity-Sensors\|Air Humidity Sensors]] | ✅ Complete |
-| [[Rainfall-Sensors\|Rainfall Sensors]] | ✅ Complete |
-| [[Light-Sensors\|Light / PAR Sensors]] | ✅ Complete |
-| [[Soil-pH-Sensors\|Soil pH Sensors]] | ✅ Complete |
-| [[NPK-Sensors\|Soil NPK Sensors]] | ✅ Complete |
-| [[Wind-Sensors\|Wind Speed Sensors]] | ✅ Complete |
-| [[Leaf-Wetness-Sensors\|Leaf Wetness Sensors]] | ✅ Complete |
-| [[Microcontroller-Comparison\|Microcontrollers (ESP32, LoRa)]] | ✅ Complete |
-| [[Communication-Modules\|Communication (LoRa, WiFi, 4G LTE)]] | ✅ Complete |
-| [[Power-Solutions\|Solar & Battery Power]] | ✅ Complete |
-| [[System-Cost-Estimate\|Full System Cost Estimate]] | ✅ Complete |
-| [[Installation-Guide\|Installation Guide]] | ✅ Complete |
+| [[Soil-Moisture-Sensors|Soil Moisture Sensors]] | ✅ Complete |
+| [[Temperature-Sensors|Temperature Sensors]] | ✅ Complete |
+| [[Humidity-Sensors|Air Humidity Sensors]] | ✅ Complete |
+| [[Rainfall-Sensors|Rainfall Sensors]] | ✅ Complete |
+| [[Light-Sensors|Light / PAR Sensors]] | ✅ Complete |
+| [[Soil-pH-Sensors|Soil pH Sensors]] | ✅ Complete |
+| [[NPK-Sensors|Soil NPK Sensors]] | ✅ Complete |
+| [[Wind-Sensors|Wind Speed Sensors]] | ✅ Complete |
+| [[Leaf-Wetness-Sensors|Leaf Wetness Sensors]] | ✅ Complete |
+| [[Microcontroller-Comparison|Microcontrollers (ESP32, LoRa)]] | ✅ Complete |
+| [[Communication-Modules|Communication (LoRa, WiFi, 4G LTE)]] | ✅ Complete |
+| [[Power-Solutions|Solar & Battery Power]] | ✅ Complete |
+| [[System-Cost-Estimate|Full System Cost Estimate]] | ✅ Complete |
+| [[Installation-Guide|Installation Guide]] | ✅ Complete |
 
 ---
 
@@ -33,12 +33,12 @@ Preferred weather, sunlight, and climate conditions for coffee production in Nor
 
 | Topic | Status |
 |-------|--------|
-| [[Northern-Thailand-Weather\|Weather Patterns by Province]] | ✅ Complete |
-| [[Coffee-Sunlight-Requirements\|Sunlight & Shade Requirements]] | ✅ Complete |
-| [[Arabica-Climate-Range\|Arabica Climate Range]] | ✅ Complete |
-| [[Robusta-Climate-Range\|Robusta Climate Range]] | ✅ Complete |
-| [[Microclimate-Factors\|Microclimate Considerations]] | ✅ Complete |
-| [[Climate-Change-Impact\|Climate Change Impact]] | ✅ Complete |
+| [[Northern-Thailand-Weather|Weather Patterns by Province]] | ✅ Complete |
+| [[Coffee-Sunlight-Requirements|Sunlight & Shade Requirements]] | ✅ Complete |
+| [[Arabica-Climate-Range|Arabica Climate Range]] | ✅ Complete |
+| [[Robusta-Climate-Range|Robusta Climate Range]] | ✅ Complete |
+| [[Microclimate-Factors|Microclimate Considerations]] | ✅ Complete |
+| [[Climate-Change-Impact|Climate Change Impact]] | ✅ Complete |
 
 ---
 
@@ -47,10 +47,10 @@ Coffee varieties suitable for cultivation in Northern Thailand — Arabica, Robu
 
 | Topic | Status |
 |-------|--------|
-| [[Arabica-for-North-Thailand\|Arabica Varieties for N. Thailand]] | ✅ Complete |
-| [[Robusta-for-North-Thailand\|Robusta Varieties for N. Thailand]] | ✅ Complete |
-| [[Seed-Source-Thailand\|Seed Sources & Nurseries in Thailand]] | ✅ Complete |
-| [[Variety-Selection-Guide\|Variety Selection Decision Guide]] | ✅ Complete |
+| [[Arabica-for-North-Thailand|Arabica Varieties for N. Thailand]] | ✅ Complete |
+| [[Robusta-for-North-Thailand|Robusta Varieties for N. Thailand]] | ✅ Complete |
+| [[Seed-Source-Thailand|Seed Sources & Nurseries in Thailand]] | ✅ Complete |
+| [[Variety-Selection-Guide|Variety Selection Decision Guide]] | ✅ Complete |
 
 ---
 
@@ -59,26 +59,26 @@ What coffee farmers need to know — factors that improve both quantity and qual
 
 | Topic | Status |
 |-------|--------|
-| [[Cultivation-Best-Practices\|Cultivation Best Practices]] | ✅ Complete |
-| [[Soil-Management\|Soil Management & Fertilization]] | ✅ Complete |
-| [[Pest-Disease-Management\|Pest & Disease Management]] | ✅ Complete |
-| [[Harvesting-Techniques\|Harvesting Techniques]] | ✅ Complete |
-| [[Post-Harvest-Processing\|Post-Harvest Processing]] | ✅ Complete |
-| [[Coffee-Economics\|Economics & Profitability]] | ✅ Complete |
+| [[Cultivation-Best-Practices|Cultivation Best Practices]] | ✅ Complete |
+| [[Soil-Management|Soil Management & Fertilization]] | ✅ Complete |
+| [[Pest-Disease-Management|Pest & Disease Management]] | ✅ Complete |
+| [[Harvesting-Techniques|Harvesting Techniques]] | ✅ Complete |
+| [[Post-Harvest-Processing|Post-Harvest Processing]] | ✅ Complete |
+| [[Coffee-Economics|Economics & Profitability]] | ✅ Complete |
 
 ---
 
-### [[05-Sensor-System|📊 Sensor Metrics & Decision System]]
+### [[05-Sensor-System|📊 Sensor Metrics & Decision System]] ✅ Phase 5 Complete
 Metrics that determine coffee type/quality from sensor data, decision logic, and remediation actions when conditions are not ideal.
 
 | Topic | Status |
 |-------|--------|
-| [[Sensor-Metrics-Thresholds\|Sensor Metrics & Thresholds]] | 🔲 Pending |
-| [[Decision-Logic\|Decision Logic Engine]] | 🔲 Pending |
-| [[Alerts-Remediation\|Alerts & Remediation Actions]] | 🔲 Pending |
-| [[Environment-Intervention\|Environment Intervention Guide]] | 🔲 Pending |
-| [[Yield-Quality-Prediction\|Yield & Quality Prediction]] | 🔲 Pending |
-| [[Visualization-Dashboard\|Visualization & Dashboard Design]] | 🔲 Pending |
+| [[Sensor-Metrics-Thresholds|Sensor Metrics & Thresholds]] | ✅ Complete |
+| [[Decision-Logic|Decision Logic Engine]] | ✅ Complete |
+| [[Alerts-Remediation|Alerts & Remediation Actions]] | ✅ Complete |
+| [[Environment-Intervention|Environment Intervention Guide]] | ✅ Complete |
+| [[Yield-Quality-Prediction|Yield & Quality Prediction]] | ✅ Complete |
+| [[Visualization-Dashboard|Visualization & Dashboard Design]] | ✅ Complete |
 
 ---
 
@@ -87,9 +87,9 @@ Research papers, suppliers, and government programs.
 
 | Topic | Status |
 |-------|--------|
-| [[Research-Papers\|Research Papers & References]] | 🔲 Pending |
-| [[Suppliers-Thailand\|Suppliers in Thailand]] | 🔲 Pending |
-| [[Government-Programs\|Government Programs & Support]] | 🔲 Pending |
+| [[Research-Papers|Research Papers & References]] | 🔲 Pending |
+| [[Suppliers-Thailand|Suppliers in Thailand]] | 🔲 Pending |
+| [[Government-Programs|Government Programs & Support]] | 🔲 Pending |
 
 ---
 
@@ -113,4 +113,4 @@ This knowledge base provides the **research foundation** for building that syste
 
 ---
 
-*Last updated: 2026-05-12 — Phases 1–4 complete*
+*Last updated: 2026-05-12 — Phases 1–5 complete*

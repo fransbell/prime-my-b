@@ -1,5 +1,22 @@
 # 📝 Changelog
 
+## v0.5.0 — 2026-05-12
+
+### Added — Phase 5: Sensor Metrics & Decision System (Complete)
+- **Sensor Metrics & Thresholds** — Comprehensive threshold tables for all 10 sensor types (soil moisture, air temperature, soil temperature, humidity, rainfall, light/shade, soil pH, leaf wetness duration, wind speed, soil NPK) organized by coffee type (Arabica vs Robusta) and growth stage (8 stages from seedling to post-harvest). Includes seasonal threshold variation for Northern Thailand's 3 seasons, Arabica vs Robusta side-by-side comparison (16 parameters), and a 3-tier sensor reliability classification system.
+- **Decision Logic Engine** — 51 IF-THEN decision rules across 7 categories: irrigation (10 rules), disease risk (10 rules), temperature stress (8 rules), shade/light (6 rules), soil health (6 rules), harvest/post-harvest (6 rules), and flowering prediction (5 rules). Includes rule conflict resolution hierarchy, context-aware rule activation matrix (6 growth stages × 6 rule categories), confidence scoring system (13 sensor types rated), and full pseudocode implementation for ESP32 or server-side deployment.
+- **Alerts & Remediation Actions** — 30 specific alerts with 4 severity levels (INFO/WARNING/CRITICAL/EMERGENCY), complete alert catalog with IDs (ALR-DIS-01 through ALR-SYS-04), detailed remediation actions for disease (fungicide types + THB costs, LWD-based timing, 30-50% reduction in chemical use), water (drip/micro-sprinkler irrigation at 3,000-12,000 THB/rai), temperature (frost protection, heat mitigation, shade tree species), and soil (lime/sulfur application rates in kg/rai). Alert delivery via 5 channels (push, LINE, SMS, dashboard, voice call) with escalation rules. Alert fatigue prevention system and 12-month seasonal alert calendar.
+- **Environment Intervention Guide** — 5 intervention categories with "too much" and "too little" scenarios: temperature (shade management reducing 2-5°C, mulching, irrigation cooling, frost protection methods), moisture (drip irrigation, rainwater harvesting, contour drains, raised beds), humidity (pruning, shade thinning, plant spacing, windbreak gaps), light (shade tree planting, shade cloth, inter-cropping, coppicing), and soil (lime/sulfur application, coffee pulp composting, green manure). 18-row intervention effectiveness matrix with THB costs and time to effect. Intervention verification protocols using IoT sensors. Northern Thailand-specific support programs (BAAC, DOAE, Royal Project, NECTEC).
+- **Yield & Quality Prediction** — 6 sensor-measurable yield factors with specific impact percentages (20-40% loss from drought during flowering, 18.9% per 1°C anomaly). Simplified multiplicative prediction formula with worked example. Yield ranges for 4 coffee types (Arabica commodity/specialty, Robusta commodity/fine) in kg/rai. Quality prediction linking DTR, mean temperature, shade, harvest rain, and drying humidity to SCA scores and THB/kg pricing (60-500 THB/kg range). Brix-guided processing decision tree. Prediction accuracy by season phase (60-70% at flowering → 80-85% pre-harvest). Economic impact analysis with ROI calculations.
+- **Visualization & Dashboard Design** — Mobile-first dashboard with 5 screen designs (Home, Sensor Detail, Alerts, Farm Map, Yield & Quality). 12 chart type specifications mapped to sensor data types. 6 KPI panel definitions including Farm Health Score composite metric. Technical specs for React Native/Flutter mobile app with ECharts, offline SQLite cache, and LINE Messaging API integration. Lightweight LINE bot alternative for Thai farmers. Web dashboard for farm managers with multi-farm comparison. Thai language-first design with icon-based interface for low-literacy users.
+
+### Updated
+- 05-Sensor-System-MOC.md — All 6 topics marked ✅ Complete; added key insights summary
+- Home.md — Phase 5 topics marked ✅ Complete
+- Project-Plan.md — Phase 5 marked ✅ Complete; repo structure updated with new subdirectories
+
+---
+
 ## v0.4.0 — 2026-05-12
 
 ### Added — Phase 4: Farmer Knowledge (Complete)

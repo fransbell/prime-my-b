@@ -80,17 +80,19 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
-### 🔲 Phase 5: Sensor Metrics & Decision System
+### ✅ Phase 5: Sensor Metrics & Decision System
 **Objective**: Define how sensor data translates to decisions, predictions, and alerts.
 
 | Task | Details | Status |
 |------|---------|--------|
-| Sensor Metrics & Thresholds | Ideal ranges per sensor per coffee type & growth stage | 🔲 |
-| Decision Logic Engine | IF-THEN rules: sensor values → action recommendations | 🔲 |
-| Alerts & Remediation | Alert levels (warning/critical), recommended actions | 🔲 |
-| Environment Intervention | When weather is not ideal → what can we do to fix it | 🔲 |
-| Yield & Quality Prediction | Sensor data → predicted yield & quality grade | 🔲 |
-| Visualization & Dashboard | Chart types, KPI panels, mobile-friendly design | 🔲 |
+| Sensor Metrics & Thresholds | Ideal ranges per sensor per coffee type & growth stage | ✅ |
+| Decision Logic Engine | IF-THEN rules: sensor values → action recommendations | ✅ |
+| Alerts & Remediation | Alert levels (warning/critical), recommended actions | ✅ |
+| Environment Intervention | When weather is not ideal → what can we do to fix it | ✅ |
+| Yield & Quality Prediction | Sensor data → predicted yield & quality grade | ✅ |
+| Visualization & Dashboard | Chart types, KPI panels, mobile-friendly design | ✅ |
+
+**Key Insight**: Phase 5 ties all previous phases together — sensor hardware (Phase 1) provides the data, environmental ranges (Phase 2) define the thresholds, coffee varieties (Phase 3) determine variety-specific rules, farmer knowledge (Phase 4) informs the remediation actions, and this phase creates the complete decision-to-action pipeline: **Sensors → Thresholds → IF-THEN Rules → Alerts → Interventions → Predictions → Dashboard**.
 
 ---
 
@@ -138,6 +140,8 @@ prime-my-b/
 │   ├── Metrics-Thresholds/
 │   ├── Decision-Logic/
 │   ├── Alerts-Remediation/
+│   ├── Environment-Intervention/
+│   ├── Yield-Quality-Prediction/
 │   └── Visualization/
 ├── 06-Resources/               # References, Suppliers, Gov Programs
 │   ├── Research-Papers/
@@ -149,4 +153,4 @@ prime-my-b/
 ---
 
 *Created: 2026-05-12*
-*Updated: 2026-05-12 — Phases 1–4 complete*
+*Updated: 2026-05-12 — Phases 1–5 complete*
