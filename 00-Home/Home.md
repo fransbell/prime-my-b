@@ -32,12 +32,12 @@ Preferred weather, sunlight, and climate conditions for coffee production in Nor
 
 | Topic | Status |
 |-------|--------|
-| [[Northern-Thailand-Weather\|Weather Patterns by Province]] | 🔲 Pending |
-| [[Coffee-Sunlight-Requirements\|Sunlight & Shade Requirements]] | 🔲 Pending |
-| [[Arabica-Climate-Range\|Arabica Climate Range]] | 🔲 Pending |
-| [[Robusta-Climate-Range\|Robusta Climate Range]] | 🔲 Pending |
-| [[Microclimate-Factors\|Microclimate Considerations]] | 🔲 Pending |
-| [[Climate-Change-Impact\|Climate Change Impact]] | 🔲 Pending |
+| [[Northern-Thailand-Weather\|Weather Patterns by Province]] | ✅ Complete |
+| [[Coffee-Sunlight-Requirements\|Sunlight & Shade Requirements]] | ✅ Complete |
+| [[Arabica-Climate-Range\|Arabica Climate Range]] | ✅ Complete |
+| [[Robusta-Climate-Range\|Robusta Climate Range]] | ✅ Complete |
+| [[Microclimate-Factors\|Microclimate Considerations]] | ✅ Complete |
+| [[Climate-Change-Impact\|Climate Change Impact]] | ✅ Complete |
 
 ---
 

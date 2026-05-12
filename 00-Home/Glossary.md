@@ -40,6 +40,29 @@
 | **EC** | Electrical Conductivity — indicates soil nutrient/salt concentration |
 | **NPK** | Nitrogen (N), Phosphorus (P), Potassium (K) — primary plant nutrients |
 
+## Climate & Environment Terms
+
+| Term | Definition |
+|------|-----------|
+| **Diurnal Temperature Range (DTR)** | The difference between daily maximum and minimum temperature — critical for Arabica quality (optimal 10–15°C) |
+| **Köppen Climate Classification** | Standard climate classification system; Northern Thailand lowlands = Aw/Am (tropical), highlands = Cwa (humid subtropical) |
+| **Orographic Rainfall** | Rainfall caused by moist air being forced upward by terrain; highland farms receive 10–20% more rain than lowland stations |
+| **Cold Air Drainage** | Downhill flow of cold, dense air at night; creates "frost pockets" in valley floors |
+| **Thermal Belt** | Mid-slope zone (30–70% of slope height) where cold air drains away but wind exposure is moderate — optimal for coffee |
+| **Slope Aspect** | The direction a slope faces; east-facing is preferred for coffee (morning sun, afternoon shade) |
+| **PPFD** | Photosynthetic Photon Flux Density — measurement of light available for plant photosynthesis (µmol/m²/s) |
+| **Light Saturation Point** | PPFD level above which additional light provides no photosynthetic benefit; ~300–600 µmol/m²/s for Arabica |
+| **Leaf Wetness Duration** | Time that water remains on leaf surfaces; >6 hours at 20–25°C creates coffee leaf rust infection risk |
+| **Agroforestry** | Farming system integrating trees with crops; multi-strata systems provide shade, soil health, and biodiversity |
+| **CLR** | Coffee Leaf Rust (*Hemileia vastatrix*) — devastating fungal disease favored by high humidity and leaf wetness |
+| **CBB** | Coffee Berry Borer (*Hypothenemus hampei*) — insect pest that burrows into coffee cherries; expanding to higher altitudes with warming |
+| **Catimor** | Arabica variety group with CLR resistance; dominant in Northern Thailand (lines H528/46, H420/9, P86/P88/P90) |
+| **Chiang Mai 80** | Thai-developed Arabica variety (Catimor × SL28 backcross); DOA-released 2007; flagship specialty varietal |
+| **Fine Robusta** | Specialty-grade Robusta coffee movement; emerging in Nan Province, Thailand |
+| **CHRC** | Chumphon Horticultural Research Center — Thailand's primary Robusta research institution |
+| **F1 Hybrid** | First-generation hybrid coffee varieties offering 30–50% yield advantage plus disease resistance and quality |
+| **Parametric Insurance** | Insurance that pays out automatically when sensor-verified weather thresholds are exceeded |
+
 ## Thailand-Specific Terms
 
 | Term | Definition |
