@@ -1,5 +1,23 @@
 # 📝 Changelog
 
+## v0.7.0 — 2026-05-13
+
+### Added — Phase 7: Competitive Landscape (Complete)
+- **Government IoT Platforms** — Comprehensive analysis of 4 government-backed IoT agriculture platforms: HandySense B-Farm (NECTEC's flagship open-source platform with hardware tiers from 3,100-9,095 THB, free cloud, but crop-agnostic and no yield/quality prediction), NECTEC Predictive Farming Platform (announced 2021, explicitly targets yield prediction but still in research phase), DEPA OTOD (free IoT kits + training for communities, funding channel not competitor), and Agriculture 4.0 (national strategy targeting 5.78M farming households, policy framework creating tailwinds)
+- **Commercial IoT Products** — Analysis of 9+ commercial IoT agriculture products in Thailand: Ricult (Gates Foundation-backed, free for farmers, satellite-based yield prediction but no ground sensors), SkyVIV (drone-based yield prediction for sweetcorn), SPsmartplants (durian IoT + LINE integration proving crop-specific model works), dtac Smart Farmer (30 THB/month lowest successful agri subscription), Swift Dynamics (enterprise IoT predictive intelligence), KhawTECH (rice IoT with free LoRa gateways in Isan), Easyrice (rice quality AI), and others
+- **Coffee Region Projects** — Analysis of 3 major projects in Northern Thailand's coffee region: Doi Tung Development Project (Chiang Rai Arabica, no IoT but ideal pilot partner), Royal Project Foundation + Kiao Farming (adopting smart farming via Taiwanese IoT control boxes, needs analytics layer), and academic research (ARIMA and ANN models for coffee yield prediction published but never operationalized)
+- **Overlap Analysis & Positioning** — Complete competitive overlap matrix (13 competitors × 7 dimensions), scoring system, three critical market gaps identified (coffee-specific IoT monitoring, coffee quality prediction, CLR disease prediction), positioning strategy against each competitor type, 6 strategic recommendations, and market opportunity sizing
+
+### Added — Phase 8 MOC (Outline Only)
+- 08-Pricing-Monetization-MOC.md — Map of Content for Phase 8 with 5 planned topics and preview insights from Phase 7 research (farmer WTP ceiling <80 THB/month, HandySense hardware benchmarks, Ricult free model, DEPA grants up to 200K THB, LINE OA pricing)
+
+### Updated
+- Home.md — Phase 7 topics marked ✅ Complete, Phase 8 topics marked 📝 Pending
+- Project-Plan.md — Phase 7 added and marked ✅ Complete, Phase 8 added as 📝 Pending, execution strategy and repo structure updated
+- 06-Resources-MOC.md — Navigation updated with link to Phase 7
+
+---
+
 ## v0.6.0 — 2026-05-12
 
 ### Added — Phase 6: Resources (Complete)
