@@ -14,6 +14,8 @@
 | Environment Intervention Guide | [[Environment-Intervention]] | ✅ |
 | Yield & Quality Prediction | [[Yield-Quality-Prediction]] | ✅ |
 | Visualization & Dashboard Design | [[Visualization-Dashboard]] | ✅ |
+| ML Predictive Models for Coffee | [[ML-Predictive-Models]] | 📝 Draft |
+| Farmer Alert UX Design | [[Farmer-Alert-UX-Design]] | 📝 Draft |
 
 ---
 
@@ -46,6 +48,8 @@
 - **Environment interventions** can shift microclimate by 2–5°C (shade) or 25–50% moisture retention (mulch), equivalent to gaining hundreds of meters of altitude
 - **Yield prediction** accuracy reaches 80–85% pre-harvest; quality prediction links DTR, shade, and harvest conditions to SCA scores and THB pricing
 - **Dashboard design** is mobile-first with LINE bot as the lightweight entry point for Thai farmers
+- **ML predictive models** can improve yield prediction accuracy from 80-85% (rule-based) to 85-90% (ML-based) and forecast CLR risk 3-7 days ahead, but require 2-3 seasons of sensor data for training — start collecting data now even if ML deployment is a Year 2+ goal
+- **Farmer alert UX** is the critical last mile: LINE bot (used by 98% of Thai smartphone users) is the primary channel, with Thai-language actionable messages, severity color coding, and alert fatigue prevention (max 5-8 alerts/day) ensuring farmers trust and act on sensor-driven recommendations
 
 ---
 
