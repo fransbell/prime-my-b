@@ -25,6 +25,8 @@ Hardware tools for monitoring coffee farm conditions — sensors, microcontrolle
 | [[Power-Solutions|Solar & Battery Power]] | ✅ Complete |
 | [[System-Cost-Estimate|Full System Cost Estimate]] | ✅ Complete |
 | [[Installation-Guide|Installation Guide]] | ✅ Complete |
+| [[IoT-Data-Logging-Storage|IoT Data Logging & Storage]] | ✅ Complete |
+| [[Sensor-Calibration-Field-Guide|Sensor Calibration Field Guide]] | ✅ Complete |
 
 ---
 
@@ -39,6 +41,8 @@ Preferred weather, sunlight, and climate conditions for coffee production in Nor
 | [[Robusta-Climate-Range|Robusta Climate Range]] | ✅ Complete |
 | [[Microclimate-Factors|Microclimate Considerations]] | ✅ Complete |
 | [[Climate-Change-Impact|Climate Change Impact]] | ✅ Complete |
+| [[Elevation-Microclimate-Zones|Elevation & Microclimate Zones]] | ✅ Complete |
+| [[Coffee-Seasonal-Calendar|Coffee Seasonal Calendar]] | ✅ Complete |
 
 ---
 
@@ -51,6 +55,8 @@ Coffee varieties suitable for cultivation in Northern Thailand — Arabica, Robu
 | [[Robusta-for-North-Thailand|Robusta Varieties for N. Thailand]] | ✅ Complete |
 | [[Seed-Source-Thailand|Seed Sources & Nurseries in Thailand]] | ✅ Complete |
 | [[Variety-Selection-Guide|Variety Selection Decision Guide]] | ✅ Complete |
+| [[Grafted-Seedlings-Thailand|Grafted Seedlings in Thailand]] | ✅ Complete |
+| [[Variety-Sensor-Profiles|Variety Sensor Profiles]] | ✅ Complete |
 
 ---
 
@@ -65,6 +71,8 @@ What coffee farmers need to know — factors that improve both quantity and qual
 | [[Harvesting-Techniques|Harvesting Techniques]] | ✅ Complete |
 | [[Post-Harvest-Processing|Post-Harvest Processing]] | ✅ Complete |
 | [[Coffee-Economics|Economics & Profitability]] | ✅ Complete |
+| [[IoT-Fermentation-Control|IoT Fermentation Control]] | ✅ Complete |
+| [[IoT-Water-Management|IoT Water Management]] | ✅ Complete |
 
 ---
 
@@ -79,6 +87,8 @@ Metrics that determine coffee type/quality from sensor data, decision logic, and
 | [[Environment-Intervention|Environment Intervention Guide]] | ✅ Complete |
 | [[Yield-Quality-Prediction|Yield & Quality Prediction]] | ✅ Complete |
 | [[Visualization-Dashboard|Visualization & Dashboard Design]] | ✅ Complete |
+| [[Farmer-Alert-UX-Design|Farmer Alert UX Design]] | ✅ Complete |
+| [[ML-Predictive-Models|ML Predictive Models]] | ✅ Complete |
 
 ---
 
@@ -90,6 +100,8 @@ Research papers, suppliers, and government programs.
 | [[Research-Papers|Research Papers & References]] | ✅ Complete |
 | [[Suppliers-Thailand|Suppliers in Thailand]] | ✅ Complete |
 | [[Government-Programs|Government Programs & Support]] | ✅ Complete |
+| [[Funding-Grants-Thailand|Funding & Grants in Thailand]] | ✅ Complete |
+| [[open-Source-AgriTech-Projects|Open-Source AgriTech Projects]] | ✅ Complete |
 
 ---
 
@@ -113,4 +125,4 @@ This knowledge base provides the **research foundation** for building that syste
 
 ---
 
-*Last updated: 2026-05-12 — All phases complete*
+*Last updated: 2026-05-13 — All phases complete*
