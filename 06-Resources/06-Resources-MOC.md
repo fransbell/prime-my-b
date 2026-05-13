@@ -17,4 +17,4 @@
 
 ---
 
-← [[05-Sensor-System-MOC|Sensor System ←]] | [[Home]]
+← [[05-Sensor-System-MOC|Sensor System ←]] | [[Home]] | [[07-Competitive-Landscape-MOC|Competitive Landscape →]]

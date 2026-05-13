@@ -93,6 +93,31 @@ Research papers, suppliers, and government programs.
 
 ---
 
+### [[07-Competitive-Landscape|🔍 Competitive Landscape]] ✅ Phase 7 Complete
+Existing IoT agriculture products and projects in Thailand that overlap with this project — their capabilities, gaps, and strategic implications.
+
+| Topic | Status |
+|-------|--------|
+| [[Government-IoT-Platforms|Government IoT Platforms]] | ✅ Complete |
+| [[Commercial-IoT-Products|Commercial IoT Products]] | ✅ Complete |
+| [[Coffee-Region-Projects|Coffee Region Projects]] | ✅ Complete |
+| [[Overlap-Analysis|Overlap Analysis & Positioning]] | ✅ Complete |
+
+---
+
+### [[08-Pricing-Monetization|💰 Pricing & Monetization Strategy]] 📝 Phase 8 Pending
+Pricing models, business models, and monetization strategies for the Prime My B coffee IoT platform.
+
+| Topic | Status |
+|-------|--------|
+| [[Competitive-Pricing-Benchmarks|Competitive Pricing Benchmarks]] | 📝 Phase 8 |
+| [[Monetization-Strategy|Monetization Strategy]] | 📝 Phase 8 |
+| [[Farmer-Pricing-Model|Farmer Pricing Model]] | 📝 Phase 8 |
+| [[B2B-Revenue-Streams|B2B Revenue Streams]] | 📝 Phase 8 |
+| [[Government-Grant-Funding|Government & Grant Funding]] | 📝 Phase 8 |
+
+---
+
 ## 🎯 Project Goal
 
 Build an end-to-end system architecture:
@@ -113,4 +138,4 @@ This knowledge base provides the **research foundation** for building that syste
 
 ---
 
-*Last updated: 2026-05-12 — All phases complete*
+*Last updated: 2026-05-13 — Phases 0-7 complete, Phase 8 pending*

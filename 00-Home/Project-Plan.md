@@ -107,6 +107,33 @@ Build a comprehensive, research-backed Obsidian knowledge base for IoT-driven co
 
 ---
 
+### ✅ Phase 7: Competitive Landscape
+**Objective**: Research existing IoT agriculture products and government projects in Thailand that overlap with Prime My B's vision, analyze their capabilities and gaps, and define strategic positioning.
+
+| Task | Details | Status |
+|------|---------|--------|
+| Government IoT Platforms | HandySense B-Farm, NECTEC Predictive Farming, DEPA OTOD, Agriculture 4.0 | ✅ |
+| Commercial IoT Products | Ricult, SkyVIV, SPsmartplants, dtac Smart Farmer, Swift Dynamics, KhawTECH, Easyrice | ✅ |
+| Coffee Region Projects | Doi Tung Development Project, Royal Project + Kiao Farming, academic research | ✅ |
+| Overlap Analysis & Positioning | Competitive overlap matrix, three critical market gaps, positioning strategy, partnership recommendations | ✅ |
+
+**Key Insight**: No existing product in Thailand offers coffee-specific IoT monitoring, coffee quality prediction, or CLR disease prediction using ground-level sensors. The market gap is clear: HandySense is crop-agnostic, Ricult uses satellites not sensors, SPsmartplants focuses on durian, and Doi Tung/Royal Project lack IoT platforms entirely. Prime My B's positioning is "the coffee-specific IoT intelligence layer for Northern Thailand."
+
+---
+
+### 📝 Phase 8: Pricing & Monetization Strategy (Pending)
+**Objective**: Define pricing models, business models, and monetization strategies for the Prime My B coffee IoT platform based on Thai market benchmarks and competitive analysis.
+
+| Task | Details | Status |
+|------|---------|--------|
+| Competitive Pricing Benchmarks | HandySense hardware pricing, Ricult model, dtac 30 THB/month, farmer WTP ceiling | 📝 |
+| Monetization Strategy | Free-for-farmers + B2B revenue, government subsidies, hardware margins | 📝 |
+| Farmer Pricing Model | Tiered pricing under 80 THB/month ceiling, LINE-based delivery | 📝 |
+| B2B Revenue Streams | Exporter data subscriptions, bank credit profiling, government contracts | 📝 |
+| Government & Grant Funding | DEPA grants, BAAC loans, BOI incentives, Agriculture 4.0 alignment | 📝 |
+
+---
+
 ## Execution Strategy
 
 We will tackle these **one phase at a time**, completing all tasks within a phase before moving to the next. Each completed phase gets pushed to the repo.
@@ -117,6 +144,8 @@ We will tackle these **one phase at a time**, completing all tasks within a phas
 4. **Phase 4** → Farmer Knowledge (defines the domain expertise)
 5. **Phase 5** → Sensor System (ties everything together into the system)
 6. **Phase 6** → Resources (references, suppliers, and support programs)
+7. **Phase 7** → Competitive Landscape (market analysis and positioning)
+8. **Phase 8** → Pricing & Monetization (business model and pricing strategy)
 
 ---
 
@@ -159,10 +188,16 @@ prime-my-b/
 │   ├── Research-Papers/
 │   ├── Suppliers/
 │   └── Government-Programs/
+├── 07-Competitive-Landscape/   # Phase 7: Market Analysis & Positioning
+│   ├── Government-IoT-Platforms/
+│   ├── Commercial-IoT-Products/
+│   ├── Coffee-Region-Projects/
+│   └── Overlap-Analysis/
+├── 08-Pricing-Monetization/    # Phase 8: Business Model & Pricing
 └── templates/                  # Reusable templates
 ```
 
 ---
 
 *Created: 2026-05-12*
-*Updated: 2026-05-12 — All phases complete*
+*Updated: 2026-05-13 — Phases 0-7 complete, Phase 8 pending*
