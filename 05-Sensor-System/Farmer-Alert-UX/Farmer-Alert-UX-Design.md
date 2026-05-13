@@ -1,7 +1,7 @@
 ---
 topic: Farmer Alert UX Design
 phase: 5
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [alerts, ux, line-bot, farmer-interface, notifications, thai-language, accessibility]

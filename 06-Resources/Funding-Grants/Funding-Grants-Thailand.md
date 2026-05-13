@@ -1,7 +1,7 @@
 ---
 topic: Funding & Grants for Coffee IoT in Thailand
 phase: 6
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [funding, grants, loans, BAAC, government, subsidies, cooperative, thailand]

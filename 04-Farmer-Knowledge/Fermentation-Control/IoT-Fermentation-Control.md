@@ -1,7 +1,7 @@
 ---
 topic: IoT-Controlled Fermentation & Processing
 phase: 4
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [fermentation, processing, post-harvest, specialty, washed, natural, honey, ph-monitoring, thailand]

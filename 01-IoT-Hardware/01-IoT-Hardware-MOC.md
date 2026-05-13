@@ -40,13 +40,13 @@
 
 | Topic | File | Status |
 |-------|------|--------|
-| IoT Data Logging & Storage | [[IoT-Data-Logging-Storage]] | 📝 Draft |
+| IoT Data Logging & Storage | [[IoT-Data-Logging-Storage]] | ✅ Complete |
 
 ## Sensor Calibration
 
 | Topic | File | Status |
 |-------|------|--------|
-| Sensor Calibration Field Guide | [[Sensor-Calibration-Field-Guide]] | 📝 Draft |
+| Sensor Calibration Field Guide | [[Sensor-Calibration-Field-Guide]] | ✅ Complete |
 
 ## Cost & Installation
 

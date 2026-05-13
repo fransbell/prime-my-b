@@ -1,7 +1,7 @@
 ---
 topic: IoT-Driven Water Management
 phase: 4
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [water-management, irrigation, drip, soil-moisture, evapotranspiration, drainage, thailand]
