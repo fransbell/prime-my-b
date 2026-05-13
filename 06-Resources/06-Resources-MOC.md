@@ -1,6 +1,6 @@
 # 📚 Resources
 
-> Research papers, suppliers, and government programs relevant to coffee IoT agriculture in Thailand.
+> Research papers, suppliers, government programs, funding sources, and open-source projects relevant to coffee IoT agriculture in Thailand.
 
 ---
 
@@ -12,6 +12,8 @@
 | Research Papers & References | [[Research-Papers]] | ✅ |
 | Suppliers in Thailand | [[Suppliers-Thailand]] | ✅ |
 | Government Programs & Support | [[Government-Programs]] | ✅ |
+| Funding & Grants for Coffee IoT | [[Funding-Grants-Thailand]] | 📝 Draft |
+| Open-Source AgriTech Projects | [[Open-Source-AgriTech-Projects]] | 📝 Draft |
 
 ---
 

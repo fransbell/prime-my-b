@@ -36,6 +36,18 @@
 |------|------|--------|
 | Solar + Battery + Charge Controller | [[Power-Solutions]] | ✅ Complete |
 
+## Data Logging
+
+| Topic | File | Status |
+|-------|------|--------|
+| IoT Data Logging & Storage | [[IoT-Data-Logging-Storage]] | 📝 Draft |
+
+## Sensor Calibration
+
+| Topic | File | Status |
+|-------|------|--------|
+| Sensor Calibration Field Guide | [[Sensor-Calibration-Field-Guide]] | 📝 Draft |
+
 ## Cost & Installation
 
 | Topic | File | Status |
@@ -57,6 +69,9 @@
 | ⭐ Recommended gateway | RAK7268 at **6,300 THB** (8-channel, reliable) |
 | ⚠️ NPK sensors unreliable | Budget 7-in-1 sensors off by 50–200%; use DOA lab tests (200–500 THB) |
 | ⚠️ pH can't be buried | Glass electrodes degrade in days; use periodic spot-checks only |
+| ⚠️ Offline-first design | Local SD card buffering essential during 3–7 day rainy season outages |
+| ⚠️ Sensor calibration critical | Uncalibrated sensors off by 20–200%; cost 15,000–40,000 THB/season in wrong decisions |
+| ⭐ Self-hosted InfluxDB on RPi | **~3,000–4,200 THB one-time** vs. 90–600 THB/mo for cloud; best offline-first option |
 | 💰 DIY LoRa system (10 rai) | **~25,600 THB** total; payback in 4–8 months |
 
 ---
