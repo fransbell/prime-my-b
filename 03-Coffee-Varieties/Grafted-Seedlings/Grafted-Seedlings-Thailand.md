@@ -1,7 +1,7 @@
 ---
 topic: Grafted Seedlings & Rootstock Selection
 phase: 3
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [grafting, rootstock, arabica, robusta, seedlings, nurseries, thailand]

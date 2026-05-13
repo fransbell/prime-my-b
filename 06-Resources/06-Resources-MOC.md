@@ -12,8 +12,8 @@
 | Research Papers & References | [[Research-Papers]] | ✅ |
 | Suppliers in Thailand | [[Suppliers-Thailand]] | ✅ |
 | Government Programs & Support | [[Government-Programs]] | ✅ |
-| Funding & Grants for Coffee IoT | [[Funding-Grants-Thailand]] | 📝 Draft |
-| Open-Source AgriTech Projects | [[Open-Source-AgriTech-Projects]] | 📝 Draft |
+| Funding & Grants for Coffee IoT | [[Funding-Grants-Thailand]] | ✅ Complete |
+| Open-Source AgriTech Projects | [[Open-Source-AgriTech-Projects]] | ✅ Complete |
 
 ---
 

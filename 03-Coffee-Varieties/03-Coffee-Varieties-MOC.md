@@ -12,8 +12,8 @@
 | Robusta Varieties for N. Thailand | [[Robusta-for-North-Thailand]] | ✅ |
 | Seed Sources & Nurseries | [[Seed-Source-Thailand]] | ✅ |
 | Variety Selection Decision Guide | [[Variety-Selection-Guide]] | ✅ |
-| Grafted Seedlings & Rootstock Selection | [[Grafted-Seedlings-Thailand]] | 📝 Draft |
-| Variety-Specific Sensor Profiles | [[Variety-Sensor-Profiles]] | 📝 Draft |
+| Grafted Seedlings & Rootstock Selection | [[Grafted-Seedlings-Thailand]] | ✅ Complete |
+| Variety-Specific Sensor Profiles | [[Variety-Sensor-Profiles]] | ✅ Complete |
 
 ---
 
