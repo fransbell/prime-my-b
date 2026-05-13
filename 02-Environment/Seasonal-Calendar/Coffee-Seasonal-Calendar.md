@@ -1,7 +1,7 @@
 ---
 topic: Coffee Seasonal Calendar
 phase: 2
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [seasonal-calendar, harvest-timing, flowering, pruning, fertilizing, arabica, robusta, thailand]

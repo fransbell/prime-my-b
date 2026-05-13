@@ -1,7 +1,7 @@
 ---
 topic: IoT Data Logging & Storage
 phase: 1
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [data-logging, storage, mqtt, lora, cloud, influxdb, esp32, thailand]

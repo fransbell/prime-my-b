@@ -1,7 +1,7 @@
 ---
 topic: Sensor Calibration Field Guide
 phase: 1
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [calibration, sensors, field-guide, soil-moisture, temperature, humidity, thailand]

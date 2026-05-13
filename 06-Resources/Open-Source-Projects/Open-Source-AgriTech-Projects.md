@@ -1,7 +1,7 @@
 ---
 topic: Open-Source AgriTech Projects
 phase: 6
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [open-source, agritech, iot, lora, influxdb, grafana, handysense, thailand]

@@ -1,7 +1,7 @@
 ---
 topic: Elevation & Microclimate Zones
 phase: 2
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [elevation, microclimate, zones, arabica, robusta, frost, fog, thailand]

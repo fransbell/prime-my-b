@@ -1,7 +1,7 @@
 ---
 topic: Variety-Specific Sensor Profiles
 phase: 3
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [variety, sensor-profiles, thresholds, catimor, typica, sl28, robusta, thailand]

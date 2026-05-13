@@ -14,8 +14,8 @@
 | Robusta Climate Range | [[Robusta-Climate-Range]] | ✅ |
 | Microclimate Factors | [[Microclimate-Factors]] | ✅ |
 | Climate Change Impact | [[Climate-Change-Impact]] | ✅ |
-| Coffee Seasonal Calendar | [[Coffee-Seasonal-Calendar]] | 📝 |
-| Elevation & Microclimate Zones | [[Elevation-Microclimate-Zones]] | 📝 |
+| Coffee Seasonal Calendar | [[Coffee-Seasonal-Calendar]] | ✅ |
+| Elevation & Microclimate Zones | [[Elevation-Microclimate-Zones]] | ✅ |
 
 ---
 

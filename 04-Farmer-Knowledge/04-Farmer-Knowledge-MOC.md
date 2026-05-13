@@ -14,8 +14,8 @@
 | Harvesting Techniques | [[Harvesting-Techniques]] | ✅ |
 | Post-Harvest Processing | [[Post-Harvest-Processing]] | ✅ |
 | Economics & Profitability | [[Coffee-Economics]] | ✅ |
-| IoT-Driven Water Management | [[IoT-Water-Management]] | 📝 Draft |
-| IoT-Controlled Fermentation & Processing | [[IoT-Fermentation-Control]] | 📝 Draft |
+| IoT-Driven Water Management | [[IoT-Water-Management]] | ✅ Complete |
+| IoT-Controlled Fermentation & Processing | [[IoT-Fermentation-Control]] | ✅ Complete |
 
 ---
 

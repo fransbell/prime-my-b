@@ -1,7 +1,7 @@
 ---
 topic: ML Predictive Models for Coffee
 phase: 5
-status: draft
+status: complete
 created: 2026-05-13
 updated: 2026-05-13
 tags: [machine-learning, prediction, yield, disease, quality, tinyml, edge-ml, thailand]

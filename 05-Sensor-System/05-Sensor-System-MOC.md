@@ -14,8 +14,8 @@
 | Environment Intervention Guide | [[Environment-Intervention]] | ✅ |
 | Yield & Quality Prediction | [[Yield-Quality-Prediction]] | ✅ |
 | Visualization & Dashboard Design | [[Visualization-Dashboard]] | ✅ |
-| ML Predictive Models for Coffee | [[ML-Predictive-Models]] | 📝 Draft |
-| Farmer Alert UX Design | [[Farmer-Alert-UX-Design]] | 📝 Draft |
+| ML Predictive Models for Coffee | [[ML-Predictive-Models]] | ✅ Complete |
+| Farmer Alert UX Design | [[Farmer-Alert-UX-Design]] | ✅ Complete |
 
 ---
 
