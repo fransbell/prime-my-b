@@ -1,5 +1,21 @@
 # 📝 Changelog
 
+## v0.8.0 — 2026-05-13
+
+### Added — Phase 8: Pricing & Monetization Strategy (Complete)
+- **Competitive Pricing Benchmarks** — Comprehensive pricing data from every Thai IoT agriculture platform: HandySense hardware tiers (3,100-9,095 THB + free cloud), Ricult (free for farmers, B2B revenue), dtac Smart Farmer (30 THB/month), farmer WTP ceiling <80 THB/month, LINE OA pricing (1,500 THB/month Pro plan), global SaaS comparison (Farm21, Agworld — not viable for Thai market), and pricing model comparison showing free+B2B as the only viable model
+- **Monetization Strategy** — Four-tier framework: (1) Free for farmers (acquisition channel, 12-35 THB/farmer/month operating cost), (2) B2B revenue (primary monetization from exporters, banks, government), (3) Government subsidies (launch funding via DEPA/BAAC), (4) Low-cost premium (future, 79 THB/month). Revenue projections: Year 1 = 530K THB (grant-funded), Year 2 = 1.53M THB (B2B growth), Year 3 = 5.12M THB (B2B scale). Break-even at 250-400 farmers in 18-24 months. Five strategic pricing principles including "never charge for what HandySense gives free" and "quality prediction is the premium moat"
+- **Farmer Pricing Model** — Three tiers: Free (0 THB/month — LINE alerts, basic dashboard, basic CLR warning), Premium (79 THB/month — advanced CLR forecast, yield/quality prediction, extended history), Cooperative (500-2,000 THB/group — shared features, multi-farm dashboard, BAAC loan reports). Hardware bundles: Starter Kit 2,500 THB, Coffee Health Kit 5,500 THB, Full Coffee Kit 9,500 THB. Conversion strategy: 12-18 month free-to-premium path with 10-15% expected conversion
+- **B2B Revenue Streams** — Five detailed revenue streams: (1) Coffee exporters/buyers (primary, 5,000-50,000 THB/month), (2) Financial institutions (500-2,000 THB per credit assessment, BAAC partnership opportunity), (3) Input suppliers (5-15% marketplace commission), (4) Government/research (project contracts 100K-500K THB), (5) Data licensing (emerging, commodity traders + insurance). B2B revenue projection: 140K THB Year 1 → 1,028K Year 2 → 3,680K Year 3
+- **Government & Grant Funding** — Complete guide: DEPA OTOD (200,000 THB/community), BAAC Community Enterprise Loan (0.01%/year — 6.35 THB interest on 63,500 THB loan), BOI smart farming tax incentives (3-8 year corporate tax exemption), Agriculture 4.0 alignment strategy, Year 1-2 funding roadmap with specific timelines and application steps
+
+### Updated
+- Home.md — Phase 8 topics marked ✅ Complete; all phases now complete
+- Project-Plan.md — Phase 8 marked ✅ Complete with key insight; all phases complete
+- 08-Pricing-Monetization-MOC.md — All 5 topics marked ✅ Complete with key insights
+
+---
+
 ## v0.7.0 — 2026-05-13
 
 ### Added — Phase 7: Competitive Landscape (Complete)
