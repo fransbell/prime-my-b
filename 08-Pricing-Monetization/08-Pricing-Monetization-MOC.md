@@ -8,11 +8,11 @@
 
 | Topic | File | Status |
 |-------|------|--------|
-| Competitive Pricing Benchmarks | [[Competitive-Pricing-Benchmarks]] | 📝 Phase 8 |
-| Monetization Strategy | [[Monetization-Strategy]] | 📝 Phase 8 |
-| Farmer Pricing Model | [[Farmer-Pricing-Model]] | 📝 Phase 8 |
-| B2B Revenue Streams | [[B2B-Revenue-Streams]] | 📝 Phase 8 |
-| Government & Grant Funding | [[Government-Grant-Funding]] | 📝 Phase 8 |
+| Competitive Pricing Benchmarks | [[Competitive-Pricing-Benchmarks]] | ✅ |
+| Monetization Strategy | [[Monetization-Strategy]] | ✅ |
+| Farmer Pricing Model | [[Farmer-Pricing-Model]] | ✅ |
+| B2B Revenue Streams | [[B2B-Revenue-Streams]] | ✅ |
+| Government & Grant Funding | [[Government-Grant-Funding]] | ✅ |
 
 ---
 
@@ -20,19 +20,18 @@
 
 ---
 
-**Key Insights (Preview from Phase 7 Research)**:
+**Key Insights from Phase 8**:
 
-- **Farmer willingness-to-pay ceiling**: <80 THB/month (~$2.40) for half of surveyed Thai farmers
-- **Successful low subscription benchmark**: dtac Smart Farmer at 30 THB/month — the lowest viable agri subscription in Thailand
-- **HandySense hardware**: 3,100 THB (basic kit) to 9,095 THB (Pro Max) one-time; cloud platform is **100% free**
-- **Ricult model**: Free for farmers entirely — monetizes through B2B bank commissions and corporate analytics
-- **DEPA grants**: Up to 200,000 THB per community project for smart farming adoption
-- **LINE Official Account**: 1,500 THB/month at scale (35,000 messages) — viable alert delivery channel
-- **Dominant successful model**: Free for farmers → Monetize B2B (exporters, banks, government) → Government subsidies for launch → Optional low-cost premium (<100 THB/month) as future tier
-
----
-
-*Phase 8 will be executed after Phase 7 merge.*
+- **B2B2C is the only viable model** — free for farmers, paid by businesses and institutions. Proven by Ricult in Thailand.
+- **Farmer WTP ceiling is <80 THB/month** — the only proven farmer-paid subscription is dtac at 30 THB/month. Premium tier at 79 THB/month.
+- **HandySense sets the free baseline** — any feature HandySense provides free (alerts, dashboard, LINE) cannot be charged for. Only coffee-specific predictions can be premium.
+- **Quality prediction is the premium moat** — no competitor in Thailand offers pre-harvest quality prediction for any crop. 3-10x commodity-to-specialty price gap justifies premium pricing.
+- **Four-tier framework**: Free (acquisition) → B2B (primary revenue) → Government grants (launch funding) → Premium (future supplement)
+- **Revenue projections**: Year 1 = 530K THB (grant-funded) → Year 2 = 1.53M THB (B2B growth) → Year 3 = 5.12M THB (B2B scale)
+- **Break-even at 250-400 farmers** in 18-24 months
+- **DEPA OTOD provides 200K THB/community** for launch deployment; BAAC Community Enterprise Loan at 0.01%/year for hardware financing
+- **5 B2B revenue streams**: coffee exporters (primary), financial institutions, input suppliers, government/research, data licensing
+- **Never degrade the free tier** — premium features must be genuinely new capabilities, not restrictions on existing free features
 
 ---
 
