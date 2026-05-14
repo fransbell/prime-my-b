@@ -1,0 +1,31 @@
+# Prime My Brain — Cursor AI Rules
+
+## Mandatory Reading
+Read these files before making any code changes:
+1. `docs/skills/01-monorepo-structure.md`
+2. `docs/skills/02-frontend-enforcement.md`
+3. `docs/skills/03-backend-enforcement.md`
+
+## Architecture
+- Frontend: Elm Architecture (Model/Actions/Update/View/Effects)
+- State: Zustand with redux middleware + dispatch pattern
+- UI: Mantine v7 (theme-only customization, no CSS modules/Tailwind)
+- Forms: @mantine/form + zodResolver
+- Backend: PocketBase Go library mode
+- Build: Vite only (no webpack/CRA/Next.js)
+- Package manager: Bun only
+
+## Code Style
+- Actions: discriminated union with `domain/VERB` naming (e.g., `sensor/FETCH_START`)
+- Reducers: pure functions only, no side effects
+- Effects: all async/side-effect code in `effects/` directory
+- Views: receive `(state, dispatch)` props, pure rendering
+- Types: derived from Zod schemas via `z.infer<>`
+
+## Forbidden
+- Never use Zustand `set()` directly — always use `dispatch()`
+- Never put async logic in reducers
+- Never add CSS modules, styled-components, or Tailwind
+- Never call PocketBase outside `effects/`
+- Never use npm/yarn/pnpm
+- Never use useState/useReducer for app-level state
