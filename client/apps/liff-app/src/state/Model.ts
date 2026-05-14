@@ -2,10 +2,12 @@
 import type { SensorRecord, SensorReading } from '@prime-my-brain/store';
 
 export interface AppState {
-  // Auth
+  // Auth — LINE Login → PocketBase Auth
   liffInitialized: boolean;
   liffLoggedIn: boolean;
+  pbAuthenticated: boolean;
   profile: LiffProfile | null;
+  pbToken: string | null;
 
   // Data
   sensors: SensorRecord[];
@@ -30,7 +32,9 @@ export interface LiffProfile {
 export const initialAppState: AppState = {
   liffInitialized: false,
   liffLoggedIn: false,
+  pbAuthenticated: false,
   profile: null,
+  pbToken: null,
   sensors: [],
   latestReadings: [],
   unreadAlerts: 0,

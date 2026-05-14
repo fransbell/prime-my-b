@@ -6,19 +6,46 @@ import { initialAppState } from './Model';
 
 export function update(state: AppState, action: AppAction): AppState {
   switch (action.type) {
-    // ── LIFF ──
-    case 'liff/INIT_SUCCESS':
+    // ── Auth: LIFF Init ──
+    case 'auth/LIFF_INIT_SUCCESS':
       return { ...state, liffInitialized: true };
 
-    case 'liff/LOGIN_SUCCESS':
+    case 'auth/LIFF_INIT_ERROR':
+      return { ...state, liffInitialized: false, error: action.payload.error };
+
+    // ── Auth: LIFF Login ──
+    case 'auth/LIFF_LOGIN_START':
+      return { ...state, loading: true, error: null };
+
+    case 'auth/LIFF_LOGIN_SUCCESS':
       return {
         ...state,
         liffLoggedIn: true,
         profile: action.payload.profile,
+        loading: false,
       };
 
-    case 'liff/LOGOUT':
-      return { ...state, liffLoggedIn: false, profile: null };
+    case 'auth/LIFF_LOGIN_ERROR':
+      return { ...state, loading: false, error: action.payload.error };
+
+    // ── Auth: PocketBase Auth ──
+    case 'auth/PB_AUTH_START':
+      return { ...state, loading: true, error: null };
+
+    case 'auth/PB_AUTH_SUCCESS':
+      return {
+        ...state,
+        pbAuthenticated: true,
+        pbToken: action.payload.token,
+        loading: false,
+      };
+
+    case 'auth/PB_AUTH_ERROR':
+      return { ...state, pbAuthenticated: false, loading: false, error: action.payload.error };
+
+    // ── Auth: Logout ──
+    case 'auth/LOGOUT':
+      return { ...state, liffLoggedIn: false, pbAuthenticated: false, profile: null, pbToken: null };
 
     // ── Sensor ──
     case 'sensor/FETCH_START':

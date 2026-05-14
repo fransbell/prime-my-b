@@ -3,11 +3,25 @@
 import type { SensorRecord, SensorReading } from '@prime-my-brain/store';
 import type { LiffProfile, PageType } from './Model';
 
-// ─── LIFF Actions ───
-export type LiffAction =
-  | { type: 'liff/INIT_SUCCESS' }
-  | { type: 'liff/LOGIN_SUCCESS'; payload: { profile: LiffProfile } }
-  | { type: 'liff/LOGOUT' };
+// ─── LINE + PocketBase Auth Actions ───
+export type AuthAction =
+  | { type: 'auth/LIFF_INIT_SUCCESS' }
+  | { type: 'auth/LIFF_INIT_ERROR'; payload: { error: string } }
+  | { type: 'auth/LIFF_LOGIN_START' }
+  | { type: 'auth/LIFF_LOGIN_SUCCESS'; payload: { profile: LiffProfile } }
+  | { type: 'auth/LIFF_LOGIN_ERROR'; payload: { error: string } }
+  | { type: 'auth/PB_AUTH_START' }
+  | { type: 'auth/PB_AUTH_SUCCESS'; payload: { token: string; user: PBUser } }
+  | { type: 'auth/PB_AUTH_ERROR'; payload: { error: string } }
+  | { type: 'auth/LOGOUT' };
+
+export interface PBUser {
+  id: string;
+  name: string;
+  email: string;
+  lineUserId: string;
+  role: string;
+}
 
 // ─── Sensor Actions ───
 export type SensorAction =
@@ -30,7 +44,7 @@ export type NavAction =
 
 // ─── Root Action Union ───
 export type AppAction =
-  | LiffAction
+  | AuthAction
   | SensorAction
   | ReadingAction
   | AlertAction

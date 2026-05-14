@@ -167,12 +167,91 @@ app.OnRecordBeforeCreateRequest("sensor_readings").Add(func(e *core.RecordCreate
 })
 ```
 
+## LINE Login OAuth2 Flow (CRITICAL)
+
+The LIFF app uses LINE Login as the sole authentication method. No email/password login for farmers.
+
+### Architecture
+
+```
+┌──────────┐   1. LINE Login    ┌──────────┐   2. ID Token    ┌──────────────┐
+│  LIFF    │ ─────────────────→ │  LINE    │ ───────────────→ │  PocketBase  │
+│  App     │   (liff.login())   │  Server  │   POST /auth/line│  (main.go)   │
+└──────────┘                    └──────────┘                   └──────────────┘
+      ↑                                                              │
+      │                     3. PB Auth Token                         │
+      └──────────────────────────────────────────────────────────────┘
+                                     │
+                            ┌────────▼────────┐
+                            │  LINE Verify    │
+                            │  API            │
+                            │  (api.line.me)  │
+                            └─────────────────┘
+```
+
+### Flow (Step by Step)
+
+1. **LIFF Init** — `liff.init({ liffId })` initializes the LIFF SDK
+2. **LINE Login** — If not logged in, `liff.login()` redirects to LINE consent screen
+3. **Get ID Token** — `liff.getIDToken()` returns a JWT from LINE
+4. **Verify with PocketBase** — `POST /api/custom/auth/line { idToken }`
+5. **Server verifies** — PocketBase calls LINE's verification API (`https://api.line.me/oauth2/v2.1/verify`)
+6. **Find/create user** — Look up user by `lineUserId`, create if new
+7. **Return PB token** — Server returns PocketBase auth token
+8. **Client saves** — `pb.authStore.save(token, record)` enables all subsequent API calls
+
+### Custom Auth Endpoint
+
+```
+POST /api/custom/auth/line
+Content-Type: application/json
+
+Request:  { "idToken": "<LINE ID token from LIFF>" }
+Response: { "token": "<PB auth token>", "record": { "id", "name", "lineUserId", "role" } }
+```
+
+### LINE Client ID
+
+Only `LINE_CLIENT_ID` is needed on the server. This is the LINE Login channel ID from the LINE Developers Console. The server uses it to:
+- Verify the ID token was issued for our channel (`aud` claim must match)
+- Call LINE's verification API to validate the token signature
+
+No client secret is needed — we use the ID token verification endpoint, not the authorization code flow.
+
+### User Schema (Extended)
+
+```json
+{
+  "name": "text",
+  "lineUserId": "text",
+  "role": "select [admin, farmer, viewer]",
+  "avatarUrl": "url",
+  "farm": "relation@farms"
+}
+```
+
+- `lineUserId` is the unique LINE user ID (`sub` claim in the ID token)
+- `role` defaults to `farmer` for LINE users
+- `avatarUrl` is updated from LINE profile picture on each login
+- Email field is set to `line_{userId}@prime-my-brain.local` if LINE email is not available
+
+### Rules
+- ❌ NEVER implement your own OAuth2 code exchange — use LIFF's ID token instead
+- ❌ NEVER store LINE access tokens in PocketBase — only store `lineUserId`
+- ❌ NEVER skip server-side ID token verification
+- ✅ ALWAYS verify the `aud` claim matches your `LINE_CLIENT_ID`
+- ✅ ALWAYS check token expiration (`exp` claim)
+- ✅ ALWAYS update user profile (name, avatar) on each login from LINE data
+- ✅ ALWAYS set `role` to `farmer` for new LINE users
+
 ## Environment Variables
 ```env
 PB_DATA_DIR=./pb_data
 PB_ADMIN_EMAIL=admin@example.com
 PB_ADMIN_PASSWORD=changeme123
 PB_PORT=8090
+LINE_CLIENT_ID=your-line-channel-id
+LIFF_ID=your-liff-id
 ```
 
 ## API Endpoints (PocketBase Built-in)
@@ -185,6 +264,7 @@ PocketBase provides these out of the box:
 
 Custom endpoints:
 - `GET /api/custom/health` - Health check
+- `POST /api/custom/auth/line` - LINE Login authentication (ID token → PB token)
 - `GET /api/custom/dashboard/summary` - Aggregated dashboard data
 - `POST /api/custom/sensor/batch` - Batch sensor data ingestion
 
@@ -236,14 +316,33 @@ await pb.collection('sensor_readings').subscribe('*', (e) => {
 ```
 
 ### Authentication
-```typescript
-// Email/password auth
-const authData = await pb.collection('users').authWithPassword('user@example.com', 'password');
 
-// LINE LIFF auth (custom)
-const liffProfile = await liff.getProfile();
-// Verify with backend, then set auth
-pb.authStore.save(authData.token, authData.record);
+#### LINE Login (LIFF App — Primary Method)
+```typescript
+// 1. Initialize LIFF
+await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
+
+// 2. Login with LINE (if not already logged in)
+if (!liff.isLoggedIn()) {
+  liff.login(); // Redirects to LINE consent screen
+}
+
+// 3. Get ID token and verify with PocketBase
+const idToken = liff.getIDToken();
+const response = await fetch(`${pb.baseUrl}/api/custom/auth/line`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ idToken }),
+});
+const { token, record } = await response.json();
+
+// 4. Save PocketBase auth token
+pb.authStore.save(token, record);
+```
+
+#### Email/Password (Admin Only — Dashboard App)
+```typescript
+const authData = await pb.collection('users').authWithPassword('admin@example.com', 'password');
 ```
 
 ## Migration Strategy

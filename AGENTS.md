@@ -51,6 +51,13 @@ src/view/             — Pure views: (state, dispatch) => JSX
 - Client-side JS SDK in `lib/pb.ts`
 - PocketBase calls ONLY in `effects/` directory
 
+### LINE Login Auth (LIFF App — MANDATORY)
+- **Farmers** authenticate via LINE Login ONLY (no email/password)
+- Flow: LIFF init → LINE login → ID token → POST `/api/custom/auth/line` → PB auth token
+- Server verifies ID token with LINE API using `LINE_CLIENT_ID` only (no client secret)
+- `pb.authStore.save(token, record)` enables all subsequent PB API calls
+- Dashboard/IoT Demo apps use email/password auth (admin only)
+
 ## Quick Reference
 
 | What | Where | Pattern |
