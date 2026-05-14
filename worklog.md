@@ -32,3 +32,35 @@ Stage Summary:
 - All skills saved to /home/z/my-project/skills/prime-my-b-{monorepo,frontend,backend}/
 - Repo pushed to: https://github.com/fransbell/prime-my-b
 - No package installations performed (only package.json files created)
+
+---
+Task ID: 2
+Agent: Super Z (main)
+Task: Refactor to Elm Architecture + Zustand Redux dispatch pattern + Vite enforcement
+
+Work Log:
+- Updated monorepo skill: explicit Vite-only build tool rule, added Elm Architecture directory structure
+- Updated frontend skill: full Elm Architecture docs, Zustand redux middleware, dispatch pattern, effects isolation
+- Refactored shared packages/store from simple set() pattern to Elm Architecture:
+  - sensorStore.ts: Model + Actions (discriminated union) + Update (pure reducer) + Store factory
+  - authStore.ts: Same Elm Architecture pattern with auth-specific actions
+  - Both use `redux` middleware from `zustand/middleware` with `dispatch()` pattern
+- Created Elm Architecture structure for all 3 apps:
+  - state/Model.ts — Plain state interfaces
+  - state/Actions.ts — Discriminated union action types (domain/VERB naming)
+  - state/Update.ts — Pure reducer functions (state, action) => state
+  - state/store.ts — Zustand store with redux middleware
+  - state/index.ts — Re-exports
+  - effects/index.ts — Side-effect runners (PocketBase calls, timers) that dispatch actions
+- Updated all App.tsx files to Elm Architecture pattern:
+  - Views receive (state, dispatch) props
+  - Effects created with createEffects(dispatch) factory
+  - No direct state mutation — everything through dispatch
+- Removed old stores/ directories and useSensorStore.ts / useAuthStore.ts
+- Pushed to GitHub
+
+Stage Summary:
+- 29 files changed (1722 insertions, 162 deletions)
+- All 3 apps now follow Elm Architecture: Model → Update → View with Effects
+- Zustand stores use redux middleware with dispatch pattern exclusively
+- Skills updated with full enforcement documentation
