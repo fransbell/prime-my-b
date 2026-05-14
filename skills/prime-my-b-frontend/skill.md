@@ -529,7 +529,54 @@ pb.autoCancellation(false);
 - Focus: LINE LIFF integration, farmer-facing interface
 - Must include `@line/liff` SDK
 - Mobile-first responsive design
-- Elm modules: auth state, sensor viewer state, notification state
+- **Auth: LINE Login ONLY** (no email/password for farmers)
+- Elm modules: auth state (LINE → PB flow), sensor viewer state, notification state
+- Auth flow: LIFF init → LINE login → get ID token → POST /api/custom/auth/line → PB auth
+
+#### LINE Auth Effects Pattern
+```typescript
+// effects/index.ts — LINE Login → PocketBase Auth
+export function createEffects(dispatch: (action: AppAction) => void) {
+  return {
+    initLiff: async () => {
+      const liff = await import('@line/liff');
+      await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
+      dispatch({ type: 'auth/LIFF_INIT_SUCCESS' });
+
+      if (liff.isLoggedIn()) {
+        const profile = await liff.getProfile();
+        dispatch({ type: 'auth/LIFF_LOGIN_SUCCESS', payload: { profile } });
+        // Auto-authenticate with PocketBase
+        await authenticateWithPB(liff, dispatch);
+      }
+    },
+
+    loginWithLine: async () => {
+      const liff = await import('@line/liff');
+      if (!liff.isLoggedIn()) {
+        liff.login(); // Redirects to LINE consent
+      }
+    },
+  };
+}
+
+async function authenticateWithPB(liff: any, dispatch: (a: AppAction) => void) {
+  dispatch({ type: 'auth/PB_AUTH_START' });
+  try {
+    const idToken = liff.getIDToken();
+    const response = await fetch(`${pb.baseUrl}/api/custom/auth/line`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    });
+    const { token, record } = await response.json();
+    pb.authStore.save(token, record);
+    dispatch({ type: 'auth/PB_AUTH_SUCCESS', payload: { token, user: record } });
+  } catch (error) {
+    dispatch({ type: 'auth/PB_AUTH_ERROR', payload: { error: (error as Error).message } });
+  }
+}
+```
 
 ### IoT Demo App (`apps/iot-demo`)
 - Focus: Generate/insert demo IoT data for dashboard testing
