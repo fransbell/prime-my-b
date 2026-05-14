@@ -213,7 +213,7 @@ export function sensorReducer(state: SensorState, action: SensorAction): SensorS
 //   useSensorStore.dispatch({ type: 'sensor/FETCH_START' });
 //
 export function createSensorStore() {
-  return create<SensorState>()(redux(sensorReducer, initialSensorState));
+  return create(redux(sensorReducer, initialSensorState));
 }
 
 // Pre-created singleton store for convenience

@@ -84,7 +84,7 @@ export function authReducer(state: AuthState, action: AuthAction): AuthState {
 
 // ─── Store Factory ─────────────────────────────────────────────
 export function createAuthStore() {
-  return create<AuthState>()(redux(authReducer, initialAuthState));
+  return create(redux(authReducer, initialAuthState));
 }
 
 // Pre-created singleton store

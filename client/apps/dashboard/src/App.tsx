@@ -29,7 +29,7 @@ function AppHeader({ state }: { state: AppState }) {
 }
 
 // ─── View: Overview Page ──────────────────────────────────────
-function OverviewPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function OverviewPage({ state, dispatch: _dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack>
       <Title order={2}>Overview</Title>
@@ -69,7 +69,7 @@ function SensorsPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAc
 }
 
 // ─── View: Analytics Page ─────────────────────────────────────
-function AnalyticsPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function AnalyticsPage({ state: _state, dispatch: _dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack>
       <Title order={2}>Analytics</Title>
@@ -79,7 +79,7 @@ function AnalyticsPage({ state, dispatch }: { state: AppState; dispatch: (a: App
 }
 
 // ─── View: Alerts Page ────────────────────────────────────────
-function AlertsPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function AlertsPage({ state, dispatch: _dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack>
       <Title order={2}>Alerts</Title>
@@ -116,7 +116,6 @@ function App() {
     }
     return () => {
       effects.unsubscribeFromReadings();
-      effects.cleanup();
     };
   }, []);
 

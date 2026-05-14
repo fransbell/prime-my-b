@@ -1,98 +1,87 @@
 // ─── IoT Demo App — Update (Pure Reducer) ─────────────────────
+// Pure function: (state, action) → newState
+// No side effects, no mutations. Every state transition is explicit.
 
-import type { AppState } from './Model';
+import type { AppState, ViewFlow } from './Model';
 import type { AppAction } from './Actions';
 import { initialAppState } from './Model';
 
+// Navigation back-map: where to go when user navigates back
+const backMap: Record<ViewFlow, ViewFlow> = {
+  'hardware-list': 'hardware-list',
+  'device-detail': 'hardware-list',
+  'metric-activate': 'device-detail',
+};
+
 export function update(state: AppState, action: AppAction): AppState {
   switch (action.type) {
-    // ── Sensor ──
-    case 'sensor/FETCH_START':
-      return { ...state, loading: true, error: null };
+    // ── Device ──
+    case 'device/LOAD_CATALOG':
+      return { ...state, devices: action.payload.devices };
 
-    case 'sensor/FETCH_SUCCESS':
-      return { ...state, sensors: action.payload.sensors, loading: false };
-
-    case 'sensor/FETCH_ERROR':
-      return { ...state, loading: false, error: action.payload.error };
-
-    // ── Reading ──
-    case 'reading/INSERT_START':
-      return { ...state, loading: true, error: null };
-
-    case 'reading/INSERT_SUCCESS':
+    case 'device/SELECT':
       return {
         ...state,
-        loading: false,
-        recentReadings: [action.payload.reading, ...state.recentReadings].slice(0, 100),
-        successCount: state.successCount + 1,
+        selectedDeviceId: action.payload.deviceId,
+        currentView: 'device-detail',
+        selectedMetricId: null,
       };
 
-    case 'reading/INSERT_ERROR':
+    case 'device/DESELECT':
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
-        failCount: state.failCount + 1,
+        selectedDeviceId: null,
+        selectedMetricId: null,
+        currentView: 'hardware-list',
       };
 
-    case 'reading/CLEAR_RECENT':
-      return { ...state, recentReadings: [] };
-
-    // ── Generator ──
-    case 'generator/SET_SENSOR':
-      return { ...state, generator: { ...state.generator, sensorId: action.payload.sensorId } };
-
-    case 'generator/SET_INTERVAL':
-      return { ...state, generator: { ...state.generator, intervalMs: action.payload.intervalMs } };
-
-    case 'generator/SET_TYPES':
-      return { ...state, generator: { ...state.generator, readingTypes: action.payload.readingTypes } };
-
-    case 'generator/SET_RANGE':
+    // ── Metric ──
+    case 'metric/SELECT':
       return {
         ...state,
-        generator: {
-          ...state.generator,
-          valueRange: { min: action.payload.min, max: action.payload.max },
-        },
+        selectedMetricId: action.payload.metricId,
+        currentView: 'metric-activate',
+        activeStatus: null,
+        activeStatusLevel: null,
       };
 
-    case 'generator/START':
-      return { ...state, generator: { ...state.generator, isRunning: true } };
+    case 'metric/DESELECT':
+      return {
+        ...state,
+        selectedMetricId: null,
+        currentView: 'device-detail',
+        activeStatus: null,
+        activeStatusLevel: null,
+      };
 
-    case 'generator/STOP':
-      return { ...state, generator: { ...state.generator, isRunning: false } };
+    // ── Activation ──
+    case 'activation/SET_STATUS':
+      return {
+        ...state,
+        activeStatus: action.payload.status,
+        activeStatusLevel: action.payload.statusLevel,
+      };
 
-    case 'generator/INCREMENT_COUNT':
-      return { ...state, generator: { ...state.generator, generatedCount: state.generator.generatedCount + 1 } };
+    case 'activation/CLEAR_STATUS':
+      return { ...state, activeStatus: null, activeStatusLevel: null };
 
-    case 'generator/RESET_COUNT':
-      return { ...state, generator: { ...state.generator, generatedCount: 0 } };
+    case 'activation/RECORD':
+      return {
+        ...state,
+        activationHistory: [action.payload.record, ...state.activationHistory].slice(0, 50),
+      };
 
-    // ── Simulator ──
-    case 'simulator/START':
-      return { ...state, simulator: { ...state.simulator, isRunning: true } };
+    case 'activation/CLEAR_HISTORY':
+      return { ...state, activationHistory: [] };
 
-    case 'simulator/STOP':
-      return { ...state, simulator: { ...state.simulator, isRunning: false } };
+    // ── Navigation ──
+    case 'nav/GOTO':
+      return { ...state, currentView: action.payload.view };
 
-    case 'simulator/SET_SENSOR_COUNT':
-      return { ...state, simulator: { ...state.simulator, sensorCount: action.payload.count } };
-
-    case 'simulator/SET_TYPES':
-      return { ...state, simulator: { ...state.simulator, readingTypes: action.payload.readingTypes } };
-
-    case 'simulator/INCREMENT_TOTAL':
-      return { ...state, simulator: { ...state.simulator, totalGenerated: state.simulator.totalGenerated + action.payload.count } };
-
-    case 'simulator/RESET_TOTAL':
-      return { ...state, simulator: { ...state.simulator, totalGenerated: 0 } };
+    case 'nav/BACK':
+      return { ...state, currentView: backMap[state.currentView] };
 
     // ── UI ──
-    case 'ui/SET_TAB':
-      return { ...state, activeTab: action.payload.tab };
-
     case 'ui/CLEAR_ERROR':
       return { ...state, error: null };
 

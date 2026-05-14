@@ -19,7 +19,7 @@ import type { AppState } from './state/Model';
 const effects: Effects = createEffects(dispatch as (a: AppAction) => void);
 
 // ─── View: Login Screen ──────────────────────────────────────
-function LoginScreen({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function LoginScreen({ state }: { state: AppState; dispatch: (a: AppAction) => void }) {
   if (!state.liffInitialized) {
     return (
       <Stack align="center" gap="md" mih="60vh" justify="center">
@@ -67,7 +67,7 @@ function LoginScreen({ state, dispatch }: { state: AppState; dispatch: (a: AppAc
 }
 
 // ─── View: Home Page (authenticated) ─────────────────────────
-function HomePage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function HomePage({ state }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack gap="md">
       <Group>
@@ -95,7 +95,7 @@ function HomePage({ state, dispatch }: { state: AppState; dispatch: (a: AppActio
 }
 
 // ─── View: Sensor Data Page ───────────────────────────────────
-function SensorDataPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function SensorDataPage({ state }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack>
       <Title order={3}>Latest Readings</Title>
@@ -114,7 +114,7 @@ function SensorDataPage({ state, dispatch }: { state: AppState; dispatch: (a: Ap
 }
 
 // ─── View: Alerts Page ────────────────────────────────────────
-function AlertsPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function AlertsPage({ state }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack>
       <Title order={3}>Alerts</Title>
@@ -124,7 +124,7 @@ function AlertsPage({ state, dispatch }: { state: AppState; dispatch: (a: AppAct
 }
 
 // ─── View: Profile Page ───────────────────────────────────────
-function ProfilePage({ state, dispatch }: { state: AppState; dispatch: (a: AppAction) => void }) {
+function ProfilePage({ state }: { state: AppState; dispatch: (a: AppAction) => void }) {
   return (
     <Stack>
       <Title order={3}>Profile</Title>

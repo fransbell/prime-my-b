@@ -12,7 +12,7 @@
 
 import { pb } from '../lib/pb';
 import type { AppAction } from '../state/Actions';
-import type { LiffProfile } from '../state/Model';
+
 
 // LIFF type declarations (from @line/liff)
 declare global {

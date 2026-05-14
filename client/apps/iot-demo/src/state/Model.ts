@@ -1,65 +1,61 @@
 // ─── IoT Demo App — Model (State) ────────────────────────────
-import type { SensorRecord, SensorReading, SensorType } from '@prime-my-brain/store';
+// Elm Architecture: Model defines the entire application state shape.
+// The flow is: Hardware List → Device Detail → Metric Activate (Demo)
+
+import type { IoTDevice, MetricStatus, MetricStatusLevel } from '../data/devices';
+
+// ─── Navigation / View Flow ──────────────────────────────────
+
+export type ViewFlow = 'hardware-list' | 'device-detail' | 'metric-activate';
+
+// ─── App State ───────────────────────────────────────────────
 
 export interface AppState {
-  // Available sensors for data insertion
-  sensors: SensorRecord[];
+  // ── Navigation ──
+  currentView: ViewFlow;
 
-  // Recently inserted readings (local echo)
-  recentReadings: SensorReading[];
+  // ── Hardware List ──
+  devices: IoTDevice[];
+  selectedDeviceId: string | null;
 
-  // Batch generator state
-  generator: GeneratorState;
+  // ── Device Detail / Metric Selection ──
+  selectedMetricId: string | null;
 
-  // Simulator state
-  simulator: SimulatorState;
+  // ── Metric Activation (Demo) ──
+  activeStatus: MetricStatus | null;
+  activeStatusLevel: MetricStatusLevel | null;
+  activationHistory: ActivationRecord[];
 
-  // UI
+  // ── UI ──
   loading: boolean;
   error: string | null;
-  activeTab: TabType;
-  successCount: number;
-  failCount: number;
 }
 
-export type TabType = 'entry' | 'batch' | 'simulator' | 'status';
+// ─── Activation Record ──────────────────────────────────────
+// Tracks each manual demo activation for display
 
-export interface GeneratorState {
-  sensorId: string;
-  intervalMs: number;
-  readingTypes: SensorType[];
-  valueRange: { min: number; max: number };
-  isRunning: boolean;
-  generatedCount: number;
+export interface ActivationRecord {
+  id: string;
+  deviceId: string;
+  deviceName: string;
+  metricId: string;
+  metricName: string;
+  status: MetricStatus;
+  value: number;
+  unit: string;
+  timestamp: string;
 }
 
-export interface SimulatorState {
-  isRunning: boolean;
-  sensorCount: number;
-  readingTypes: SensorType[];
-  totalGenerated: number;
-}
+// ─── Initial State ──────────────────────────────────────────
 
 export const initialAppState: AppState = {
-  sensors: [],
-  recentReadings: [],
-  generator: {
-    sensorId: '',
-    intervalMs: 1000,
-    readingTypes: ['temperature'],
-    valueRange: { min: 0, max: 50 },
-    isRunning: false,
-    generatedCount: 0,
-  },
-  simulator: {
-    isRunning: false,
-    sensorCount: 5,
-    readingTypes: ['temperature', 'humidity', 'soil_moisture'],
-    totalGenerated: 0,
-  },
+  currentView: 'hardware-list',
+  devices: [],
+  selectedDeviceId: null,
+  selectedMetricId: null,
+  activeStatus: null,
+  activeStatusLevel: null,
+  activationHistory: [],
   loading: false,
   error: null,
-  activeTab: 'entry',
-  successCount: 0,
-  failCount: 0,
 };

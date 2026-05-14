@@ -8,5 +8,5 @@
 
 export { createSensorStore } from './sensorStore';
 export { createAuthStore } from './authStore';
-export type { SensorState, SensorAction } from './sensorStore';
+export type { SensorState, SensorAction, SensorRecord, SensorReading, AlertRecord, SensorType } from './sensorStore';
 export type { AuthState, AuthAction } from './authStore';

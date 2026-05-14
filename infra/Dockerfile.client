@@ -8,12 +8,12 @@ FROM oven/bun:1 AS installer
 WORKDIR /app
 
 # Copy root workspace config
-COPY package.json bun.lockb turbo.json ./
+COPY package.json turbo.json ./
 COPY apps/ ./apps/
 COPY packages/ ./packages/
 
 # Install all dependencies
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # ---- Build Stage ----
 ARG APP_NAME

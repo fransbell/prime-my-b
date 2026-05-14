@@ -6,8 +6,8 @@ FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum first for better caching
-COPY go.mod go.sum ./
+# Copy go.mod first for better caching
+COPY go.mod ./
 RUN go mod download
 
 # Copy source code
