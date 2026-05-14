@@ -18,3 +18,24 @@ desktop.ini
 # Temp
 *.tmp
 *.bak
+
+# ---- Client ----
+client/node_modules/
+client/**/node_modules/
+client/**/dist/
+client/bun.lockb
+
+# ---- Server ----
+server/pb_data/
+server/pb_public/
+server/pocketbase
+server/go.sum
+
+# ---- Infra ----
+infra/.env
+
+# ---- Misc ----
+*.log
+.env
+.env.local
+.env.*.local
