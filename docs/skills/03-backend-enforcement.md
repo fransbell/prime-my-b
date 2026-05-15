@@ -329,7 +329,7 @@ if (!liff.isLoggedIn()) {
 
 // 3. Get ID token and verify with PocketBase
 const idToken = liff.getIDToken();
-const response = await fetch(`${pb.baseUrl}/api/custom/auth/line`, {
+const response = await fetch(`${pb.baseURL}/api/custom/auth/line`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ idToken }),

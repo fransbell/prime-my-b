@@ -7,16 +7,20 @@ import { initialAppState } from './Model';
 export function update(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     // ── Auth: LIFF Init ──
+    case 'auth/LIFF_INIT_START':
+      return { ...state, liffInitialized: false, error: null };
+
     case 'auth/LIFF_INIT_SUCCESS':
-      return { ...state, liffInitialized: true };
+      return { ...state, liffInitialized: true, error: null };
 
     case 'auth/LIFF_INIT_ERROR':
-      return { ...state, liffInitialized: false, error: action.payload.error };
+      // Mark as initialized (attempt finished) so UI shows error, not spinner
+      return { ...state, liffInitialized: true, error: action.payload.error };
 
     // ── Auth: LIFF Login ──
     case 'auth/LIFF_LOGIN_START':
       return { ...state, loading: true, error: null };
-
+    
     case 'auth/LIFF_LOGIN_SUCCESS':
       return {
         ...state,
@@ -45,7 +49,19 @@ export function update(state: AppState, action: AppAction): AppState {
 
     // ── Auth: Logout ──
     case 'auth/LOGOUT':
-      return { ...state, liffLoggedIn: false, pbAuthenticated: false, profile: null, pbToken: null };
+      return {
+        ...state,
+        liffLoggedIn: false,
+        pbAuthenticated: false,
+        profile: null,
+        pbToken: null,
+        sensors: [],
+        latestReadings: [],
+        unreadAlerts: 0,
+        loading: false,
+        error: null,
+        activePage: 'home',
+      };
 
     // ── Sensor ──
     case 'sensor/FETCH_START':

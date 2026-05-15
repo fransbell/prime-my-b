@@ -42,6 +42,7 @@ export function createEffects(dispatch: (action: AppAction) => void) {
      * If already logged in to LINE, automatically proceed to PB auth.
      */
     initLiff: async () => {
+      dispatch({ type: 'auth/LIFF_INIT_START' });
       try {
         const liff = await getLiff();
         const liffId = import.meta.env.VITE_LIFF_ID;
@@ -210,7 +211,7 @@ async function authenticateWithPocketBase(liff: any, dispatch: (action: AppActio
 
     // Send ID token to our PocketBase custom auth endpoint
     // Server verifies with LINE API → creates/finds user → returns PB auth token
-    const response = await fetch(`${pb.baseUrl}/api/custom/auth/line`, {
+    const response = await fetch(`${pb.baseURL}/api/custom/auth/line`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ idToken }),

@@ -20,7 +20,8 @@ const effects: Effects = createEffects(dispatch as (a: AppAction) => void);
 
 // ─── View: Login Screen ──────────────────────────────────────
 function LoginScreen({ state }: { state: AppState; dispatch: (a: AppAction) => void }) {
-  if (!state.liffInitialized) {
+  // Still initializing (no result yet)
+  if (!state.liffInitialized && !state.error) {
     return (
       <Stack align="center" gap="md" mih="60vh" justify="center">
         <Loader size="lg" />
@@ -29,6 +30,7 @@ function LoginScreen({ state }: { state: AppState; dispatch: (a: AppAction) => v
     );
   }
 
+  // Active auth in progress
   if (state.loading) {
     return (
       <Stack align="center" gap="md" mih="60vh" justify="center">
@@ -38,6 +40,7 @@ function LoginScreen({ state }: { state: AppState; dispatch: (a: AppAction) => v
     );
   }
 
+  // Ready for user interaction (init done, may have error)
   return (
     <Stack align="center" gap="lg" mih="60vh" justify="center">
       <Title order={2} ta="center">Prime My Brain</Title>
@@ -49,19 +52,35 @@ function LoginScreen({ state }: { state: AppState; dispatch: (a: AppAction) => v
         </Paper>
       )}
 
-      <Button
-        size="lg"
-        radius="xl"
-        onClick={() => effects.loginWithLine()}
-        loading={state.loading}
-      >
-        Login with LINE
-      </Button>
+      {state.liffLoggedIn ? (
+        <Loader size="lg" />
+      ) : (
+        <Button
+          size="lg"
+          radius="xl"
+          onClick={() => effects.loginWithLine()}
+          loading={state.loading}
+        >
+          Login with LINE
+        </Button>
+      )}
 
-      <Text size="xs" c="dimmed" ta="center">
-        Login with your LINE account to access your farm sensor data.
-        <br />No additional registration required.
-      </Text>
+      {state.error && (
+        <Button
+          variant="subtle"
+          size="xs"
+          onClick={() => effects.initLiff()}
+        >
+          Retry Initialization
+        </Button>
+      )}
+
+      {state.liffInitialized && !state.liffLoggedIn && (
+        <Text size="xs" c="dimmed" ta="center">
+          Login with your LINE account to access your farm sensor data.
+          <br />No additional registration required.
+        </Text>
+      )}
     </Stack>
   );
 }

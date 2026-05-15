@@ -5,6 +5,7 @@ import type { LiffProfile, PageType } from './Model';
 
 // ─── LINE + PocketBase Auth Actions ───
 export type AuthAction =
+  | { type: 'auth/LIFF_INIT_START' }
   | { type: 'auth/LIFF_INIT_SUCCESS' }
   | { type: 'auth/LIFF_INIT_ERROR'; payload: { error: string } }
   | { type: 'auth/LIFF_LOGIN_START' }

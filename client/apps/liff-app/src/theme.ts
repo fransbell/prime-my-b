@@ -1,13 +1,16 @@
 import { createTheme } from '@mantine/core';
+import { harvestTheme } from '@prime-my-brain/ui';
 
+/**
+ * LIFF App Theme
+ * Extends the shared Harvest Lanna Plus brand theme with
+ * mobile-first defaults (larger radius, bigger touch targets).
+ */
 export const theme = createTheme({
-  primaryColor: 'green',
-  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-  headings: {
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-  },
+  ...harvestTheme,
   defaultRadius: 'lg',
   components: {
+    ...harvestTheme.components,
     Button: {
       defaultProps: {
         size: 'md',

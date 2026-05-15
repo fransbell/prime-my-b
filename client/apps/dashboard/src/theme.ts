@@ -1,18 +1,15 @@
 import { createTheme } from '@mantine/core';
+import { harvestTheme } from '@prime-my-brain/ui';
 
+/**
+ * Dashboard Theme
+ * Extends the shared Harvest Lanna Plus brand theme with
+ * dashboard-specific defaults (data viz, forms, admin controls).
+ */
 export const theme = createTheme({
-  primaryColor: 'blue',
-  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-  headings: {
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-  },
-  defaultRadius: 'md',
+  ...harvestTheme,
   components: {
-    Button: {
-      defaultProps: {
-        size: 'sm',
-      },
-    },
+    ...harvestTheme.components,
     TextInput: {
       defaultProps: {
         size: 'sm',
