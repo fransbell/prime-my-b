@@ -28,8 +28,6 @@ client/bun.lockb
 client/**/*.tsbuildinfo
 
 # ---- Server ----
-server/pb_data/
-server/pb_public/
 server/pocketbase
 server/go.sum
 
