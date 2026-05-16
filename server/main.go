@@ -44,7 +44,16 @@ type LineIDTokenVerification struct {
 
 // LineAuthRequest is the request body for LINE login
 type LineAuthRequest struct {
-	IDToken string `json:"idToken"`
+	IDToken     string `json:"idToken"`
+	AccessToken string `json:"accessToken"`
+}
+
+// LineProfile represents the response from LINE's /v2/profile endpoint
+type LineProfile struct {
+	UserID      string `json:"userId"`
+	DisplayName string `json:"displayName"`
+	PictureURL  string `json:"pictureUrl"`
+	StatusMsg   string `json:"statusMessage"`
 }
 
 // LineAuthResponse is the response after successful LINE auth
@@ -65,7 +74,7 @@ func main() {
 	})
 
 	// Register auto-migration plugin
-	migratecmd.MustRegister(app, migratecmd.Config{
+	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		Dir:         "migrations",
 		Automigrate: getEnv("PB_AUTO_MIGRATE", "true") == "true",
 	})
@@ -99,7 +108,7 @@ func main() {
 	})
 
 	// Register hooks for sensor readings
-	app.OnRecordAfterCreateRequest("sensor_readings").Add(func(e *core.RecordCreateEvent) error {
+	app.OnRecordAfterCreateSuccess("sensor_readings").BindFunc(func(e *core.RecordEvent) error {
 		// After a sensor reading is created, update the sensor's lastReading timestamp
 		// and check for threshold alerts
 		return e.Next()
@@ -133,39 +142,60 @@ func handleLineAuth(app *pocketbase.PocketBase) func(e *core.RequestEvent) error
 			})
 		}
 
-		if req.IDToken == "" {
+		if req.IDToken == "" && req.AccessToken == "" {
 			return e.JSON(400, map[string]string{
-				"error": "idToken is required",
+				"error": "idToken or accessToken is required",
 			})
 		}
 
-		// ── Step 1: Verify ID token with LINE ──
-		verification, err := verifyLineIDToken(req.IDToken, lineClientID)
-		if err != nil {
-			return e.JSON(401, map[string]string{
-				"error": fmt.Sprintf("LINE token verification failed: %s", err.Error()),
-			})
-		}
+		var lineUID string
+		var displayName string
+		var pictureURL string
+		var email string
 
-		// ── Step 2: Validate the token was issued for our channel ──
-		if verification.Aud != lineClientID {
-			return e.JSON(401, map[string]string{
-				"error": "ID token was not issued for this LINE channel",
-			})
-		}
+		if req.IDToken != "" {
+			// ── Path A: Verify ID token with LINE ──
+			verification, err := verifyLineIDToken(req.IDToken, lineClientID)
+			if err != nil {
+				return e.JSON(401, map[string]string{
+					"error": fmt.Sprintf("LINE token verification failed: %s", err.Error()),
+				})
+			}
 
-		// ── Step 3: Check token expiration ──
-		if time.Now().Unix() > verification.Exp {
-			return e.JSON(401, map[string]string{
-				"error": "LINE ID token has expired",
-			})
-		}
+			// Validate the token was issued for our channel
+			if verification.Aud != lineClientID {
+				return e.JSON(401, map[string]string{
+					"error": "ID token was not issued for this LINE channel",
+				})
+			}
 
-		// ── Step 4: Find or create PocketBase user ──
-		lineUID := verification.Sub
-		displayName := verification.Name
-		pictureURL := verification.Picture
-		email := verification.Email
+			// Check token expiration
+			if time.Now().Unix() > verification.Exp {
+				return e.JSON(401, map[string]string{
+					"error": "LINE ID token has expired",
+				})
+			}
+
+			lineUID = verification.Sub
+			displayName = verification.Name
+			pictureURL = verification.Picture
+			email = verification.Email
+		} else {
+			// ── Path B: Verify via access token (fallback for external browser) ──
+			// In external browser redirect flow, ID token may not be available.
+			// Use access token to get user profile from LINE's /v2/profile endpoint.
+			profile, err := verifyLineAccessToken(req.AccessToken)
+			if err != nil {
+				return e.JSON(401, map[string]string{
+					"error": fmt.Sprintf("LINE access token verification failed: %s", err.Error()),
+				})
+			}
+
+			lineUID = profile.UserID
+			displayName = profile.DisplayName
+			pictureURL = profile.PictureURL
+			// email not available via /v2/profile
+		}
 
 		// Try to find existing user by lineUserId
 		usersCollection, err := app.FindCollectionByNameOrId("users")
@@ -283,6 +313,49 @@ func verifyLineIDToken(idToken, clientID string) (*LineIDTokenVerification, erro
 	}
 
 	return &verification, nil
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LINE Access Token Verification (fallback for external browser flow)
+// ═══════════════════════════════════════════════════════════════
+// Uses the access token to fetch user profile from LINE.
+// https://developers.line.biz/en/reference/line-login/#get-user-profile
+
+func verifyLineAccessToken(accessToken string) (*LineProfile, error) {
+	profileURL := "https://api.line.me/v2/profile"
+
+	req, err := http.NewRequest("GET", profileURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create profile request: %w", err)
+	}
+	req.Header.Set("Authorization", "Bearer "+accessToken)
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to call LINE profile API: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read profile response: %w", err)
+	}
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("LINE profile request failed (status %d): %s", resp.StatusCode, string(body))
+	}
+
+	var profile LineProfile
+	if err := json.Unmarshal(body, &profile); err != nil {
+		return nil, fmt.Errorf("failed to parse profile response: %w", err)
+	}
+
+	if profile.UserID == "" {
+		return nil, fmt.Errorf("LINE profile returned empty userId")
+	}
+
+	return &profile, nil
 }
 
 // ═══════════════════════════════════════════════════════════════

@@ -22,13 +22,16 @@ declare global {
 }
 
 // Lazy-loaded LIFF instance
-let liffModule: any = null;
+let liffInstance: any = null;
 
 async function getLiff() {
-  if (!liffModule) {
-    liffModule = await import('@line/liff');
+  if (!liffInstance) {
+    const mod = await import('@line/liff');
+    // @line/liff exports { liff } as named + default export
+    // Dynamic import returns module namespace object, not the liff object directly
+    liffInstance = mod.default || mod.liff || mod;
   }
-  return liffModule;
+  return liffInstance;
 }
 
 export function createEffects(dispatch: (action: AppAction) => void) {
@@ -201,20 +204,27 @@ export function createEffects(dispatch: (action: AppAction) => void) {
 async function authenticateWithPocketBase(liff: any, dispatch: (action: AppAction) => void) {
   dispatch({ type: 'auth/PB_AUTH_START' });
   try {
-    // Get the ID token from LIFF — this is a JWT that proves LINE identity
-    const idToken = liff.getIDToken();
+    // Try ID token first (works in LINE in-client), fall back to access token (external browser)
+    let idToken = liff.getIDToken();
+    const accessToken = liff.getAccessToken();
 
-    if (!idToken) {
-      dispatch({ type: 'auth/PB_AUTH_ERROR', payload: { error: 'No LINE ID token available' } });
+    if (!idToken && !accessToken) {
+      dispatch({ type: 'auth/PB_AUTH_ERROR', payload: { error: 'No LINE token available. Please try logging in again.' } });
       return;
     }
 
-    // Send ID token to our PocketBase custom auth endpoint
+    // Send available token(s) to PocketBase
+    // Server will verify via ID token (preferred) or access token (fallback)
+    const body: Record<string, string> = {};
+    if (idToken) body.idToken = idToken;
+    if (accessToken) body.accessToken = accessToken;
+
+    // Send available token(s) to our PocketBase custom auth endpoint
     // Server verifies with LINE API → creates/finds user → returns PB auth token
     const response = await fetch(`${pb.baseURL}/api/custom/auth/line`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {

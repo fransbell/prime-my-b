@@ -42,3 +42,4 @@ infra/.env
 .env.local
 .env.*.local
 repo/
+server
