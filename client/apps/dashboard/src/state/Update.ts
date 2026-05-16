@@ -1,6 +1,5 @@
 // ─── Dashboard App — Update (Pure Reducer) ────────────────────
 // The Update function is a PURE function: (state, action) → newState
-// No side effects, no API calls, no mutations. Only state transitions.
 
 import type { AppState } from './Model';
 import type { AppAction } from './Actions';
@@ -8,6 +7,35 @@ import { initialAppState } from './Model';
 
 export function update(state: AppState, action: AppAction): AppState {
   switch (action.type) {
+    // ── Batch ──
+    case 'batch/FETCH_START':
+      return { ...state, loading: true, error: null };
+
+    case 'batch/FETCH_SUCCESS':
+      return { ...state, batches: action.payload.batches, loading: false };
+
+    case 'batch/FETCH_ERROR':
+      return { ...state, loading: false, error: action.payload.error };
+
+    case 'batch/SELECT':
+      return { ...state, selectedBatchId: action.payload.batchId };
+
+    case 'batch/DESELECT':
+      return { ...state, selectedBatchId: null, batchAnalysis: null };
+
+    case 'batch/SET_STATUS_FILTER':
+      return { ...state, batchStatusFilter: action.payload.filter };
+
+    case 'batch/SET_PROCESS_FILTER':
+      return { ...state, batchProcessFilter: action.payload.filter };
+
+    // ── Analysis ──
+    case 'analysis/FETCH_SUCCESS':
+      return { ...state, batchAnalysis: action.payload.analysis };
+
+    case 'analysis/CLEAR':
+      return { ...state, batchAnalysis: null };
+
     // ── Sensor ──
     case 'sensor/FETCH_START':
       return { ...state, loading: true, error: null };
@@ -19,10 +47,10 @@ export function update(state: AppState, action: AppAction): AppState {
       return { ...state, loading: false, error: action.payload.error };
 
     case 'sensor/SELECT':
-      return { ...state, selectedSensorId: action.payload.sensorId };
+      return { ...state, selectedBatchId: action.payload.sensorId };
 
     case 'sensor/DESELECT':
-      return { ...state, selectedSensorId: null };
+      return { ...state, selectedBatchId: null };
 
     // ── Reading ──
     case 'reading/FETCH_START':
@@ -63,15 +91,15 @@ export function update(state: AppState, action: AppAction): AppState {
         ),
       };
 
-    // ── Dashboard UI ──
-    case 'dashboard/SET_TAB':
-      return { ...state, activeTab: action.payload.tab };
+    case 'alert/SET_SEVERITY_FILTER':
+      return { ...state, alertSeverityFilter: action.payload.filter };
 
-    case 'dashboard/SET_DATE_RANGE':
-      return { ...state, dateRange: { start: action.payload.start, end: action.payload.end } };
+    case 'alert/TOGGLE_SHOW_ACKNOWLEDGED':
+      return { ...state, showAcknowledgedAlerts: action.payload.show };
 
-    case 'dashboard/CLEAR_DATE_RANGE':
-      return { ...state, dateRange: null };
+    // ── Summary ──
+    case 'summary/FETCH_SUCCESS':
+      return { ...state, summary: action.payload.summary };
 
     // ── General UI ──
     case 'ui/CLEAR_ERROR':

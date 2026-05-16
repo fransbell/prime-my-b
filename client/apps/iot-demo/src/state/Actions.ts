@@ -4,6 +4,7 @@
 
 import type { IoTDevice, MetricStatus, MetricStatusLevel } from '../data/devices';
 import type { ViewFlow, ActivationRecord } from './Model';
+import type { MetricReading } from '../effects';
 
 // ─── Device Actions ───
 export type DeviceAction =
@@ -15,6 +16,14 @@ export type DeviceAction =
 export type MetricAction =
   | { type: 'metric/SELECT'; payload: { metricId: string } }
   | { type: 'metric/DESELECT' };
+
+// ─── Reading Actions (PocketBase realtime) ───
+export type ReadingAction =
+  | { type: 'reading/FETCH_START' }
+  | { type: 'reading/FETCH_SUCCESS'; payload: { readings: MetricReading[]; total: number } }
+  | { type: 'reading/FETCH_ERROR'; payload: { error: string } }
+  | { type: 'reading/ADD_REALTIME'; payload: { reading: MetricReading } }
+  | { type: 'reading/CLEAR' };
 
 // ─── Activation Actions (Demo) ───
 export type ActivationAction =
@@ -37,6 +46,7 @@ export type UIAction =
 export type AppAction =
   | DeviceAction
   | MetricAction
+  | ReadingAction
   | ActivationAction
   | NavigationAction
   | UIAction;

@@ -42,6 +42,11 @@ export function createEffects(dispatch: (action: AppAction) => void) {
 
     /**
      * Initialize LIFF SDK and check login status.
+     *
+     * On fresh load (no redirect): init → check isLoggedIn → show login button
+     * On redirect after LINE login: init detects callback params in URL,
+     *   exchanges code for tokens, isLoggedIn becomes true → auto PB auth.
+     *
      * If already logged in to LINE, automatically proceed to PB auth.
      */
     initLiff: async () => {
@@ -55,7 +60,15 @@ export function createEffects(dispatch: (action: AppAction) => void) {
           return;
         }
 
+        // liff.init() handles:
+        //  1. First load: initializes SDK, no redirect params
+        //  2. Redirect from LINE login: parses ?code=&liff_state= from URL,
+        //     exchanges for access token internally, then isLoggedIn() = true
         await liff.init({ liffId });
+
+        console.log('[LIFF] init done, isLoggedIn:', liff.isLoggedIn(),
+          'isInClient:', liff.isInClient?.(),
+          'hasURLParams:', window.location.search.length > 0);
 
         dispatch({ type: 'auth/LIFF_INIT_SUCCESS' });
 
@@ -76,8 +89,23 @@ export function createEffects(dispatch: (action: AppAction) => void) {
 
           // Automatically authenticate with PocketBase
           await authenticateWithPocketBase(liff, dispatch);
+        } else if (window.location.search.includes('code=')) {
+          // Redirect came back with a code but liff.init() didn't establish login.
+          // This can happen if the redirect URL params weren't consumed properly.
+          // Try to exchange the code manually by triggering login again.
+          console.warn('[LIFF] Redirect detected with code= but not logged in. Clearing URL and retrying login.');
+          // Clean up URL to avoid loops
+          window.history.replaceState({}, document.title, window.location.pathname);
+          // Attempt login which will use the existing LINE session
+          liff.login({ redirectUri: import.meta.env.VITE_LIFF_REDIRECT_URI || window.location.origin });
+          return;
         }
       } catch (error) {
+        console.error('[LIFF] init error:', error);
+        // Clean redirect params on error to avoid retry loops
+        if (window.location.search.length > 0) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
         dispatch({ type: 'auth/LIFF_INIT_ERROR', payload: { error: (error as Error).message } });
       }
     },
@@ -93,11 +121,18 @@ export function createEffects(dispatch: (action: AppAction) => void) {
 
         if (!liff.isLoggedIn()) {
           // This redirects to LINE Login page — user will come back to the app
-          liff.login();
-          return; // Page will reload after LINE login
+          // VITE_LIFF_REDIRECT_URI overrides the callback for dev (e.g. http://localhost:3001)
+          // If not set, LIFF uses the redirect URL configured in LINE Developers Console
+          //
+          // IMPORTANT: After LINE login, the browser is redirected back with ?code=&liff_state=
+          // in the URL. On the fresh page load, initLiff() is called again, and liff.init()
+          // processes those params to establish the logged-in session.
+          const redirectUri = import.meta.env.VITE_LIFF_REDIRECT_URI || undefined;
+          liff.login(redirectUri ? { redirectUri } : undefined);
+          return; // Page will redirect to LINE, then back here
         }
 
-        // Already logged in — get profile
+        // Already logged in — get profile (e.g. user clicked login while already authenticated)
         const profile = await liff.getProfile();
         dispatch({
           type: 'auth/LIFF_LOGIN_SUCCESS',

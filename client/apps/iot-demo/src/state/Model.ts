@@ -3,6 +3,7 @@
 // The flow is: Hardware List → Device Detail → Metric Activate (Demo)
 
 import type { IoTDevice, MetricStatus, MetricStatusLevel } from '../data/devices';
+import type { MetricReading } from '../effects';
 
 // ─── Navigation / View Flow ──────────────────────────────────
 
@@ -26,13 +27,17 @@ export interface AppState {
   activeStatusLevel: MetricStatusLevel | null;
   activationHistory: ActivationRecord[];
 
+  // ── Realtime Readings (from PocketBase) ──
+  readings: MetricReading[];
+  readingsTotal: number;
+  readingsLoading: boolean;
+
   // ── UI ──
   loading: boolean;
   error: string | null;
 }
 
 // ─── Activation Record ──────────────────────────────────────
-// Tracks each manual demo activation for display
 
 export interface ActivationRecord {
   id: string;
@@ -56,6 +61,9 @@ export const initialAppState: AppState = {
   activeStatus: null,
   activeStatusLevel: null,
   activationHistory: [],
+  readings: [],
+  readingsTotal: 0,
+  readingsLoading: false,
   loading: false,
   error: null,
 };

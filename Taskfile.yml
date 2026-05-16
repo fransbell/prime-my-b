@@ -1,0 +1,214 @@
+# https://taskfile.dev
+# Prime My Brain — Development Taskfile
+# Usage: task [target]   (e.g. task dev)
+
+version: "3"
+
+# ── Global defaults ──────────────────────────────────────────
+vars:
+  # Go
+  SERVER_DIR: ./server
+  # Bun / Turborepo
+  CLIENT_DIR: ./client
+  # PocketBase dev defaults
+  PB_ADMIN_EMAIL: admin@example.com
+  PB_ADMIN_PASSWORD: changeme123
+  PB_PORT: "8090"
+  # LINE Login
+  LINE_CLIENT_ID: "2010098206"
+
+dotenv:
+  - .env
+  - server/.env
+
+# ── Silent by default, show only command output ──────────────
+silent: false
+
+# ── Tasks ────────────────────────────────────────────────────
+tasks:
+  # ── Primary entry points ──
+
+  dev:
+    desc: "Start full dev environment (server + all client apps)"
+    deps: [install]
+    cmds:
+      - task: dev:server
+      - task: dev:client
+
+  dev:server:
+    desc: "Start PocketBase Go server on :{{.PB_PORT}}"
+    dir: "{{.SERVER_DIR}}"
+    cmds:
+      - go run main.go serve --http=0.0.0.0:{{.PB_PORT}}
+    env:
+      PB_ADMIN_EMAIL: "{{.PB_ADMIN_EMAIL}}"
+      PB_ADMIN_PASSWORD: "{{.PB_ADMIN_PASSWORD}}"
+      PB_AUTO_MIGRATE: "true"
+      PB_DATA_DIR: "./pb_data"
+      LINE_CLIENT_ID: "{{.LINE_CLIENT_ID}}"
+
+  dev:client:
+    desc: "Start all client apps via Turborepo (dashboard, liff-app, iot-demo)"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run dev
+
+  dev:dashboard:
+    desc: "Start dashboard app only"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run --filter @prime-my-brain/dashboard dev
+
+  dev:liff:
+    desc: "Start LIFF app with Cloudflare tunnel for LINE Login callback"
+    cmds:
+      - ./scripts/liff-tunnel.sh
+
+  dev:iot-demo:
+    desc: "Start IoT Demo app only"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run --filter @prime-my-brain/iot-demo dev
+
+  # ── Install / Setup ──
+
+  install:
+    desc: "Install all dependencies (Go + Bun)"
+    deps: [install:server, install:client]
+
+  install:server:
+    desc: "Download Go modules"
+    dir: "{{.SERVER_DIR}}"
+    cmds:
+      - go mod download
+
+  install:client:
+    desc: "Install Bun dependencies for all workspaces"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun install
+
+  setup:
+    desc: "First-time project setup (install + build)"
+    cmds:
+      - task: install
+      - task: build
+
+  # ── Build ──
+
+  build:
+    desc: "Build server binary + all client apps"
+    deps: [build:server, build:client]
+
+  build:server:
+    desc: "Compile PocketBase server binary"
+    dir: "{{.SERVER_DIR}}"
+    cmds:
+      - go build -o ./bin/server main.go
+
+  build:client:
+    desc: "Build all client apps via Turborepo"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run build
+
+  build:dashboard:
+    desc: "Build dashboard app"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run --filter @prime-my-brain/dashboard build
+
+  build:liff:
+    desc: "Build LIFF app"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run --filter @prime-my-brain/liff-app build
+
+  build:iot-demo:
+    desc: "Build IoT Demo app"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run --filter @prime-my-brain/iot-demo build
+
+  # ── Lint / Type-check ──
+
+  lint:
+    desc: "Lint all client apps"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run lint
+
+  type-check:
+    desc: "Type-check all client apps"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run type-check
+
+  # ── Docker ──
+
+  docker:up:
+    desc: "Start all services via Docker Compose"
+    dir: ./infra
+    cmds:
+      - docker compose up --build -d
+
+  docker:down:
+    desc: "Stop Docker Compose services"
+    dir: ./infra
+    cmds:
+      - docker compose down
+
+  docker:logs:
+    desc: "Tail Docker Compose logs"
+    dir: ./infra
+    cmds:
+      - docker compose logs -f
+
+  docker:reset:
+    desc: "Reset Docker (down + remove volumes + up)"
+    dir: ./infra
+    cmds:
+      - docker compose down -v
+      - task: docker:up
+
+  # ── Database / PocketBase ──
+
+  pb:admin:
+    desc: "Reset PocketBase admin credentials"
+    dir: "{{.SERVER_DIR}}"
+    cmds:
+      - go run main.go superuser upsert {{.PB_ADMIN_EMAIL}} {{.PB_ADMIN_PASSWORD}}
+
+  pb:migrate:
+    desc: "Run PocketBase migrations"
+    dir: "{{.SERVER_DIR}}"
+    cmds:
+      - go run main.go migrate
+
+  # ── Clean ──
+
+  clean:
+    desc: "Remove all build artifacts"
+    deps: [clean:server, clean:client]
+
+  clean:server:
+    desc: "Remove server binary"
+    dir: "{{.SERVER_DIR}}"
+    cmds:
+      - rm -rf ./bin
+
+  clean:client:
+    desc: "Clean all client build artifacts"
+    dir: "{{.CLIENT_DIR}}"
+    cmds:
+      - bun run clean
+      - rm -rf node_modules
+
+  clean:all:
+    desc: "Full clean including server vendor & client lockfile"
+    cmds:
+      - task: clean
+      - cmd: rm -f {{.SERVER_DIR}}/go.sum
+        ignore_error: true
+      - cmd: rm -f {{.CLIENT_DIR}}/bun.lockb
+        ignore_error: true

@@ -13,6 +13,9 @@ import (
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+
+	// Register Go migrations (auto-init via init())
+	_ "github.com/fransbell/prime-my-b/server/migrations"
 )
 
 // ═══════════════════════════════════════════════════════════════
@@ -96,21 +99,49 @@ func main() {
 		se.Router.POST("/api/custom/auth/line", handleLineAuth(app))
 
 		// ── Dashboard Summary ──
-		se.Router.GET("/api/custom/dashboard/summary", func(e *core.RequestEvent) error {
-			return e.JSON(200, map[string]interface{}{
-				"totalSensors": 0,
-				"totalReadings": 0,
-				"activeAlerts": 0,
-			})
-		})
+		se.Router.GET("/api/custom/dashboard/summary", handleDashboardSummary(app))
 
 		return se.Next()
 	})
 
-	// Register hooks for sensor readings
-	app.OnRecordAfterCreateSuccess("sensor_readings").BindFunc(func(e *core.RecordEvent) error {
-		// After a sensor reading is created, update the sensor's lastReading timestamp
-		// and check for threshold alerts
+	// ═══════════════════════════════════════════════════════════
+	// Hooks — keep batch latest readings in sync
+	// ═══════════════════════════════════════════════════════════
+
+	// When a batch_reading is created, update the parent batch's latest* fields
+	app.OnRecordAfterCreateSuccess("batch_readings").BindFunc(func(e *core.RecordEvent) error {
+		record := e.Record
+		batchId := record.GetString("batch")
+		if batchId == "" {
+			return e.Next()
+		}
+
+		batchColl, err := app.FindCollectionByNameOrId("batches")
+		if err != nil {
+			return e.Next()
+		}
+		batch, err := app.FindRecordById(batchColl, batchId)
+		if err != nil {
+			return e.Next()
+		}
+
+		if ph := record.GetFloat("ph"); ph != 0 {
+			batch.Set("latestPh", ph)
+		}
+		if temp := record.GetFloat("temperature"); temp != 0 {
+			batch.Set("latestTemp", temp)
+		}
+		if weight := record.GetFloat("weight"); weight != 0 {
+			batch.Set("latestWeight", weight)
+		}
+		if co2 := record.GetFloat("co2"); co2 != 0 {
+			batch.Set("latestCo2", co2)
+		}
+
+		if err := app.Save(batch); err != nil {
+			log.Printf("Warning: failed to update batch latest readings: %v", err)
+		}
+
 		return e.Next()
 	})
 
@@ -356,6 +387,98 @@ func verifyLineAccessToken(accessToken string) (*LineProfile, error) {
 	}
 
 	return &profile, nil
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Dashboard Summary Handler
+// ═══════════════════════════════════════════════════════════════
+// GET /api/custom/dashboard/summary
+// Returns aggregated stats for the fermentation dashboard.
+
+func handleDashboardSummary(app *pocketbase.PocketBase) func(e *core.RequestEvent) error {
+	return func(e *core.RequestEvent) error {
+		batchesColl, err := app.FindCollectionByNameOrId("batches")
+		if err != nil {
+			return e.JSON(500, map[string]string{"error": "batches collection not found"})
+		}
+
+		alertsColl, err := app.FindCollectionByNameOrId("alerts")
+		if err != nil {
+			return e.JSON(500, map[string]string{"error": "alerts collection not found"})
+		}
+
+		// Count by status
+		allBatches, _ := app.FindRecordsByFilter(batchesColl, "1=1", "-startedAt", 0, 0)
+		activeBatches := 0
+		completedBatches := 0
+		var totalScore float64
+		scoreCount := 0
+
+		processMap := map[string]int{}
+
+		for _, b := range allBatches {
+			switch b.GetString("status") {
+			case "active":
+				activeBatches++
+			case "completed":
+				completedBatches++
+			}
+			if s := b.GetFloat("predictedScore"); s > 0 {
+				totalScore += s
+				scoreCount++
+			}
+			pt := b.GetString("processType")
+			if pt != "" {
+				processMap[pt]++
+			}
+		}
+
+		var avgScore *float64
+		if scoreCount > 0 {
+			v := totalScore / float64(scoreCount)
+			avgScore = &v
+		}
+
+		// Unacknowledged alerts
+		unackAlerts, _ := app.FindRecordsByFilter(alertsColl, "resolved=false", "-created", 0, 0)
+		unackCount := len(unackAlerts)
+
+		// Recent alerts (last 5)
+		recentAlertsRaw, _ := app.FindRecordsByFilter(alertsColl, "resolved=false", "-created", 5, 0)
+		recentAlerts := make([]map[string]interface{}, 0, len(recentAlertsRaw))
+		for _, a := range recentAlertsRaw {
+			recentAlerts = append(recentAlerts, map[string]interface{}{
+				"id":        a.Id,
+				"type":      a.GetString("type"),
+				"severity":  a.GetString("severity"),
+				"message":   a.GetString("message"),
+				"resolved":  a.GetBool("resolved"),
+				"created":   a.GetString("created"),
+			})
+		}
+
+		// Process breakdown
+		processByType := make([]map[string]interface{}, 0)
+		for pt, count := range processMap {
+			processByType = append(processByType, map[string]interface{}{
+				"processType": pt,
+				"count":      count,
+			})
+		}
+
+		result := map[string]interface{}{
+			"activeBatches":        activeBatches,
+			"completedBatches":     completedBatches,
+			"unacknowledgedAlerts": unackCount,
+			"recentAlerts":         recentAlerts,
+			"processByType":        processByType,
+		}
+		if avgScore != nil {
+			result["avgPredictedScore"] = *avgScore
+		}
+
+		return e.JSON(200, result)
+	}
 }
 
 // ═══════════════════════════════════════════════════════════════

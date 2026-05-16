@@ -43,6 +43,8 @@ export function update(state: AppState, action: AppAction): AppState {
         currentView: 'metric-activate',
         activeStatus: null,
         activeStatusLevel: null,
+        readings: [],
+        readingsTotal: 0,
       };
 
     case 'metric/DESELECT':
@@ -52,7 +54,34 @@ export function update(state: AppState, action: AppAction): AppState {
         currentView: 'device-detail',
         activeStatus: null,
         activeStatusLevel: null,
+        readings: [],
+        readingsTotal: 0,
       };
+
+    // ── Readings (PocketBase) ──
+    case 'reading/FETCH_START':
+      return { ...state, readingsLoading: true, error: null };
+
+    case 'reading/FETCH_SUCCESS':
+      return {
+        ...state,
+        readings: action.payload.readings,
+        readingsTotal: action.payload.total,
+        readingsLoading: false,
+      };
+
+    case 'reading/FETCH_ERROR':
+      return { ...state, readingsLoading: false, error: action.payload.error };
+
+    case 'reading/ADD_REALTIME':
+      return {
+        ...state,
+        readings: [action.payload.reading, ...state.readings].slice(0, 50),
+        readingsTotal: state.readingsTotal + 1,
+      };
+
+    case 'reading/CLEAR':
+      return { ...state, readings: [], readingsTotal: 0, readingsLoading: false };
 
     // ── Activation ──
     case 'activation/SET_STATUS':
