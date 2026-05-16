@@ -71,7 +71,7 @@ export function DeviceDetailView({ state, dispatch }: DeviceDetailViewProps) {
                 {device.metrics.length} metric{device.metrics.length > 1 ? 's' : ''}
               </Badge>
               <Text size="xs" c="dimmed">
-                Select a metric below to run the demo
+                Select a metric to analyze readings (Dead → Ideal scale on each card)
               </Text>
             </Group>
           </Stack>

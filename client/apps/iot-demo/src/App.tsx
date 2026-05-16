@@ -22,7 +22,7 @@ const effects: Effects = createEffects(dispatch as (a: AppAction) => void);
 function ViewRouter({ state, dispatch: d }: { state: AppState; dispatch: (a: AppAction) => void }) {
   switch (state.currentView) {
     case 'hardware-list':
-      return <HardwareListView state={state} dispatch={d} />;
+      return <HardwareListView state={state} dispatch={d} effects={effects} />;
 
     case 'device-detail':
       return <DeviceDetailView state={state} dispatch={d} />;
@@ -31,7 +31,7 @@ function ViewRouter({ state, dispatch: d }: { state: AppState; dispatch: (a: App
       return <MetricActivateView state={state} dispatch={d} effects={effects} />;
 
     default:
-      return <HardwareListView state={state} dispatch={d} />;
+      return <HardwareListView state={state} dispatch={d} effects={effects} />;
   }
 }
 

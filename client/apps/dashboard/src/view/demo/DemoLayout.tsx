@@ -59,7 +59,7 @@ export function DemoLayout() {
                 <Badge size="xs" variant="light" color="violet">IoT</Badge>
               </Group>
               <Text size="xs" c="dimmed">
-                Record and review batch sensor metrics
+                IoT device cards and Dead → Ideal scales auto-fill batch readings
               </Text>
             </Box>
           </Group>

@@ -1,4 +1,4 @@
-// ─── Demo Sensor Page — Split list + reading detail ─────────────
+// ─── Demo Sensor Page — Split list + tabbed batch panel ─────────
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,6 +12,8 @@ import type { BatchRecord, BatchStatus } from '../../state/Model';
 import { BatchReadingPanel } from '../readings/BatchReadingPanel';
 
 const effects: Effects = createEffects(dispatch as any);
+
+const DEMO_PANE_HEIGHT = 'calc(100vh - 56px)';
 
 const STATUS_COLOR: Record<BatchStatus, string> = {
   active: 'green',
@@ -53,29 +55,31 @@ export function DemoSensorPage() {
 
   return (
     <Box
-      mih="calc(100vh - 56px)"
-      style={{ display: 'flex', flexDirection: 'row' }}
+      h={DEMO_PANE_HEIGHT}
+      style={{ display: 'flex', flexDirection: 'row', overflow: 'hidden' }}
     >
       {/* ── Batch list (left rail) ── */}
       <Paper
         w={{ base: '100%', md: 340 }}
         maw={{ base: '100%', md: 340 }}
+        h="100%"
         radius={0}
         style={{
           borderRight: '1px solid var(--mantine-color-gray-3)',
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
+          overflow: 'hidden',
         }}
       >
-        <Box p="md" style={{ borderBottom: '1px solid var(--mantine-color-gray-3)' }}>
+        <Box p="md" style={{ borderBottom: '1px solid var(--mantine-color-gray-3)', flexShrink: 0 }}>
           <Title order={4}>Batches</Title>
           <Text size="xs" c="dimmed" mt={4}>
             Select a batch to view and record readings
           </Text>
         </Box>
 
-        <ScrollArea style={{ flex: 1 }} p="sm" type="auto">
+        <ScrollArea style={{ flex: 1 }} p="sm" type="auto" offsetScrollbars>
           {state.loading && state.batches.length === 0 ? (
             <Stack gap="xs">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -141,55 +145,33 @@ export function DemoSensorPage() {
         </ScrollArea>
       </Paper>
 
-      {/* ── Detail (right pane) — hidden on mobile until selection */}
+      {/* ── Tabbed batch panel (right) ── */}
       <Box
         flex={1}
-        p={{ base: 'md', md: 'xl' }}
-        style={{ minWidth: 0 }}
-        display={{ base: selectedId ? 'block' : 'none', md: 'block' }}
+        p={{ base: 'md', md: 'lg' }}
+        h="100%"
+        style={{ minWidth: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        display={{ base: selectedId ? 'flex' : 'none', md: 'flex' }}
       >
         {!selectedId ? (
-          <Center h="100%" mih={400}>
+          <Center flex={1}>
             <Stack align="center" gap="sm">
               <IconFlask size={48} color="var(--mantine-color-gray-5)" stroke={1.2} />
               <Text fw={600} c="dimmed">Select a batch from the list</Text>
               <Text size="sm" c="dimmed" ta="center" maw={280}>
-                The detail panel shows reading history and a form to add new sensor data.
+                Batch detail and new recordings open in the panel on the right.
               </Text>
             </Stack>
           </Center>
         ) : detailLoading || !batch ? (
-          <Stack gap="md" maw={720}>
-            <Skeleton height={40} w={240} />
-            <Skeleton height={200} radius="md" />
-            <Skeleton height={320} radius="md" />
+          <Stack gap="md" flex={1}>
+            <Skeleton height={48} radius="md" />
+            <Skeleton flex={1} radius="md" />
           </Stack>
         ) : (
-          <Stack gap="lg" maw={720}>
-            <Group justify="space-between" align="flex-start">
-              <Box>
-                <Text size="xs" c="forest-green.6" fw={600} tt="uppercase" lts="0.08em">
-                  Batch detail
-                </Text>
-                <Title order={2} mt={4}>{batch.name}</Title>
-                <Group gap="xs" mt="xs">
-                  <Badge variant="outline" tt="capitalize">{batch.processType}</Badge>
-                  <Badge color={STATUS_COLOR[batch.status]} tt="capitalize">{batch.status}</Badge>
-                  {batch.coffeeVariety && (
-                    <Text size="sm" c="dimmed">{batch.coffeeVariety}</Text>
-                  )}
-                </Group>
-              </Box>
-              <Box ta="right" visibleFrom="sm">
-                <Text size="xs" c="dimmed">Latest pH</Text>
-                <Text size="xl" fw={800} ff="'Space Mono', monospace">
-                  {batch.latestPh?.toFixed(2) ?? '—'}
-                </Text>
-              </Box>
-            </Group>
-
+          <Box flex={1} style={{ minHeight: 0 }}>
             <BatchReadingPanel batchId={batch.id} batch={batch} />
-          </Stack>
+          </Box>
         )}
       </Box>
     </Box>

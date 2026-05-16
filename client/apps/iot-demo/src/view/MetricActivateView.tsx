@@ -1,5 +1,5 @@
 // ─── IoT Demo — View: Metric Activate (Realtime Demo) ─────────
-// Select a metric status level (best → critical) to insert a record
+// Select a metric scale level (Dead → Ideal) to insert a record
 // into PocketBase. Realtime subscription shows live updates.
 // Each action button inserts a new record to the metric's PB table.
 // A line chart visualizes recent readings in real time.
@@ -12,7 +12,12 @@ import {
 } from '@mantine/core';
 import type { AppState } from '../state/Model';
 import type { AppAction } from '../state/Actions';
-import { devices as deviceCatalog } from '../data/devices';
+import {
+  devices as deviceCatalog,
+  getMetricScaleLevels,
+  getStatusLabel,
+  METRIC_STATUS_COLORS,
+} from '../data/devices';
 import type { Effects } from '../effects';
 import { MetricLineChart } from './MetricLineChart';
 
@@ -22,14 +27,7 @@ interface MetricActivateViewProps {
   effects: Effects;
 }
 
-// Status color map for the chart dots
-const statusColors: Record<string, string> = {
-  best: '#12b886',
-  good: '#40c057',
-  normal: '#339af0',
-  bad: '#fd7e14',
-  critical: '#fa5252',
-};
+const statusColors: Record<string, string> = METRIC_STATUS_COLORS;
 
 export function MetricActivateView({ state, dispatch, effects }: MetricActivateViewProps) {
   const device = deviceCatalog.find((d) => d.id === state.selectedDeviceId);
@@ -63,7 +61,7 @@ export function MetricActivateView({ state, dispatch, effects }: MetricActivateV
     );
   }
 
-  const statusButtonOrder = ['best', 'good', 'normal', 'bad', 'critical'] as const;
+  const scaleLevels = getMetricScaleLevels(metric);
 
   return (
     <Container size="lg">
@@ -152,45 +150,39 @@ export function MetricActivateView({ state, dispatch, effects }: MetricActivateV
         {/* Action Buttons — Insert records to PB */}
         <Paper p="lg" withBorder radius="md">
           <Stack gap="md">
-            <Title order={4}>Action — Insert Reading</Title>
+            <Title order={4}>Metric scale — Insert reading</Title>
             <Text size="sm" c="dimmed">
-              Click a status level to insert a new reading into the database.
-              Records appear in the chart and table in real time.
+              Dead → Ideal. Records appear in the chart in real time.
             </Text>
 
-            <SimpleGrid cols={{ base: 1, sm: 5 }} spacing="sm">
-              {statusButtonOrder.map((statusKey) => {
-                const level = metric.statusLevels.find((s) => s.status === statusKey);
-                if (!level) return null;
-
-                return (
-                  <Button
-                    key={statusKey}
-                    color={level.color}
-                    variant={state.activeStatus === statusKey ? 'filled' : 'light'}
-                    size="lg"
-                    radius="md"
-                    fullWidth
-                    onClick={() => effects.insertReading(
-                      device.id,
-                      device.name,
-                      metric.id,
-                      metric.name,
-                      metric.unit,
-                      statusKey,
-                      level,
-                    )}
-                  >
-                    <Stack gap={2} align="center">
-                      <Text size="lg">{level.icon}</Text>
-                      <Text fw={700} size="sm">{level.label}</Text>
-                      <Text size="xs" opacity={0.8}>
-                        {level.value} {metric.unit}
-                      </Text>
-                    </Stack>
-                  </Button>
-                );
-              })}
+            <SimpleGrid cols={{ base: 2, xs: 4, sm: 7 }} spacing="sm">
+              {scaleLevels.map((level) => (
+                <Button
+                  key={level.status}
+                  color={level.color}
+                  variant={state.activeStatus === level.status ? 'filled' : 'light'}
+                  size="md"
+                  radius="md"
+                  fullWidth
+                  onClick={() => effects.insertReading(
+                    device.id,
+                    device.name,
+                    metric.id,
+                    metric.name,
+                    metric.unit,
+                    level.status,
+                    level,
+                  )}
+                >
+                  <Stack gap={2} align="center">
+                    <Text size="md">{level.icon}</Text>
+                    <Text fw={700} size="xs">{level.label}</Text>
+                    <Text size="xs" opacity={0.8}>
+                      {level.value} {metric.unit}
+                    </Text>
+                  </Stack>
+                </Button>
+              ))}
             </SimpleGrid>
           </Stack>
         </Paper>
@@ -225,11 +217,11 @@ export function MetricActivateView({ state, dispatch, effects }: MetricActivateV
                       </Table.Td>
                       <Table.Td>
                         <Badge
-                          color={statusColors[reading.status] || 'gray'}
+                          color={metric.statusLevels.find((s) => s.status === reading.status)?.color ?? 'gray'}
                           size="sm"
                           variant="filled"
                         >
-                          {reading.status}
+                          {getStatusLabel(metric, reading.status)}
                         </Badge>
                       </Table.Td>
                       <Table.Td>
@@ -284,11 +276,11 @@ export function MetricActivateView({ state, dispatch, effects }: MetricActivateV
                       </Table.Td>
                       <Table.Td>
                         <Badge
-                          color={statusColors[record.status] || 'gray'}
+                          color={metric.statusLevels.find((s) => s.status === record.status)?.color ?? 'gray'}
                           size="sm"
                           variant="filled"
                         >
-                          {record.status}
+                          {getStatusLabel(metric, record.status)}
                         </Badge>
                       </Table.Td>
                       <Table.Td>

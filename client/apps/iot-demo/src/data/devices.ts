@@ -4,10 +4,18 @@
 
 // ─── Types ─────────────────────────────────────────────────────
 
-export type MetricStatus = 'best' | 'good' | 'normal' | 'bad' | 'critical';
+export type MetricStatus =
+  | 'dead'
+  | 'critical'
+  | 'bad'
+  | 'normal'
+  | 'good'
+  | 'great'
+  | 'ideal';
 
 export interface MetricStatusLevel {
   status: MetricStatus;
+  /** Display label (Dead → Ideal) */
   label: string;
   /** Value to display in the demo */
   value: number;
@@ -29,7 +37,7 @@ export interface DeviceMetric {
   unit: string;
   /** Icon name from Mantine tabler icons */
   icon: string;
-  /** Demo status levels from best → critical */
+  /** Demo status levels from Dead → Ideal */
   statusLevels: MetricStatusLevel[];
   /** Typical normal range for reference */
   normalRange: { min: number; max: number };
@@ -49,58 +57,75 @@ export interface IoTDevice {
   metrics: DeviceMetric[];
 }
 
-// ─── Helper: Create status levels for a metric ────────────────
+// ─── Metric scale order (worst → best) ─────────────────────────
+
+export const METRIC_SCALE_ORDER: MetricStatus[] = [
+  'dead',
+  'critical',
+  'bad',
+  'normal',
+  'good',
+  'great',
+  'ideal',
+];
+
+const SCALE_META: Record<
+  MetricStatus,
+  { label: string; color: string; icon: string; tone: string }
+> = {
+  dead: { label: 'Dead', color: 'dark', icon: '💀', tone: 'no measurable signal' },
+  critical: { label: 'Critical', color: 'red', icon: '🚨', tone: 'immediate action required' },
+  bad: { label: 'Bad', color: 'orange', icon: '⚠️', tone: 'outside healthy range' },
+  normal: { label: 'Normal', color: 'blue', icon: '📊', tone: 'acceptable baseline' },
+  good: { label: 'Good', color: 'green', icon: '👍', tone: 'within healthy range' },
+  great: { label: 'Great', color: 'teal', icon: '✨', tone: 'strong condition' },
+  ideal: { label: 'Ideal', color: 'cyan', icon: '🌿', tone: 'optimal for coffee growth' },
+};
 
 function makeStatusLevels(
-  best: number,
+  dead: number,
+  critical: number,
+  bad: number,
+  normal: number,
+  good: number,
+  great: number,
+  ideal: number,
+  unit: string,
+): MetricStatusLevel[] {
+  const values: Record<MetricStatus, number> = {
+    dead, critical, bad, normal, good, great, ideal,
+  };
+
+  return METRIC_SCALE_ORDER.map((status) => {
+    const value = values[status];
+    const meta = SCALE_META[status];
+    return {
+      status,
+      label: meta.label,
+      value,
+      color: meta.color,
+      description: `${meta.label} at ${value} ${unit} — ${meta.tone}`,
+      icon: meta.icon,
+    };
+  });
+}
+
+/** Build 7 levels from legacy 5-value presets (ideal … critical). */
+function makeLegacyStatusLevels(
+  ideal: number,
   good: number,
   normal: number,
   bad: number,
   critical: number,
   unit: string,
 ): MetricStatusLevel[] {
-  return [
-    {
-      status: 'best',
-      label: 'Best',
-      value: best,
-      color: 'teal',
-      description: `Optimal condition at ${best} ${unit} — ideal for coffee growth`,
-      icon: '🌿',
-    },
-    {
-      status: 'good',
-      label: 'Good',
-      value: good,
-      color: 'green',
-      description: `Good condition at ${good} ${unit} — within healthy range`,
-      icon: '👍',
-    },
-    {
-      status: 'normal',
-      label: 'Normal',
-      value: normal,
-      color: 'blue',
-      description: `Typical reading at ${normal} ${unit} — acceptable baseline`,
-      icon: '📊',
-    },
-    {
-      status: 'bad',
-      label: 'Bad',
-      value: bad,
-      color: 'orange',
-      description: `Attention needed at ${bad} ${unit} — outside optimal range`,
-      icon: '⚠️',
-    },
-    {
-      status: 'critical',
-      label: 'Critical',
-      value: critical,
-      color: 'red',
-      description: `Critical at ${critical} ${unit} — immediate action required`,
-      icon: '🚨',
-    },
-  ];
+  const towardIdeal = ideal >= good ? 1 : -1;
+  const great = good + (ideal - good) * 0.5 * towardIdeal;
+  const towardDead = critical <= bad ? -1 : 1;
+  const deadStep = Math.abs(bad - critical) || Math.abs(normal - critical) * 0.5 || 1;
+  const dead = Math.max(0, critical + deadStep * towardDead);
+
+  return makeStatusLevels(dead, critical, bad, normal, good, great, ideal, unit);
 }
 
 // ─── Device Catalog ────────────────────────────────────────────
@@ -119,7 +144,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Soil Moisture',
         unit: '%',
         icon: 'IconDrop',
-        statusLevels: makeStatusLevels(45, 35, 28, 18, 10, '%'),
+        statusLevels: makeLegacyStatusLevels(45, 35, 28, 18, 10, '%'),
         normalRange: { min: 25, max: 50 },
       },
     ],
@@ -137,7 +162,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Temperature',
         unit: '°C',
         icon: 'IconTemperature',
-        statusLevels: makeStatusLevels(22, 25, 28, 33, 38, '°C'),
+        statusLevels: makeLegacyStatusLevels(22, 25, 28, 33, 38, '°C'),
         normalRange: { min: 18, max: 28 },
       },
       {
@@ -146,7 +171,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Humidity',
         unit: '%',
         icon: 'IconDroplet',
-        statusLevels: makeStatusLevels(70, 60, 50, 35, 25, '%'),
+        statusLevels: makeLegacyStatusLevels(70, 60, 50, 35, 25, '%'),
         normalRange: { min: 50, max: 80 },
       },
     ],
@@ -164,7 +189,7 @@ export const devices: IoTDevice[] = [
         parameter: 'pH',
         unit: 'pH',
         icon: 'IconFlask',
-        statusLevels: makeStatusLevels(6.0, 5.8, 5.5, 4.8, 4.2, 'pH'),
+        statusLevels: makeLegacyStatusLevels(6.0, 5.8, 5.5, 4.8, 4.2, 'pH'),
         normalRange: { min: 5.0, max: 6.5 },
       },
     ],
@@ -182,7 +207,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Light (PAR)',
         unit: 'μmol/m²/s',
         icon: 'IconSun',
-        statusLevels: makeStatusLevels(800, 600, 400, 150, 50, 'μmol/m²/s'),
+        statusLevels: makeLegacyStatusLevels(800, 600, 400, 150, 50, 'μmol/m²/s'),
         normalRange: { min: 300, max: 900 },
       },
     ],
@@ -200,7 +225,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Rainfall',
         unit: 'mm',
         icon: 'IconCloudRain',
-        statusLevels: makeStatusLevels(15, 8, 3, 0.5, 0, 'mm'),
+        statusLevels: makeLegacyStatusLevels(15, 8, 3, 0.5, 0, 'mm'),
         normalRange: { min: 2, max: 20 },
       },
     ],
@@ -218,7 +243,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Nitrogen',
         unit: 'mg/kg',
         icon: 'IconAtom',
-        statusLevels: makeStatusLevels(50, 40, 30, 18, 8, 'mg/kg'),
+        statusLevels: makeLegacyStatusLevels(50, 40, 30, 18, 8, 'mg/kg'),
         normalRange: { min: 25, max: 60 },
       },
       {
@@ -227,7 +252,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Phosphorus',
         unit: 'mg/kg',
         icon: 'IconAtom',
-        statusLevels: makeStatusLevels(35, 25, 18, 10, 4, 'mg/kg'),
+        statusLevels: makeLegacyStatusLevels(35, 25, 18, 10, 4, 'mg/kg'),
         normalRange: { min: 15, max: 40 },
       },
       {
@@ -236,7 +261,7 @@ export const devices: IoTDevice[] = [
         parameter: 'Potassium',
         unit: 'mg/kg',
         icon: 'IconAtom',
-        statusLevels: makeStatusLevels(180, 140, 100, 60, 30, 'mg/kg'),
+        statusLevels: makeLegacyStatusLevels(180, 140, 100, 60, 30, 'mg/kg'),
         normalRange: { min: 80, max: 200 },
       },
     ],
@@ -259,4 +284,28 @@ export const categoryColors: Record<string, string> = {
   water: 'cyan',
   light: 'yellow',
   nutrient: 'green',
+};
+
+/** All 7 scale levels for a metric in display order (Dead → Ideal). */
+export function getMetricScaleLevels(metric: DeviceMetric): MetricStatusLevel[] {
+  return METRIC_SCALE_ORDER.map((status) => {
+    const level = metric.statusLevels.find((s) => s.status === status);
+    if (!level) throw new Error(`Metric ${metric.id} is missing scale level: ${status}`);
+    return level;
+  });
+}
+
+export function getStatusLabel(metric: DeviceMetric, status: string): string {
+  return metric.statusLevels.find((s) => s.status === status)?.label ?? status;
+}
+
+/** Chart / badge hex colors keyed by scale status */
+export const METRIC_STATUS_COLORS: Record<MetricStatus, string> = {
+  dead: '#25262b',
+  critical: '#fa5252',
+  bad: '#fd7e14',
+  normal: '#339af0',
+  good: '#40c057',
+  great: '#12b886',
+  ideal: '#15aabf',
 };
