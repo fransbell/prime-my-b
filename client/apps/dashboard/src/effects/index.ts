@@ -4,7 +4,7 @@
 
 import { pb } from '../lib/pb';
 import type { AppAction } from '../state/Actions';
-import type { BatchRecord, BatchAnalysis, DashboardSummary, ProcessType } from '../state/Model';
+import type { BatchRecord, BatchAnalysis, AnalysisHistoryEntry, DashboardSummary, ProcessType } from '../state/Model';
 import type { AlertRecord } from '@prime-my-brain/store';
 import { notifications } from '@mantine/notifications';
 
@@ -137,15 +137,21 @@ export function createEffects(dispatch: (action: AppAction) => void) {
       }
     },
 
-    updateBatch: async (batchId: string, data: Partial<BatchRecord>): Promise<void> => {
+    updateBatch: async (
+      batchId: string,
+      data: Pick<Partial<BatchRecord>, 'name' | 'notes' | 'coffeeVariety' | 'targetFlavorProfile' | 'ambientTemp'>,
+    ): Promise<BatchRecord | null> => {
       try {
-        await pb.collection('batches').update(batchId, data);
+        const batch = await pb.collection('batches').update(batchId, data) as unknown as BatchRecord;
+        dispatch({ type: 'batch/UPDATE_SUCCESS', payload: { batch } });
         notifySuccess('Batch updated');
         await fx.fetchBatches();
         await fx.fetchSummary();
+        return batch;
       } catch (error) {
         notifyError('Failed to update batch');
         dispatch({ type: 'batch/FETCH_ERROR', payload: { error: (error as Error).message } });
+        return null;
       }
     },
 
@@ -198,6 +204,7 @@ export function createEffects(dispatch: (action: AppAction) => void) {
         // Refresh readings + batch (server hook updates latest* fields)
         await fx.fetchReadings(batchId);
         await fx.fetchBatches();
+        await fx.fetchAlerts();
         await fx.fetchSummary();
       } catch (error) {
         notifyError('Failed to record reading');
@@ -224,6 +231,7 @@ export function createEffects(dispatch: (action: AppAction) => void) {
         });
         dispatch({ type: 'alert/RESOLVE', payload: { alertId } });
         notifySuccess('Alert acknowledged');
+        await fx.fetchAlerts();
         await fx.fetchSummary();
       } catch {
         notifyError('Failed to acknowledge alert');
@@ -236,7 +244,7 @@ export function createEffects(dispatch: (action: AppAction) => void) {
       try {
         const results = await pb.collection('batch_analysis').getFullList({
           filter: `batch="${batchId}"`,
-          sort: '-created',
+          sort: '-createdAt,-created',
         });
         if (results.length > 0) {
           const analysis = results[0] as unknown as BatchAnalysis;
@@ -251,9 +259,52 @@ export function createEffects(dispatch: (action: AppAction) => void) {
       }
     },
 
+    fetchAnalysisHistory: async (batchId: string): Promise<AnalysisHistoryEntry[]> => {
+      try {
+        const results = await pb.collection('analysis_history').getFullList({
+          filter: `batch="${batchId}"`,
+          sort: '-createdAt,-created',
+        }) as unknown as AnalysisHistoryEntry[];
+        dispatch({ type: 'analysis/HISTORY_FETCH_SUCCESS', payload: { history: results } });
+        return results;
+      } catch {
+        dispatch({ type: 'analysis/HISTORY_FETCH_SUCCESS', payload: { history: [] } });
+        return [];
+      }
+    },
+
+    // Archive the current analysis to analysis_history before creating a new one
+    archiveAnalysis: async (batchId: string): Promise<void> => {
+      try {
+        const results = await pb.collection('batch_analysis').getFullList({
+          filter: `batch="${batchId}"`,
+          sort: '-createdAt,-created',
+        });
+        if (results.length > 0) {
+          const current = results[0] as any;
+          await pb.collection('analysis_history').create({
+            batch: batchId,
+            stage: current.stage,
+            stageNumber: current.stageNumber,
+            totalStages: current.totalStages,
+            riskLevel: current.riskLevel,
+            predictedScore: current.predictedScore,
+            estimatedHoursRemaining: current.estimatedHoursRemaining,
+            recommendation: current.recommendation,
+            originalAnalysisId: current.id,
+          });
+        }
+      } catch {
+        // graceful — history archival failure shouldn't block new analysis
+      }
+    },
+
     // Create a mock analysis (in production this would call an AI service)
     triggerAnalysis: async (batchId: string): Promise<BatchAnalysis | null> => {
       try {
+        // Archive existing analysis before overwriting
+        await fx.archiveAnalysis(batchId);
+
         // Get current batch
         const batch = await fx.fetchBatch(batchId);
         if (!batch) return null;
@@ -304,7 +355,9 @@ export function createEffects(dispatch: (action: AppAction) => void) {
 
         dispatch({ type: 'analysis/FETCH_SUCCESS', payload: { analysis } });
         notifySuccess('Analysis complete', 'AI fermentation analysis updated.');
+        await fx.fetchAnalysisHistory(batchId);
         await fx.fetchBatches();
+        await fx.fetchAlerts();
         await fx.fetchSummary();
         return analysis;
       } catch (error) {
@@ -330,8 +383,12 @@ export function createEffects(dispatch: (action: AppAction) => void) {
     // ── Initialize all data ─────────────────────────────────────
 
     initialize: async (): Promise<void> => {
-      await fx.fetchSummary();
-      await fx.fetchAlerts();
+      // Always fetch batches — fetchSummary's custom endpoint only returns aggregates
+      await Promise.all([
+        fx.fetchBatches(),
+        fx.fetchAlerts(),
+        fx.fetchSummary(),
+      ]);
     },
   };
 

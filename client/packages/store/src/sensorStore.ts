@@ -53,8 +53,15 @@ export interface SensorReading {
 
 export interface AlertRecord {
   id: string;
-  sensor: string;
-  type: 'threshold_exceeded' | 'sensor_offline' | 'anomaly_detected';
+  batch?: string;
+  sensor?: string;
+  type:
+    | 'threshold_exceeded'
+    | 'sensor_offline'
+    | 'anomaly_detected'
+    | 'ph_dropped'
+    | 'temperature_high'
+    | 'co2_critical';
   severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
   threshold?: number;

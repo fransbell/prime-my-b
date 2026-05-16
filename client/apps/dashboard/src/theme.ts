@@ -10,6 +10,37 @@ export const theme = createTheme({
   ...harvestTheme,
   components: {
     ...harvestTheme.components,
+    Card: {
+      styles: {
+        root: {
+          backgroundColor: '#ffffff',
+        },
+        section: {
+          backgroundColor: '#ffffff',
+        },
+      },
+    },
+    Modal: {
+      styles: {
+        content: {
+          backgroundColor: '#ffffff',
+        },
+        header: {
+          backgroundColor: '#ffffff',
+          borderBottom: '1px solid var(--mantine-color-gray-3)',
+        },
+        body: {
+          backgroundColor: '#ffffff',
+        },
+      },
+    },
+    Table: {
+      styles: {
+        table: {
+          backgroundColor: '#ffffff',
+        },
+      },
+    },
     TextInput: {
       defaultProps: {
         size: 'sm',

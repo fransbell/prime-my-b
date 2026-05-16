@@ -29,12 +29,23 @@ export function update(state: AppState, action: AppAction): AppState {
     case 'batch/SET_PROCESS_FILTER':
       return { ...state, batchProcessFilter: action.payload.filter };
 
+    case 'batch/UPDATE_SUCCESS':
+      return {
+        ...state,
+        batches: state.batches.map(b =>
+          b.id === action.payload.batch.id ? action.payload.batch : b
+        ),
+      };
+
     // ── Analysis ──
     case 'analysis/FETCH_SUCCESS':
       return { ...state, batchAnalysis: action.payload.analysis };
 
     case 'analysis/CLEAR':
-      return { ...state, batchAnalysis: null };
+      return { ...state, batchAnalysis: null, analysisHistory: [] };
+
+    case 'analysis/HISTORY_FETCH_SUCCESS':
+      return { ...state, analysisHistory: action.payload.history };
 
     // ── Sensor ──
     case 'sensor/FETCH_START':

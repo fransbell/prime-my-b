@@ -142,6 +142,19 @@ func main() {
 			log.Printf("Warning: failed to update batch latest readings: %v", err)
 		}
 
+		if err := evaluateBatchAlerts(app, batchId); err != nil {
+			log.Printf("Warning: failed to evaluate batch alerts: %v", err)
+		}
+
+		return e.Next()
+	})
+
+	// Re-evaluate alerts when analysis runs (uses batch latest* metrics)
+	app.OnRecordAfterCreateSuccess("batch_analysis").BindFunc(func(e *core.RecordEvent) error {
+		batchId := e.Record.GetString("batch")
+		if err := evaluateBatchAlerts(app, batchId); err != nil {
+			log.Printf("Warning: failed to evaluate batch alerts after analysis: %v", err)
+		}
 		return e.Next()
 	})
 

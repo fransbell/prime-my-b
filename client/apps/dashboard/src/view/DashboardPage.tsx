@@ -8,7 +8,7 @@ import {
 } from '@mantine/core';
 import {
   IconActivity, IconAlertTriangle, IconCircleCheck, IconTrendingUp,
-  IconPlus, IconFlask,
+  IconFlask,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../state/store';
@@ -21,14 +21,6 @@ const PROCESS_COLORS: Record<string, string> = {
   natural: 'yellow',
   honey: 'orange',
   anaerobic: 'violet',
-};
-
-// ─── Severity Colors ──────────────────────────────────────────
-const SEVERITY_COLORS: Record<AlertSeverity, string> = {
-  critical: 'red',
-  high: 'orange',
-  medium: 'yellow',
-  low: 'blue',
 };
 
 // ─── Stat Card ────────────────────────────────────────────────
@@ -56,9 +48,16 @@ function StatCard({ label, value, icon: Icon, sub, color }: {
           )}
         </Box>
         <Box
-          p={8}
           bg="warm-ivory.3"
-          style={{ borderRadius: 'var(--mantine-radius-md)' }}
+          style={{
+            borderRadius: 'var(--mantine-radius-md)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 30,
+            height: 30,
+            flexShrink: 0,
+          }}
         >
           <Icon size={18} stroke={1.5} color="var(--mantine-color-dimmed)" />
         </Box>
@@ -131,13 +130,22 @@ function Metric({ label, value }: { label: string; value?: string | null }) {
 
 // ─── Alert Row (compact) ──────────────────────────────────────
 function AlertRow({ alert }: { alert: any }) {
+  const severity = alert.severity as AlertSeverity;
+  const borderColor: Record<AlertSeverity, string> = {
+    critical: 'red.5',
+    high: 'orange.5',
+    medium: 'yellow.5',
+    low: 'blue.5',
+  };
+
   return (
     <Box
       p="sm"
       style={{
         borderRadius: 'var(--mantine-radius-sm)',
-        background: `var(--mantine-color-${SEVERITY_COLORS[alert.severity as AlertSeverity] ?? 'gray'}-0)`,
-        borderLeft: `3px solid var(--mantine-color-${SEVERITY_COLORS[alert.severity as AlertSeverity] ?? 'gray'}-5)`,
+        backgroundColor: '#ffffff',
+        border: '1px solid var(--mantine-color-gray-3)',
+        borderLeft: `3px solid var(--mantine-color-${borderColor[severity] ?? 'gray-5'})`,
       }}
     >
       <Text size="xs" fw={600} tt="capitalize" mb={2}>
@@ -162,28 +170,16 @@ export function DashboardPage() {
     <Box p="xl" maw={1100} mx="auto">
       <Stack gap="lg">
         {/* Header */}
-        <Group justify="space-between">
-          <Box>
-            <Text size="xl" fw={800} lh={1.2}>
-              Dashboard
-            </Text>
-            <Text size="xs" c="dimmed" ff="'Space Mono', monospace" mt={2}>
-              {new Date().toLocaleDateString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-              })}
-            </Text>
-          </Box>
-          <Badge
-            size="md"
-            variant="filled"
-            bg="forest-green.6"
-            leftSection={<IconPlus size={14} />}
-            style={{ cursor: 'pointer' }}
-            onClick={() => navigate('/batches/new')}
-          >
-            New Batch
-          </Badge>
-        </Group>
+        <Box>
+          <Text size="xl" fw={800} lh={1.2}>
+            Dashboard
+          </Text>
+          <Text size="xs" c="dimmed" ff="'Space Mono', monospace" mt={2}>
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            })}
+          </Text>
+        </Box>
 
         {/* Stat Cards */}
         {state.loading && !summary ? (
@@ -253,15 +249,14 @@ export function DashboardPage() {
                     <Stack align="center">
                       <IconFlask size={32} color="var(--mantine-color-dimmed)" />
                       <Text size="sm" c="dimmed">No active batches</Text>
-                      <Badge
-                        variant="outline"
-                        color="forest-green"
-                        leftSection={<IconPlus size={14} />}
+                      <Text
+                        size="xs"
+                        c="forest-green.6"
                         style={{ cursor: 'pointer' }}
-                        onClick={() => navigate('/batches/new')}
+                        onClick={() => navigate('/batches')}
                       >
-                        Start a batch
-                      </Badge>
+                        Go to Batches →
+                      </Text>
                     </Stack>
                   </Center>
                 </Card>

@@ -7,7 +7,7 @@ import {
   AppShell, NavLink, Group, Text, ActionIcon, Box, Badge, Divider, Loader,
 } from '@mantine/core';
 import {
-  IconDashboard, IconFlask, IconBell, IconMoon, IconMenu2, IconX,
+  IconDashboard, IconFlask, IconBell, IconMenu2, IconX, IconGauge,
 } from '@tabler/icons-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useStore, dispatch } from '../state/store';
@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { href: '/', label: 'Dashboard', icon: IconDashboard },
   { href: '/batches', label: 'Batches', icon: IconFlask },
   { href: '/alerts', label: 'Alerts', icon: IconBell },
+  { href: '/demo', label: 'Sensor Demo', icon: IconGauge },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -75,7 +76,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {/* Navigation */}
         <Box p="sm" pt="md">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-            const active = href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
+            const active = href === '/'
+              ? location.pathname === '/'
+              : href === '/demo'
+                ? location.pathname.startsWith('/demo')
+                : location.pathname.startsWith(href);
             const alertBadge = label === 'Alerts' && unackAlerts > 0 ? unackAlerts : null;
 
             return (
@@ -110,16 +115,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
               />
             );
           })}
-        </Box>
-
-        <Box mt="auto" p="sm">
-          <Divider color="warm-ivory.4" mb="xs" />
-          <NavLink
-            label="Dark mode"
-            leftSection={<IconMoon size={16} stroke={1.5} />}
-            variant="subtle"
-            color="gray"
-          />
         </Box>
       </AppShell.Navbar>
 

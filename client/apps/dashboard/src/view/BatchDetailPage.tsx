@@ -4,13 +4,13 @@
 
 import {
   Card, Text, Group, Badge, Stack, Box, Center, Grid,
-  SimpleGrid, Skeleton, Button, Table, NumberInput,
-  Progress, Divider, ActionIcon,
+  SimpleGrid, Skeleton, Button, Anchor,
+  Progress, Divider, ActionIcon, Tooltip as MantineTooltip,
 } from '@mantine/core';
 import {
-  IconArrowLeft, IconBolt, IconRefresh, IconFlask,
+  IconArrowLeft, IconBolt, IconFlask,
   IconThermometer, IconWeight, IconWind,
-  IconChecks,
+  IconHistory, IconPencil,
 } from '@tabler/icons-react';
 import {
   LineChart,
@@ -22,8 +22,16 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { AlertGuidelineButton } from './AlertGuidelineModal';
+import { AlertDetailCard } from './AlertDetailCard';
+import { EditBatchModal } from './EditBatchModal';
+import { BatchReadingHistory } from './readings/BatchReadingHistory';
+import {
+  analysisTimestamp,
+  getLatestAnalysis,
+  getPastAnalysisHistory,
+} from './analysisDisplay';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useStore, dispatch } from '../state/store';
 import { createEffects, type Effects } from '../effects';
 import type { BatchRecord } from '../state/Model';
@@ -67,14 +75,6 @@ const RISK_CONFIG: Record<string, { color: string; label: string }> = {
   critical: { color: 'red.6', label: 'Critical' },
 };
 
-// ─── Severity Colors ──────────────────────────────────────────
-const SEVERITY_COLORS: Record<string, string> = {
-  critical: 'red',
-  high: 'orange',
-  medium: 'yellow',
-  low: 'blue',
-};
-
 // ─── Custom Chart Tooltip ─────────────────────────────────────
 function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
@@ -108,14 +108,9 @@ export function BatchDetailPage() {
   const state = useStore();
   const [batch, setBatch] = useState<BatchRecord | null>(null);
   const [loading, setLoading] = useState(true);
-  const [submittingReading, setSubmittingReading] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
-
-  // Sensor form state
-  const [ph, setPh] = useState<string | number>('');
-  const [temperature, setTemperature] = useState<string | number>('');
-  const [weight, setWeight] = useState<string | number>('');
-  const [co2, setCo2] = useState<string | number>('');
+  const [showAnalysisHistory, setShowAnalysisHistory] = useState(false);
+  const [editBatchOpened, setEditBatchOpened] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -125,35 +120,12 @@ export function BatchDetailPage() {
         setLoading(false);
       });
       effects.fetchAnalysis(id);
+      effects.fetchAnalysisHistory(id);
       effects.fetchReadings(id);
     }
   }, [id]);
 
   // ── Handlers ────────────────────────────────────────────────
-
-  const handleAddReading = async () => {
-    if (!id) return;
-    const data: Record<string, number> = {};
-    if (ph !== '') data.ph = Number(ph);
-    if (temperature !== '') data.temperature = Number(temperature);
-    if (weight !== '') data.weight = Number(weight);
-    if (co2 !== '') data.co2 = Number(co2);
-
-    if (Object.keys(data).length === 0) return;
-
-    setSubmittingReading(true);
-    await effects.addReading(id, data);
-    // Refresh batch to get updated latest* fields
-    const updated = await effects.fetchBatch(id);
-    if (updated) setBatch(updated);
-    setSubmittingReading(false);
-
-    // Clear form
-    setPh('');
-    setTemperature('');
-    setWeight('');
-    setCo2('');
-  };
 
   const handleAnalyze = async () => {
     if (!id) return;
@@ -194,9 +166,23 @@ export function BatchDetailPage() {
     );
   }
 
-  const analysis = state.batchAnalysis;
+  const analysisHistory = state.analysisHistory;
+  const latestAnalysis = getLatestAnalysis(state.batchAnalysis, analysisHistory);
+  const pastAnalysisHistory = getPastAnalysisHistory(state.batchAnalysis, analysisHistory);
+  const analysisFromArchive = !state.batchAnalysis && latestAnalysis != null;
   const readings = state.readings;
-  const batchAlerts = state.alerts.filter(a => !a.resolved).slice(0, 8);
+  const batchAlertHistory = state.alerts
+    .filter(a => a.batch === id)
+    .sort((a, b) => {
+      if (a.resolved !== b.resolved) return a.resolved ? 1 : -1;
+      return new Date(b.created).getTime() - new Date(a.created).getTime();
+    });
+  const unackBatchAlerts = batchAlertHistory.filter(a => !a.resolved);
+
+  const formatAnalysisDate = (entry: { createdAt?: string; created?: string }) => {
+    const raw = analysisTimestamp(entry);
+    return raw ? new Date(raw).toLocaleString() : '—';
+  };
 
   // Build chart data from readings (reversed so oldest → newest)
   const chartData = [...readings]
@@ -221,8 +207,18 @@ export function BatchDetailPage() {
               <IconArrowLeft size={16} />
             </ActionIcon>
             <Box>
-              <Group gap="xs" mb={4}>
+              <Group gap="xs" mb={4} align="center">
                 <Text size="xl" fw={800}>{batch.name}</Text>
+                <MantineTooltip label="Edit name & notes">
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    size="sm"
+                    onClick={() => setEditBatchOpened(true)}
+                  >
+                    <IconPencil size={16} />
+                  </ActionIcon>
+                </MantineTooltip>
                 <Badge size="xs" variant="outline" tt="capitalize" ff="'Space Mono', monospace">
                   {batch.processType}
                 </Badge>
@@ -302,7 +298,7 @@ export function BatchDetailPage() {
             <Stack gap="lg">
               {/* pH & Temperature Chart */}
               <Card withBorder>
-                <Card.Section withBorder inheritPadding py="xs" bg="warm-ivory.0">
+                <Card.Section withBorder inheritPadding py="xs">
                   <Group justify="space-between">
                     <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em">
                       pH & Temperature
@@ -323,7 +319,7 @@ export function BatchDetailPage() {
                 {readings.length === 0 ? (
                   <Box h={220} bg="warm-ivory.1" style={{ borderRadius: 'var(--mantine-radius-md)', marginTop: 4 }}>
                     <Center h="100%">
-                      <Text size="sm" c="dimmed">No sensor data yet — add readings below</Text>
+                      <Text size="sm" c="dimmed">No sensor data yet</Text>
                     </Center>
                   </Box>
                 ) : (
@@ -388,114 +384,19 @@ export function BatchDetailPage() {
                 )}
               </Card>
 
-              {/* Simulate Sensor Reading */}
-              {batch.status === 'active' && (
-                <Card withBorder>
-                  <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em" mb="md">
-                    Add Sensor Reading
-                  </Text>
-                  <SimpleGrid cols={{ base: 2, md: 4 }} spacing="sm">
-                    <NumberInput
-                      label="pH"
-                      placeholder="5.8"
-                      step={0.01}
-                      min={0} max={14}
-                      size="xs"
-                      value={ph === '' ? undefined : Number(ph)}
-                      onChange={(v) => setPh(v === '' ? '' : v)}
-                    />
-                    <NumberInput
-                      label="Temp °C"
-                      placeholder="24.5"
-                      step={0.1}
-                      size="xs"
-                      value={temperature === '' ? undefined : Number(temperature)}
-                      onChange={(v) => setTemperature(v === '' ? '' : v)}
-                    />
-                    <NumberInput
-                      label="Weight kg"
-                      placeholder="12.5"
-                      step={0.01}
-                      size="xs"
-                      value={weight === '' ? undefined : Number(weight)}
-                      onChange={(v) => setWeight(v === '' ? '' : v)}
-                    />
-                    <NumberInput
-                      label="CO₂ %"
-                      placeholder="45"
-                      step={0.1}
-                      min={0} max={100}
-                      size="xs"
-                      value={co2 === '' ? undefined : Number(co2)}
-                      onChange={(v) => setCo2(v === '' ? '' : v)}
-                    />
-                  </SimpleGrid>
-                  <Button
-                    size="xs"
-                    variant="outline"
-                    mt="md"
-                    leftSection={<IconRefresh size={14} />}
-                    loading={submittingReading}
-                    onClick={handleAddReading}
-                  >
-                    Record Reading
-                  </Button>
-                </Card>
-              )}
-
-              {/* Recent Readings Table */}
-              {readings.length > 0 && (
-                <Card withBorder>
-                  <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em" mb="md">
-                    Recent Readings ({readings.length})
-                  </Text>
-                  <Box style={{ overflowX: 'auto' }}>
-                    <Table highlightOnHover>
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th><Text size="xs" c="dimmed" ff="'Space Mono', monospace">Time</Text></Table.Th>
-                          <Table.Th ta="right"><Text size="xs" c="dimmed" ff="'Space Mono', monospace">pH</Text></Table.Th>
-                          <Table.Th ta="right"><Text size="xs" c="dimmed" ff="'Space Mono', monospace">°C</Text></Table.Th>
-                          <Table.Th ta="right"><Text size="xs" c="dimmed" ff="'Space Mono', monospace">kg</Text></Table.Th>
-                          <Table.Th ta="right"><Text size="xs" c="dimmed" ff="'Space Mono', monospace">CO₂%</Text></Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        {readings.slice(0, 10).map(r => (
-                          <Table.Tr key={r.id}>
-                            <Table.Td>
-                              <Text size="xs" c="dimmed" ff="'Space Mono', monospace">
-                                {new Date(r.timestamp).toLocaleString([], {
-                                  month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-                                })}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td ta="right">
-                              <Text size="xs" fw={700} ff="'Space Mono', monospace">
-                                {(r as any).ph?.toFixed(2) ?? '—'}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td ta="right">
-                              <Text size="xs" ff="'Space Mono', monospace">
-                                {(r as any).temperature?.toFixed(1) ?? '—'}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td ta="right">
-                              <Text size="xs" ff="'Space Mono', monospace">
-                                {(r as any).weight?.toFixed(2) ?? '—'}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td ta="right">
-                              <Text size="xs" ff="'Space Mono', monospace">
-                                {(r as any).co2?.toFixed(0) ?? '—'}
-                              </Text>
-                            </Table.Td>
-                          </Table.Tr>
-                        ))}
-                      </Table.Tbody>
-                    </Table>
-                  </Box>
-                </Card>
+              {id && (
+                <BatchReadingHistory
+                  batchId={id}
+                  maxRows={20}
+                  hint={
+                    <Text size="xs" c="dimmed" mt={4}>
+                      To record readings, use{' '}
+                      <Anchor component={Link} to={`/demo/${id}`} size="xs">
+                        Sensor Demo
+                      </Anchor>
+                    </Text>
+                  }
+                />
               )}
             </Stack>
           </Grid.Col>
@@ -509,18 +410,31 @@ export function BatchDetailPage() {
                   <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em">
                     AI Analysis
                   </Text>
-                  {analysis && (
-                    <Badge
-                      size="xs"
-                      variant="light"
-                      color={RISK_CONFIG[analysis.riskLevel]?.color.split('.')[0] ?? 'green'}
-                    >
-                      {RISK_CONFIG[analysis.riskLevel]?.label ?? 'Safe'}
-                    </Badge>
-                  )}
+                  <Group gap="xs">
+                    {pastAnalysisHistory.length > 0 && (
+                      <Button
+                        size="compact-xs"
+                        variant={showAnalysisHistory ? 'light' : 'subtle'}
+                        color="gray"
+                        leftSection={<IconHistory size={12} />}
+                        onClick={() => setShowAnalysisHistory(v => !v)}
+                      >
+                        History ({pastAnalysisHistory.length})
+                      </Button>
+                    )}
+                    {latestAnalysis && (
+                      <Badge
+                        size="xs"
+                        variant="light"
+                        color={RISK_CONFIG[latestAnalysis.riskLevel]?.color.split('.')[0] ?? 'green'}
+                      >
+                        {RISK_CONFIG[latestAnalysis.riskLevel]?.label ?? 'Safe'}
+                      </Badge>
+                    )}
+                  </Group>
                 </Group>
 
-                {!analysis ? (
+                {!latestAnalysis ? (
                   <Center py="lg">
                     <Stack align="center">
                       <IconBolt size={24} color="var(--mantine-color-dimmed)" opacity={0.4} />
@@ -532,35 +446,40 @@ export function BatchDetailPage() {
                   </Center>
                 ) : (
                   <Stack gap="md">
+                    {analysisFromArchive && (
+                      <Text size="xs" c="dimmed" ff="'Space Mono', monospace">
+                        Latest archived report
+                      </Text>
+                    )}
                     <Box>
                       <Group justify="space-between" mb={6}>
-                        <Text size="xs" fw={600}>{analysis.stage}</Text>
+                        <Text size="xs" fw={600}>{latestAnalysis.stage}</Text>
                         <Text size="xs" ff="'Space Mono', monospace" c="dimmed">
-                          {analysis.stageNumber}/{analysis.totalStages}
+                          {latestAnalysis.stageNumber}/{latestAnalysis.totalStages}
                         </Text>
                       </Group>
                       <Progress
-                        value={(analysis.stageNumber / analysis.totalStages) * 100}
+                        value={(latestAnalysis.stageNumber / latestAnalysis.totalStages) * 100}
                         color="forest-green"
                         size="sm"
                         radius="md"
                       />
                     </Box>
 
-                    {analysis.estimatedHoursRemaining != null && (
+                    {latestAnalysis.estimatedHoursRemaining != null && (
                       <Group justify="space-between">
                         <Text size="xs" c="dimmed">Est. remaining</Text>
                         <Text size="xs" fw={700} ff="'Space Mono', monospace">
-                          {analysis.estimatedHoursRemaining.toFixed(1)}h
+                          {latestAnalysis.estimatedHoursRemaining.toFixed(1)}h
                         </Text>
                       </Group>
                     )}
 
-                    {analysis.predictedScore != null && (
+                    {latestAnalysis.predictedScore != null && (
                       <Group justify="space-between">
                         <Text size="xs" c="dimmed">Predicted score</Text>
                         <Text size="md" fw={800} c="muted-gold.6" ff="'Space Mono', monospace">
-                          {analysis.predictedScore.toFixed(1)}
+                          {latestAnalysis.predictedScore.toFixed(1)}
                         </Text>
                       </Group>
                     )}
@@ -568,13 +487,61 @@ export function BatchDetailPage() {
                     <Divider />
 
                     <Text size="xs" c="dimmed" lh={1.6}>
-                      {analysis.recommendation}
+                      {latestAnalysis.recommendation}
                     </Text>
 
-                    <Text fz={9} c="dimmed" ff="'Space Mono', monospace" opacity={0.6}>
-                      Updated {new Date(analysis.createdAt).toLocaleString()}
-                    </Text>
+                    {analysisTimestamp(latestAnalysis) && (
+                      <Text fz={9} c="dimmed" ff="'Space Mono', monospace" opacity={0.6}>
+                        Updated {formatAnalysisDate(latestAnalysis)}
+                      </Text>
+                    )}
+
+                    <Button
+                      size="xs"
+                      variant="outline"
+                      leftSection={<IconBolt size={14} />}
+                      loading={analyzing}
+                      onClick={handleAnalyze}
+                    >
+                      Run new analysis
+                    </Button>
                   </Stack>
+                )}
+
+                {showAnalysisHistory && pastAnalysisHistory.length > 0 && (
+                  <>
+                    <Divider my="md" />
+                    <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em" mb="sm">
+                      Past Reports
+                    </Text>
+                    <Stack gap="sm">
+                      {pastAnalysisHistory.map(entry => (
+                        <Box
+                          key={entry.id}
+                          p="sm"
+                          bg="warm-ivory.0"
+                          style={{ borderRadius: 'var(--mantine-radius-sm)' }}
+                        >
+                          <Group justify="space-between" mb={4}>
+                            <Text size="xs" fw={600}>{entry.stage}</Text>
+                            <Badge
+                              size="xs"
+                              variant="light"
+                              color={RISK_CONFIG[entry.riskLevel]?.color.split('.')[0] ?? 'gray'}
+                            >
+                              {RISK_CONFIG[entry.riskLevel]?.label ?? entry.riskLevel}
+                            </Badge>
+                          </Group>
+                          <Text size="xs" c="dimmed" lh={1.5} lineClamp={3}>
+                            {entry.recommendation}
+                          </Text>
+                          <Text fz={9} c="dimmed" ff="'Space Mono', monospace" mt={6} opacity={0.7}>
+                            {formatAnalysisDate(entry)}
+                          </Text>
+                        </Box>
+                      ))}
+                    </Stack>
+                  </>
                 )}
               </Card>
 
@@ -587,83 +554,76 @@ export function BatchDetailPage() {
                     </Text>
                     <AlertGuidelineButton size={13} />
                   </Group>
-                  {batchAlerts.length > 0 && (
+                  {unackBatchAlerts.length > 0 && (
                     <Badge size="xs" color="red" variant="filled" circle>
-                      {batchAlerts.length}
+                      {unackBatchAlerts.length}
                     </Badge>
                   )}
                 </Group>
 
-                {batchAlerts.length === 0 ? (
+                {batchAlertHistory.length === 0 ? (
                   <Text size="xs" c="dimmed" ta="center" py="sm">No alerts</Text>
                 ) : (
                   <Stack gap="xs">
-                    {batchAlerts.map(alert => (
-                      <Box
+                    {batchAlertHistory.map(alert => (
+                      <AlertDetailCard
                         key={alert.id}
-                        p="sm"
-                        style={{
-                          borderRadius: 'var(--mantine-radius-sm)',
-                          background: `var(--mantine-color-${SEVERITY_COLORS[alert.severity] ?? 'gray'}-0)`,
-                          borderLeft: `3px solid var(--mantine-color-${SEVERITY_COLORS[alert.severity] ?? 'gray'}-5)`,
-                        }}
-                      >
-                        <Group justify="space-between" align="flex-start" wrap="nowrap">
-                          <Box style={{ flex: 1 }}>
-                            <Text size="xs" fw={600} tt="capitalize" mb={2}>
-                              {(alert.type as string || '').replace(/_/g, ' ')}
-                            </Text>
-                            <Text fz={11} c="dimmed" lh={1.4}>{alert.message}</Text>
-                          </Box>
-                          {!alert.resolved && (
-                            <ActionIcon
-                              size="sm"
-                              variant="subtle"
-                              color="gray"
-                              onClick={() => effects.resolveAlert(alert.id)}
-                            >
-                              <IconChecks size={14} />
-                            </ActionIcon>
-                          )}
-                        </Group>
-                      </Box>
+                        alert={alert}
+                        showAck
+                        onAck={() => effects.resolveAlert(alert.id)}
+                      />
                     ))}
                   </Stack>
                 )}
               </Card>
 
               {/* Batch Details */}
-              {(batch.notes || batch.targetFlavorProfile) && (
-                <Card withBorder>
-                  <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em" mb="md">
+              <Card withBorder>
+                <Group justify="space-between" mb="md">
+                  <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em">
                     Details
                   </Text>
-                  <Stack gap="sm">
-                    {batch.targetFlavorProfile && (
-                      <Box>
-                        <Text size="xs" c="dimmed">Target flavor</Text>
-                        <Text size="xs" fw={500}>{batch.targetFlavorProfile}</Text>
-                      </Box>
-                    )}
-                    {batch.ambientTemp != null && (
-                      <Box>
-                        <Text size="xs" c="dimmed">Ambient temp</Text>
-                        <Text size="xs" fw={700} ff="'Space Mono', monospace">{batch.ambientTemp}°C</Text>
-                      </Box>
-                    )}
-                    {batch.notes && (
-                      <Box>
-                        <Text size="xs" c="dimmed">Notes</Text>
-                        <Text size="xs" lh={1.6}>{batch.notes}</Text>
-                      </Box>
-                    )}
-                  </Stack>
-                </Card>
-              )}
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    size="sm"
+                    onClick={() => setEditBatchOpened(true)}
+                  >
+                    <IconPencil size={14} />
+                  </ActionIcon>
+                </Group>
+                <Stack gap="sm">
+                  {batch.targetFlavorProfile && (
+                    <Box>
+                      <Text size="xs" c="dimmed">Target flavor</Text>
+                      <Text size="xs" fw={500}>{batch.targetFlavorProfile}</Text>
+                    </Box>
+                  )}
+                  {batch.ambientTemp != null && (
+                    <Box>
+                      <Text size="xs" c="dimmed">Ambient temp</Text>
+                      <Text size="xs" fw={700} ff="'Space Mono', monospace">{batch.ambientTemp}°C</Text>
+                    </Box>
+                  )}
+                  <Box>
+                    <Text size="xs" c="dimmed">Notes</Text>
+                    <Text size="xs" lh={1.6} c={batch.notes ? undefined : 'dimmed'}>
+                      {batch.notes || 'No notes yet'}
+                    </Text>
+                  </Box>
+                </Stack>
+              </Card>
             </Stack>
           </Grid.Col>
         </Grid>
       </Stack>
+
+      <EditBatchModal
+        batch={batch}
+        opened={editBatchOpened}
+        onClose={() => setEditBatchOpened(false)}
+        onSaved={setBatch}
+      />
     </Box>
   );
 }

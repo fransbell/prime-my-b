@@ -131,7 +131,6 @@ export function AlertGuidelineModal({ opened, onClose }: {
       size="lg"
       radius="md"
       styles={{
-        header: { borderBottom: '1px solid var(--mantine-color-warm-ivory-4)' },
         body: { padding: 0 },
       }}
     >
@@ -213,7 +212,7 @@ export function AlertGuidelineModal({ opened, onClose }: {
                   </Table>
                 </Box>
 
-                {param.key !== 'weight' && <Divider color="warm-ivory.3" mt="sm" />}
+                {param.key !== 'weight' && <Divider color="gray.3" mt="sm" />}
               </Box>
             );
           })}

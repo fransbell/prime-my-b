@@ -5,7 +5,7 @@ import type {
   SensorRecord, SensorReading, AlertRecord,
 } from '@prime-my-brain/store';
 import type {
-  BatchRecord, BatchAnalysis, DashboardSummary,
+  BatchRecord, BatchAnalysis, AnalysisHistoryEntry, DashboardSummary,
   BatchStatus, ProcessType, AlertSeverity,
 } from './Model';
 
@@ -17,11 +17,13 @@ export type BatchAction =
   | { type: 'batch/SELECT'; payload: { batchId: string } }
   | { type: 'batch/DESELECT' }
   | { type: 'batch/SET_STATUS_FILTER'; payload: { filter: BatchStatus | 'all' } }
-  | { type: 'batch/SET_PROCESS_FILTER'; payload: { filter: ProcessType | 'all' } };
+  | { type: 'batch/SET_PROCESS_FILTER'; payload: { filter: ProcessType | 'all' } }
+  | { type: 'batch/UPDATE_SUCCESS'; payload: { batch: BatchRecord } };
 
 // ─── Batch Analysis Actions ───────────────────────────────────
 export type AnalysisAction =
   | { type: 'analysis/FETCH_SUCCESS'; payload: { analysis: BatchAnalysis } }
+  | { type: 'analysis/HISTORY_FETCH_SUCCESS'; payload: { history: AnalysisHistoryEntry[] } }
   | { type: 'analysis/CLEAR' };
 
 // ─── Sensor Actions ───────────────────────────────────────────

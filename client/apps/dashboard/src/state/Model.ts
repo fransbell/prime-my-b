@@ -43,6 +43,10 @@ export interface BatchAnalysis {
   createdAt: string;
 }
 
+export type AnalysisHistoryEntry = BatchAnalysis & {
+  originalAnalysisId?: string;
+};
+
 export interface DashboardSummary {
   activeBatches: number;
   completedBatches: number;
@@ -58,6 +62,7 @@ export interface AppState {
   batches: BatchRecord[];
   selectedBatchId: string | null;
   batchAnalysis: BatchAnalysis | null;
+  analysisHistory: AnalysisHistoryEntry[];
 
   // Sensor data
   sensors: SensorRecord[];
@@ -86,6 +91,7 @@ export const initialAppState: AppState = {
   batches: [],
   selectedBatchId: null,
   batchAnalysis: null,
+  analysisHistory: [],
   sensors: [],
   readings: [],
   alerts: [],

@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the PocketBase server binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o /pocketbase-server main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /pocketbase-server .
 
 # ---- Runtime Stage ----
 FROM alpine:3.20

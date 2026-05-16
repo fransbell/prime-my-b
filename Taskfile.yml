@@ -39,7 +39,7 @@ tasks:
     desc: "Start PocketBase Go server on :{{.PB_PORT}}"
     dir: "{{.SERVER_DIR}}"
     cmds:
-      - go run main.go serve --http=0.0.0.0:{{.PB_PORT}}
+      - go run . serve --http=0.0.0.0:{{.PB_PORT}}
     env:
       PB_ADMIN_EMAIL: "{{.PB_ADMIN_EMAIL}}"
       PB_ADMIN_PASSWORD: "{{.PB_ADMIN_PASSWORD}}"
@@ -104,7 +104,7 @@ tasks:
     desc: "Compile PocketBase server binary"
     dir: "{{.SERVER_DIR}}"
     cmds:
-      - go build -o ./bin/server main.go
+      - go build -o ./bin/server .
 
   build:client:
     desc: "Build all client apps via Turborepo"
@@ -177,13 +177,13 @@ tasks:
     desc: "Reset PocketBase admin credentials"
     dir: "{{.SERVER_DIR}}"
     cmds:
-      - go run main.go superuser upsert {{.PB_ADMIN_EMAIL}} {{.PB_ADMIN_PASSWORD}}
+      - go run . superuser upsert {{.PB_ADMIN_EMAIL}} {{.PB_ADMIN_PASSWORD}}
 
   pb:migrate:
     desc: "Run PocketBase migrations"
     dir: "{{.SERVER_DIR}}"
     cmds:
-      - go run main.go migrate
+      - go run . migrate
 
   # ── Clean ──
 

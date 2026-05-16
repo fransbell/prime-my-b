@@ -10,6 +10,7 @@ import {
   IconPlayerPause, IconAlertCircle,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { NewBatchModal } from './NewBatchModal';
 import { useStore } from '../state/store';
 import type { BatchStatus, ProcessType } from '../state/Model';
 
@@ -34,6 +35,7 @@ export function BatchListPage() {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<BatchStatus | 'all'>('all');
   const [processFilter, setProcessFilter] = useState<ProcessType | 'all'>('all');
+  const [newBatchOpened, setNewBatchOpened] = useState(false);
 
   // Filter batches
   const filtered = state.batches.filter(b => {
@@ -70,7 +72,7 @@ export function BatchListPage() {
             bg="forest-green.6"
             leftSection={<IconPlus size={14} />}
             style={{ cursor: 'pointer' }}
-            onClick={() => navigate('/batches/new')}
+            onClick={() => setNewBatchOpened(true)}
           >
             New Batch
           </Badge>
@@ -147,7 +149,7 @@ export function BatchListPage() {
                   variant="outline"
                   color="forest-green"
                   style={{ cursor: 'pointer' }}
-                  onClick={() => navigate('/batches/new')}
+                  onClick={() => setNewBatchOpened(true)}
                 >
                   Create your first batch
                 </Badge>
@@ -238,6 +240,12 @@ export function BatchListPage() {
           </Stack>
         )}
       </Stack>
+
+      <NewBatchModal
+        opened={newBatchOpened}
+        onClose={() => setNewBatchOpened(false)}
+        onCreated={(batchId) => navigate(`/batches/${batchId}`)}
+      />
     </Box>
   );
 }

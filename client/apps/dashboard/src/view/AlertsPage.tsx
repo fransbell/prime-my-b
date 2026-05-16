@@ -4,48 +4,31 @@
 import { useState } from 'react';
 import {
   Card, Text, Group, Badge, Stack, Box, Center, Skeleton,
-  Button,
 } from '@mantine/core';
-import { IconBell, IconChecks } from '@tabler/icons-react';
+import { IconBell } from '@tabler/icons-react';
 import { useStore, dispatch } from '../state/store';
 import { createEffects, type Effects } from '../effects';
 import type { AlertSeverity } from '../state/Model';
 import { AlertGuidelineButton } from './AlertGuidelineModal';
+import { AlertDetailCard } from './AlertDetailCard';
 
 const effects: Effects = createEffects(dispatch as any);
-
-// ─── Severity Colors ──────────────────────────────────────────
-const SEVERITY_BG: Record<AlertSeverity, string> = {
-  critical: 'red.0',
-  high: 'orange.0',
-  medium: 'yellow.0',
-  low: 'blue.0',
-};
-
-const SEVERITY_BORDER: Record<AlertSeverity, string> = {
-  critical: 'red.5',
-  high: 'orange.5',
-  medium: 'yellow.5',
-  low: 'blue.5',
-};
-
-const SEVERITY_BADGE: Record<AlertSeverity, string> = {
-  critical: 'red',
-  high: 'orange',
-  medium: 'yellow',
-  low: 'blue',
-};
 
 export function AlertsPage() {
   const state = useStore();
   const [severityFilter, setSeverityFilter] = useState<AlertSeverity | 'all'>('all');
-  const [showAcked, setShowAcked] = useState(false);
+  const [hideAcked, setHideAcked] = useState(false);
 
-  const filtered = state.alerts.filter(a => {
-    if (!showAcked && a.resolved) return false;
-    if (severityFilter !== 'all' && a.severity !== severityFilter) return false;
-    return true;
-  });
+  const filtered = state.alerts
+    .filter(a => {
+      if (hideAcked && a.resolved) return false;
+      if (severityFilter !== 'all' && a.severity !== severityFilter) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      if (a.resolved !== b.resolved) return a.resolved ? 1 : -1;
+      return new Date(b.created).getTime() - new Date(a.created).getTime();
+    });
 
   const unackCount = state.alerts.filter(a => !a.resolved).length;
 
@@ -64,7 +47,7 @@ export function AlertsPage() {
             )}
           </Group>
           <Text size="xs" c="dimmed" ff="'Space Mono', monospace" mt={4}>
-            All alerts across all fermentation batches
+            Active and acknowledged alerts — history stays visible as a reminder
           </Text>
         </Box>
 
@@ -99,12 +82,12 @@ export function AlertsPage() {
 
           <Badge
             size="sm"
-            variant={showAcked ? 'filled' : 'outline'}
-            color={showAcked ? 'forest-green' : 'gray'}
+            variant={hideAcked ? 'filled' : 'outline'}
+            color={hideAcked ? 'gray' : 'forest-green'}
             style={{ cursor: 'pointer' }}
-            onClick={() => setShowAcked(v => !v)}
+            onClick={() => setHideAcked(v => !v)}
           >
-            {showAcked ? 'Showing acknowledged' : 'Show acknowledged'}
+            {hideAcked ? 'Hiding acknowledged' : 'Hide acknowledged'}
           </Badge>
         </Group>
 
@@ -128,55 +111,15 @@ export function AlertsPage() {
           </Card>
         ) : (
           <Stack gap="xs">
-            {filtered.map(alert => {
-              const severity = alert.severity as AlertSeverity;
-              return (
-                <Box
-                  key={alert.id}
-                  p="md"
-                  style={{
-                    borderRadius: 'var(--mantine-radius-md)',
-                    background: `var(--mantine-color-${SEVERITY_BG[severity] ?? 'gray-0'})`,
-                    borderLeft: `4px solid var(--mantine-color-${SEVERITY_BORDER[severity] ?? 'gray-5'})`,
-                    opacity: alert.resolved ? 0.5 : 1,
-                    transition: 'opacity 0.15s ease',
-                  }}
-                >
-                  <Group justify="space-between" align="flex-start" wrap="nowrap">
-                    <Box style={{ flex: 1 }}>
-                      <Group gap="xs" mb={4}>
-                        <Badge
-                          size="xs"
-                          variant="light"
-                          color={SEVERITY_BADGE[severity] ?? 'gray'}
-                          ff="'Space Mono', monospace"
-                          tt="uppercase"
-                        >
-                          {severity}
-                        </Badge>
-                        <Text size="xs" fw={600} tt="capitalize">
-                          {(alert.type as string || '').replace(/_/g, ' ')}
-                        </Text>
-                        <Text fz={10} c="dimmed" ff="'Space Mono', monospace" ml="auto">
-                          {new Date(alert.created).toLocaleString()}
-                        </Text>
-                      </Group>
-                      <Text size="sm" lh={1.5}>{alert.message}</Text>
-                    </Box>
-                    {!alert.resolved && (
-                      <Button
-                        size="xs"
-                        variant="outline"
-                        leftSection={<IconChecks size={14} />}
-                        onClick={() => effects.resolveAlert(alert.id)}
-                      >
-                        Ack
-                      </Button>
-                    )}
-                  </Group>
-                </Box>
-              );
-            })}
+            {filtered.map(alert => (
+              <AlertDetailCard
+                key={alert.id}
+                alert={alert}
+                showAck
+                showBatchLink
+                onAck={() => effects.resolveAlert(alert.id)}
+              />
+            ))}
           </Stack>
         )}
       </Stack>
