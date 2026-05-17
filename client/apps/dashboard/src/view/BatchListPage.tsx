@@ -224,14 +224,22 @@ export function BatchListPage() {
                           {batch.latestTemp?.toFixed(1) ?? '—'}
                         </Text>
                       </Box>
-                      {batch.predictedScore != null && (
-                        <Box ta="right" miw={40}>
-                          <Text fz={9} c="dimmed" ff="'Space Mono', monospace">score</Text>
-                          <Text size="md" fw={800} c="muted-gold.6">
-                            {batch.predictedScore.toFixed(1)}
-                          </Text>
-                        </Box>
-                      )}
+                      {(() => {
+                        const actual = batch.actualCuppingScore != null && batch.actualCuppingScore > 0 ? batch.actualCuppingScore : null;
+                        const predicted = batch.predictedScore != null && batch.predictedScore > 0 ? batch.predictedScore : null;
+                        const display = actual ?? predicted;
+                        if (display == null) return null;
+                        return (
+                          <Box ta="right" miw={40}>
+                            <Text fz={9} c="dimmed" ff="'Space Mono', monospace">
+                              {actual != null ? 'actual' : 'predicted'}
+                            </Text>
+                            <Text size="md" fw={800} c={actual != null ? 'muted-gold.6' : 'dimmed'}>
+                              {display.toFixed(1)}
+                            </Text>
+                          </Box>
+                        );
+                      })()}
                     </Group>
                   </Group>
                 </Card>
@@ -242,8 +250,8 @@ export function BatchListPage() {
       </Stack>
 
       <NewBatchModal
-        opened={newBatchOpened}
-        onClose={() => setNewBatchOpened(false)}
+        opened={newBatchOpened || state.demo.openNewBatch}
+        onClose={() => { if (!state.demo.active) setNewBatchOpened(false); }}
         onCreated={(batchId) => navigate(`/batches/${batchId}`)}
       />
     </Box>

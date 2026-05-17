@@ -6,8 +6,17 @@ import type {
 } from '@prime-my-brain/store';
 import type {
   BatchRecord, BatchAnalysis, AnalysisHistoryEntry, DashboardSummary,
-  BatchStatus, ProcessType, AlertSeverity,
+  BatchStatus, ProcessType, AlertSeverity, Recipe, RetrievedReference,
 } from './Model';
+
+// ─── Pitch Demo Actions ───────────────────────────────────────
+export type DemoAction =
+  | { type: 'demo/START' }
+  | { type: 'demo/STOP' }
+  | { type: 'demo/SET_STEP'; payload: { step: number; title: string; caption: string } }
+  | { type: 'demo/OPEN_NEW_BATCH'; payload: { open: boolean } }
+  | { type: 'demo/APPLY_AMBIENT'; payload: { value: boolean } }
+  | { type: 'demo/SET_FORM'; payload: { form: Partial<{ name: string; variety: string; process: ProcessType }> } };
 
 // ─── Batch Actions ────────────────────────────────────────────
 export type BatchAction =
@@ -53,6 +62,13 @@ export type AlertAction =
 export type SummaryAction =
   | { type: 'summary/FETCH_SUCCESS'; payload: { summary: DashboardSummary } };
 
+// ─── Recipe Actions (Feature 5) ───────────────────────────────
+export type RecipeAction =
+  | { type: 'recipe/FETCH_SUCCESS'; payload: { recipes: Recipe[] } }
+  | { type: 'recipe/SAVE_SUCCESS'; payload: { recipe: Recipe } }
+  | { type: 'recipe/RETRIEVE_SUCCESS'; payload: { reference: RetrievedReference | null } }
+  | { type: 'recipe/RETRIEVE_CLEAR' };
+
 // ─── Root Action Union ────────────────────────────────────────
 export type AppAction =
   | BatchAction
@@ -61,5 +77,7 @@ export type AppAction =
   | ReadingAction
   | AlertAction
   | SummaryAction
+  | RecipeAction
+  | DemoAction
   | { type: 'ui/CLEAR_ERROR' }
   | { type: 'ui/RESET' };

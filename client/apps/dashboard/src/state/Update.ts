@@ -3,7 +3,7 @@
 
 import type { AppState } from './Model';
 import type { AppAction } from './Actions';
-import { initialAppState } from './Model';
+import { initialAppState, initialDemoState } from './Model';
 
 export function update(state: AppState, action: AppAction): AppState {
   switch (action.type) {
@@ -111,6 +111,54 @@ export function update(state: AppState, action: AppAction): AppState {
     // ── Summary ──
     case 'summary/FETCH_SUCCESS':
       return { ...state, summary: action.payload.summary };
+
+    // ── Recipes ──
+    case 'recipe/FETCH_SUCCESS':
+      return { ...state, recipes: action.payload.recipes };
+
+    case 'recipe/SAVE_SUCCESS':
+      return {
+        ...state,
+        recipes: state.recipes.some(r => r.id === action.payload.recipe.id)
+          ? state.recipes.map(r => r.id === action.payload.recipe.id ? action.payload.recipe : r)
+          : [action.payload.recipe, ...state.recipes],
+      };
+
+    case 'recipe/RETRIEVE_SUCCESS':
+      return { ...state, retrievedReference: action.payload.reference };
+
+    case 'recipe/RETRIEVE_CLEAR':
+      return { ...state, retrievedReference: null };
+
+    // ── Pitch Demo ──
+    case 'demo/START':
+      return { ...state, demo: { ...initialDemoState, active: true } };
+
+    case 'demo/STOP':
+      return { ...state, demo: { ...initialDemoState } };
+
+    case 'demo/SET_STEP':
+      return {
+        ...state,
+        demo: {
+          ...state.demo,
+          step: action.payload.step,
+          title: action.payload.title,
+          caption: action.payload.caption,
+        },
+      };
+
+    case 'demo/OPEN_NEW_BATCH':
+      return { ...state, demo: { ...state.demo, openNewBatch: action.payload.open } };
+
+    case 'demo/APPLY_AMBIENT':
+      return { ...state, demo: { ...state.demo, applyAmbient: action.payload.value } };
+
+    case 'demo/SET_FORM':
+      return {
+        ...state,
+        demo: { ...state.demo, form: { ...state.demo.form, ...action.payload.form } },
+      };
 
     // ── General UI ──
     case 'ui/CLEAR_ERROR':

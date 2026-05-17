@@ -41,3 +41,6 @@ infra/.env
 .env.*.local
 repo/
 server
+
+
+.playwright-mcp
