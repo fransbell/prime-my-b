@@ -48,7 +48,7 @@ tasks:
       LINE_CLIENT_ID: "{{.LINE_CLIENT_ID}}"
 
   dev:client:
-    desc: "Start all client apps via Turborepo (dashboard, liff-app, iot-demo)"
+    desc: "Start all client apps via Turborepo (dashboard, liff-app)"
     dir: "{{.CLIENT_DIR}}"
     cmds:
       - bun run dev
@@ -63,12 +63,6 @@ tasks:
     desc: "Start LIFF app with Cloudflare tunnel for LINE Login callback"
     cmds:
       - ./scripts/liff-tunnel.sh
-
-  dev:iot-demo:
-    desc: "Start IoT Demo app only"
-    dir: "{{.CLIENT_DIR}}"
-    cmds:
-      - bun run --filter @prime-my-brain/iot-demo dev
 
   # ── Install / Setup ──
 
@@ -123,12 +117,6 @@ tasks:
     dir: "{{.CLIENT_DIR}}"
     cmds:
       - bun run --filter @prime-my-brain/liff-app build
-
-  build:iot-demo:
-    desc: "Build IoT Demo app"
-    dir: "{{.CLIENT_DIR}}"
-    cmds:
-      - bun run --filter @prime-my-brain/iot-demo build
 
   # ── Lint / Type-check ──
 

@@ -60,27 +60,6 @@ prime-my-b/
 │   │   │       │   └── pb.ts
 │   │   │       ├── schemas/
 │   │   │       └── types/
-│   │   └── iot-demo/              # IoT data insert/generation demo
-│   │       ├── package.json
-│   │       ├── index.html
-│   │       ├── vite.config.ts
-│   │       ├── tsconfig.json
-│   │       └── src/
-│   │           ├── main.tsx
-│   │           ├── App.tsx
-│   │           ├── theme.ts
-│   │           ├── state/
-│   │           │   ├── Model.ts
-│   │           │   ├── Actions.ts
-│   │           │   └── Update.ts
-│   │           ├── view/
-│   │           ├── effects/
-│   │           ├── components/
-│   │           ├── hooks/
-│   │           ├── lib/
-│   │           │   └── pb.ts
-│   │           ├── schemas/
-│   │           └── types/
 │   └── packages/
 │       ├── ui/                     # Shared UI components (pure presentational)
 │       │   ├── package.json

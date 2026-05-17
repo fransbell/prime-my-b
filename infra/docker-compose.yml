@@ -11,8 +11,8 @@ services:
     ports:
       - "8090:8090"
     volumes:
-      - pb_data:/app/pb_data
-      - pb_public:/app/pb_public
+      - ../server/pb_data:/app/pb_data
+      - ../server/pb_public:/app/pb_public
     environment:
       - PB_DATA_DIR=/app/pb_data
       - PB_ADMIN_EMAIL=${PB_ADMIN_EMAIL:-admin@example.com}
@@ -36,6 +36,7 @@ services:
       dockerfile: ../infra/Dockerfile.client
       args:
         - APP_NAME=dashboard
+        - VITE_PB_URL=https://api.deploy-man.dev
     container_name: prime-my-brain-dashboard
     restart: unless-stopped
     ports:
@@ -44,7 +45,7 @@ services:
       pocketbase:
         condition: service_healthy
     environment:
-      - VITE_PB_URL=http://pocketbase:8090
+      - VITE_PB_URL=https://api.deploy-man.dev
 
   # LIFF App (LINE Front-end Framework)
   liff-app:
@@ -53,6 +54,7 @@ services:
       dockerfile: ../infra/Dockerfile.client
       args:
         - APP_NAME=liff-app
+        - VITE_PB_URL=https://api.deploy-man.dev
     container_name: prime-my-brain-liff
     restart: unless-stopped
     ports:
@@ -65,23 +67,6 @@ services:
       - VITE_LIFF_ID=${LIFF_ID:-}
       - VITE_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-}
       - VITE_LIFF_REDIRECT_URI=${LIFF_REDIRECT_URI:-}
-
-  # IoT Demo App (Data Generation/Insert)
-  iot-demo:
-    build:
-      context: ../client
-      dockerfile: ../infra/Dockerfile.client
-      args:
-        - APP_NAME=iot-demo
-    container_name: prime-my-brain-iot-demo
-    restart: unless-stopped
-    ports:
-      - "3002:80"
-    depends_on:
-      pocketbase:
-        condition: service_healthy
-    environment:
-      - VITE_PB_URL=http://pocketbase:8090
 
 volumes:
   pb_data:

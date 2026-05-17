@@ -172,7 +172,7 @@ export function DashboardPage() {
         {/* Header */}
         <Box>
           <Text size="xl" fw={800} lh={1.2}>
-            Dashboard
+            Fermentation Copilot
           </Text>
           <Text size="xs" c="dimmed" ff="'Space Mono', monospace" mt={2}>
             {new Date().toLocaleDateString('en-US', {

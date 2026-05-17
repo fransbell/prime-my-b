@@ -578,8 +578,4 @@ async function authenticateWithPB(liff: any, dispatch: (a: AppAction) => void) {
 }
 ```
 
-### IoT Demo App (`apps/iot-demo`)
-- Focus: Generate/insert demo IoT data for dashboard testing
-- Simulates sensor data streams
-- Form-heavy for manual data entry
-- Elm modules: data entry state, generator state, simulator state
+

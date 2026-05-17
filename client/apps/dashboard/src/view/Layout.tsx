@@ -62,9 +62,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </Box>
             <Box>
               <Text size="xs" fw={800} tt="uppercase" lts="0.08em" c="forest-green.6" lh={1.1}>
-                Harvest Lanna
+                Harvest
               </Text>
-              <Text fz={9} c="dimmed" ff="'Space Mono', monospace">
+              <Text fz={10} fw={600} tt="uppercase" lts="0.06em" c="muted-gold.6" lh={1.1}>
+                Lanna Plus
+              </Text>
+              <Text fz={8} c="dimmed" ff="'Space Mono', monospace" mt={1}>
                 Fermentation Copilot
               </Text>
             </Box>

@@ -1,4 +1,4 @@
-# Dockerfile for client apps (dashboard, liff-app, iot-demo)
+# Dockerfile for client apps (dashboard, liff-app)
 # Multi-stage build: install deps with Bun, build with Vite, serve with Nginx
 # Usage: docker build --build-arg APP_NAME=dashboard .
 
@@ -17,6 +17,9 @@ RUN bun install
 
 # ---- Build Stage ----
 ARG APP_NAME
+ARG VITE_PB_URL
+
+ENV VITE_PB_URL=${VITE_PB_URL}
 
 WORKDIR /app
 
