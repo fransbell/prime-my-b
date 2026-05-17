@@ -7,11 +7,13 @@ import {
   AppShell, NavLink, Group, Text, ActionIcon, Box, Badge, Divider, Loader,
 } from '@mantine/core';
 import {
-  IconDashboard, IconFlask, IconBell, IconMenu2, IconX, IconGauge,
+  IconDashboard, IconFlask, IconBell, IconMenu2, IconX, IconGauge, IconBookmark,
+  IconPlayerPlayFilled,
 } from '@tabler/icons-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useStore, dispatch } from '../state/store';
 import { createEffects, type Effects } from '../effects';
+import { PitchDemo } from './PitchDemo';
 
 const effects: Effects = createEffects(dispatch as any);
 
@@ -19,6 +21,7 @@ const NAV_ITEMS = [
   { href: '/', label: 'Dashboard', icon: IconDashboard },
   { href: '/batches', label: 'Batches', icon: IconFlask },
   { href: '/alerts', label: 'Alerts', icon: IconBell },
+  { href: '/recipes', label: 'Recipes', icon: IconBookmark },
   { href: '/demo', label: 'Sensor Demo', icon: IconGauge },
 ];
 
@@ -118,6 +121,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
               />
             );
           })}
+
+          <Divider color="warm-ivory.4" my="sm" />
+
+          <NavLink
+            label={<Text size="sm" fw={700}>Pitch Demo</Text>}
+            description="Auto-play the RAG story"
+            leftSection={<IconPlayerPlayFilled size={16} />}
+            variant="light"
+            color="muted-gold"
+            active={state.demo.active}
+            style={{ borderRadius: 'var(--mantine-radius-md)' }}
+            onClick={() => {
+              setMobileNavOpen(false);
+              dispatch({ type: state.demo.active ? 'demo/STOP' : 'demo/START' });
+            }}
+          />
         </Box>
       </AppShell.Navbar>
 
@@ -151,6 +170,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <AppShell.Main style={{ background: 'var(--mantine-color-body)', minHeight: '100vh' }}>
         {children}
       </AppShell.Main>
+
+      {/* Pitch Demo controller + narration overlay */}
+      <PitchDemo />
     </AppShell>
   );
 }

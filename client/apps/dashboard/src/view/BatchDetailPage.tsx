@@ -6,11 +6,12 @@ import {
   Card, Text, Group, Badge, Stack, Box, Center, Grid,
   SimpleGrid, Skeleton, Button, Anchor,
   Progress, Divider, ActionIcon, Tooltip as MantineTooltip,
+  NumberInput,
 } from '@mantine/core';
 import {
   IconArrowLeft, IconBolt, IconFlask,
   IconThermometer, IconWeight, IconWind,
-  IconHistory, IconPencil,
+  IconHistory, IconPencil, IconStar, IconBookmark,
 } from '@tabler/icons-react';
 import {
   LineChart,
@@ -111,6 +112,10 @@ export function BatchDetailPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [showAnalysisHistory, setShowAnalysisHistory] = useState(false);
   const [editBatchOpened, setEditBatchOpened] = useState(false);
+  const [cuppingScore, setCuppingScore] = useState<number | string>('');
+  const [editingScore, setEditingScore] = useState(false);
+  const [savingScore, setSavingScore] = useState(false);
+  const [savingRecipe, setSavingRecipe] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -139,6 +144,23 @@ export function BatchDetailPage() {
     await effects.completeBatch(id);
     const updated = await effects.fetchBatch(id);
     if (updated) setBatch(updated);
+  };
+
+  const handleSubmitCuppingScore = async () => {
+    if (!id || !cuppingScore) return;
+    setSavingScore(true);
+    await effects.submitCuppingScore(id, Number(cuppingScore));
+    const updated = await effects.fetchBatch(id);
+    if (updated) setBatch(updated);
+    setSavingScore(false);
+    setEditingScore(false);
+  };
+
+  const handleSaveRecipe = async () => {
+    if (!id) return;
+    setSavingRecipe(true);
+    await effects.saveRecipe(id);
+    setSavingRecipe(false);
   };
 
   if (loading) {
@@ -439,9 +461,20 @@ export function BatchDetailPage() {
                     <Stack align="center">
                       <IconBolt size={24} color="var(--mantine-color-dimmed)" opacity={0.4} />
                       <Text size="xs" c="dimmed">No analysis yet</Text>
-                      <Button size="xs" variant="outline" onClick={handleAnalyze} loading={analyzing}>
-                        Run Analysis
-                      </Button>
+                      <Group gap="xs">
+                        <Button size="xs" variant="outline" onClick={handleAnalyze} loading={analyzing}>
+                          Run Analysis
+                        </Button>
+                        <Button
+                          component={Link}
+                          to={`/batches/${id}/analysis`}
+                          size="xs"
+                          variant="subtle"
+                          color="gray"
+                        >
+                          Open Page
+                        </Button>
+                      </Group>
                     </Stack>
                   </Center>
                 ) : (
@@ -496,15 +529,28 @@ export function BatchDetailPage() {
                       </Text>
                     )}
 
-                    <Button
-                      size="xs"
-                      variant="outline"
-                      leftSection={<IconBolt size={14} />}
-                      loading={analyzing}
-                      onClick={handleAnalyze}
-                    >
-                      Run new analysis
-                    </Button>
+                    <Group gap="xs">
+                      <Button
+                        size="xs"
+                        variant="outline"
+                        leftSection={<IconBolt size={14} />}
+                        loading={analyzing}
+                        onClick={handleAnalyze}
+                        style={{ flex: 1 }}
+                      >
+                        Re-run
+                      </Button>
+                      <Button
+                        component={Link}
+                        to={`/batches/${id}/analysis`}
+                        size="xs"
+                        variant="filled"
+                        color="forest-green"
+                        style={{ flex: 1 }}
+                      >
+                        Full Report
+                      </Button>
+                    </Group>
                   </Stack>
                 )}
 
@@ -617,6 +663,126 @@ export function BatchDetailPage() {
           </Grid.Col>
         </Grid>
       </Stack>
+
+      {/* Feature 4 & 5 — Cupping Score + Recipe (completed batches only) */}
+      {batch.status === 'completed' && (
+        <Grid gutter="lg" mt="xs">
+          {/* Submit Cupping Score */}
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Card withBorder>
+              <Group gap="xs" mb="md">
+                <IconStar size={14} color="var(--mantine-color-muted-gold-6)" />
+                <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em">
+                  Actual Cupping Score
+                </Text>
+              </Group>
+              {batch.actualCuppingScore != null && batch.actualCuppingScore > 0 && !editingScore ? (
+                <Group justify="space-between" align="flex-end">
+                  <Box>
+                    <Text size="2.2rem" fw={800} ff="'Space Mono', monospace" c="muted-gold.6" lh={1}>
+                      {batch.actualCuppingScore.toFixed(1)}
+                    </Text>
+                    <Text fz={10} c="dimmed" mt={4}>SCA score recorded</Text>
+                  </Box>
+                  <Button
+                    size="xs"
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => { setCuppingScore(batch.actualCuppingScore!); setEditingScore(true); }}
+                  >
+                    Update
+                  </Button>
+                </Group>
+              ) : (
+                <Stack gap="sm">
+                  <Text size="xs" c="dimmed">
+                    Submit the actual SCA cupping score after tasting to improve future predictions.
+                  </Text>
+                  <Group gap="sm" align="flex-end">
+                    <NumberInput
+                      size="xs"
+                      placeholder="e.g. 86.5"
+                      min={60}
+                      max={100}
+                      step={0.5}
+                      decimalScale={1}
+                      value={cuppingScore}
+                      onChange={setCuppingScore}
+                      style={{ flex: 1 }}
+                    />
+                    <Button
+                      size="xs"
+                      color="muted-gold"
+                      loading={savingScore}
+                      disabled={!cuppingScore}
+                      onClick={handleSubmitCuppingScore}
+                    >
+                      Save Score
+                    </Button>
+                    {editingScore && (
+                      <Button
+                        size="xs"
+                        variant="subtle"
+                        color="gray"
+                        onClick={() => setEditingScore(false)}
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </Group>
+                </Stack>
+              )}
+            </Card>
+          </Grid.Col>
+
+          {/* Save as Recipe */}
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Card withBorder h="100%">
+              <Group gap="xs" mb="md">
+                <IconBookmark size={14} color="var(--mantine-color-forest-green-6)" />
+                <Text size="xs" ff="'Space Mono', monospace" c="dimmed" tt="uppercase" lts="0.06em">
+                  Learning & Recipe Builder
+                </Text>
+              </Group>
+              <Stack gap="sm" justify="space-between" h="calc(100% - 36px)">
+                <Text size="xs" c="dimmed" lh={1.6}>
+                  Save this batch as a recipe template. The system will learn from it and suggest
+                  optimal parameters for future batches with the same variety and process.
+                </Text>
+                <Stack gap={4}>
+                  {batch.coffeeVariety && (
+                    <Group gap="xs">
+                      <Text fz={10} c="dimmed" w={80}>Variety</Text>
+                      <Text fz={10} fw={600}>{batch.coffeeVariety}</Text>
+                    </Group>
+                  )}
+                  <Group gap="xs">
+                    <Text fz={10} c="dimmed" w={80}>Process</Text>
+                    <Badge size="xs" variant="outline" color="gray" tt="capitalize">{batch.processType}</Badge>
+                  </Group>
+                  {batch.targetFlavorProfile && (
+                    <Group gap="xs">
+                      <Text fz={10} c="dimmed" w={80}>Flavor</Text>
+                      <Text fz={10}>{batch.targetFlavorProfile}</Text>
+                    </Group>
+                  )}
+                </Stack>
+                <Button
+                  size="xs"
+                  variant="outline"
+                  color="forest-green"
+                  leftSection={<IconBookmark size={12} />}
+                  loading={savingRecipe}
+                  onClick={handleSaveRecipe}
+                  fullWidth
+                >
+                  Save as Recipe
+                </Button>
+              </Stack>
+            </Card>
+          </Grid.Col>
+        </Grid>
+      )}
 
       <EditBatchModal
         batch={batch}
